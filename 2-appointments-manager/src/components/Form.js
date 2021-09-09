@@ -1,23 +1,24 @@
 import { Fragment, useState } from "react";
 import Swal from "sweetalert2";
+import PropTypes from "prop-types";
 
 const Form = ({addAppointment}) => {
   // State
   const [appointment, setAppointment] = useState({
-    name: "",
+    pet: "",
     owner: "",
     date: "",
     time: "",
     symptoms: "",
   });
-  const { name, owner, date, time, symptoms } = appointment;
+  const { pet, owner, date, time, symptoms } = appointment;
 
   const createAppointment = (e) => {
     e.preventDefault();
 
     //Validate
     if (
-      name.trim() === "" ||
+      pet.trim() === "" ||
       owner.trim() === "" ||
       date.trim() === "" ||
       time.trim() === "" ||
@@ -40,7 +41,13 @@ const Form = ({addAppointment}) => {
     addAppointment(appointment);
 
     //Reset Form
-    
+    setAppointment({
+      pet: "",
+      owner: "",
+      date: "",
+      time: "",
+      symptoms: "",
+    });
   };
 
   return (
@@ -55,9 +62,9 @@ const Form = ({addAppointment}) => {
           className="u-full-width"
           placeholder="Pet Name"
           onChange={(e) =>
-            setAppointment({ ...appointment, name: e.target.value })
+            setAppointment({ ...appointment, pet: e.target.value })
           }
-          value={name}
+          value={pet}
         />
 
         <label>Owner Name</label>
@@ -112,5 +119,9 @@ const Form = ({addAppointment}) => {
     </Fragment>
   );
 };
+
+Form.propTypes = {
+  addAppointment: PropTypes.func.isRequired,
+}
 
 export default Form;

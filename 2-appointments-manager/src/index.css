@@ -53,10 +53,11 @@ input[type="time"] {
 }
 
 .cita {
-  padding: 2rem;
+  margin-top: 1rem;
+  padding: 1rem;
   background: white;
-  border-bottom: 1px solid #e1e1e1;
   color: black;
+  border-radius: 1rem;
 }
 
 .cita p {
@@ -67,19 +68,15 @@ input[type="time"] {
   font-weight: normal;
 
 }
-.cita:first-of-type {
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-.cita:last-of-type {
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-}
-.button.eliminar,
-.button.eliminar:hover {
-  background-color: #c10059;
+.button.eliminar {
+  background-color: #DC3545;
+  border-color: #DC3545;
   color: white;
   margin-top: 2rem;
+}
+.button.eliminar:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
 }
 
 .alerta-error {
