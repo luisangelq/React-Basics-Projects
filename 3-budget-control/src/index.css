@@ -53,6 +53,10 @@ h2 {
   font-size:3rem!important;
   text-align: center;
 }
+.btn-input-budget {
+  display: flex;
+  justify-content: flex-end;
+}
 .campo {
   margin-bottom: 2rem;
 }

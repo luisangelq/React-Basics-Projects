@@ -5,9 +5,13 @@ import Expenses from "./components/Expenses";
 const App = () => {
   const [budget, setBudget] = useState(0);
   const [remaining, setRemaining] = useState(0);
+  const [expenses, setExpenses] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
-  console.log(showForm);
+  const addExpense = (expense) => {
+    setExpenses([...expenses, expense]);
+    setRemaining(remaining - expense.amount);
+  };
   return (
     <div className="container">
       <h1>Weekly Spending</h1>
@@ -18,9 +22,14 @@ const App = () => {
             setBudget={setBudget}
             setRemaining={setRemaining}
             setShowForm={setShowForm}
+            budget={budget}
           />
         ) : (
-          <Expenses />
+          <Expenses
+            setShowForm={setShowForm}
+            addExpense={addExpense}
+            expenses={expenses}
+          />
         )}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import Swal from "sweetalert2";
 
-const InputBudget = ({ setBudget, setRemaining, setShowForm }) => {
+const InputBudget = ({ budget, setBudget, setRemaining, setShowForm }) => {
   const [value, setValue] = useState(0);
 
   const addBudget = (e) => {
@@ -41,6 +41,15 @@ const InputBudget = ({ setBudget, setRemaining, setShowForm }) => {
           className="button-primary u-full-width"
         />
       </form>
+      {budget ? (
+        <div className="btn-input-budget">
+          <input
+            type="button"
+            value="Continue ⇾"
+            onClick={() => setShowForm(true)}
+          />
+        </div>
+      ) : null}
     </Fragment>
   );
 };
