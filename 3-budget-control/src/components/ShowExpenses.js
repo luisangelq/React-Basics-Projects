@@ -9,6 +9,7 @@ const ShowExpenses = ({ expenses }) => {
         {expenses.map((expense) => (
           <li key={expense.id} className="gastos">
             <p>
+              
               {expense.name}
 
               <span className="gasto">$ {expense.amount}</span>

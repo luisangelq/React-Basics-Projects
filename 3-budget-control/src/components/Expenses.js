@@ -1,8 +1,9 @@
 import { Fragment, useState } from "react";
 import ShowExpenses from "./ShowExpenses";
+import Result from "./Result";
 import Swal from "sweetalert2";
 
-const Expenses = ({ expenses, setShowForm, addExpense }) => {
+const Expenses = ({budget, remaining, expenses, setShowForm, addExpense }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
 
@@ -76,6 +77,7 @@ const Expenses = ({ expenses, setShowForm, addExpense }) => {
         </div>
         <div className="one-half column">
           <ShowExpenses expenses={expenses} />
+          <Result budget={budget} remaining={remaining} />
         </div>
       </div>
       <input type="button" value="⇽ Back" onClick={() => setShowForm(false)} />

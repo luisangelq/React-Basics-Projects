@@ -29,6 +29,8 @@ const App = () => {
             setShowForm={setShowForm}
             addExpense={addExpense}
             expenses={expenses}
+            budget={budget}
+            remaining={remaining}
           />
         )}
       </div>
