@@ -12,6 +12,17 @@ const App = () => {
     setExpenses([...expenses, expense]);
     setRemaining(remaining - expense.amount);
   };
+
+  //delete expense
+  const deleteExpense = (expenseDelete) => {
+    console.log(expenseDelete);
+    const newExpenses = expenses.filter(expense => expense.id !== expenseDelete.id);
+    setExpenses(newExpenses);
+
+    setRemaining(remaining + expenseDelete.amount);
+    
+
+  }
   return (
     <div className="container">
       <h1>Weekly Spending</h1>
@@ -23,14 +34,17 @@ const App = () => {
             setRemaining={setRemaining}
             setShowForm={setShowForm}
             budget={budget}
+            setExpenses={setExpenses}
           />
         ) : (
           <Expenses
             setShowForm={setShowForm}
             addExpense={addExpense}
             expenses={expenses}
+            setExpenses={setExpenses}
             budget={budget}
             remaining={remaining}
+            deleteExpense={deleteExpense}
           />
         )}
       </div>

@@ -1,7 +1,8 @@
 import { Fragment, useState } from "react";
 import Swal from "sweetalert2";
+import PropTypes from "prop-types";
 
-const InputBudget = ({ budget, setBudget, setRemaining, setShowForm }) => {
+const InputBudget = ({ budget, setBudget, setRemaining, setShowForm, setExpenses }) => {
   const [value, setValue] = useState(0);
 
   const addBudget = (e) => {
@@ -21,6 +22,7 @@ const InputBudget = ({ budget, setBudget, setRemaining, setShowForm }) => {
     setBudget(value);
     setRemaining(value);
     setShowForm(true);
+    setExpenses([]);
   };
 
   return (
@@ -53,5 +55,14 @@ const InputBudget = ({ budget, setBudget, setRemaining, setShowForm }) => {
     </Fragment>
   );
 };
+
+InputBudget.propTypes = {
+  budget: PropTypes.number.isRequired,
+  setBudget: PropTypes.func.isRequired,
+  setRemaining: PropTypes.func.isRequired,
+  setShowForm: PropTypes.func.isRequired,
+  setExpenses: PropTypes.func.isRequired,
+
+}
 
 export default InputBudget;

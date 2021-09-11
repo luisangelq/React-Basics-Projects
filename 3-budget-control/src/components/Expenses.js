@@ -2,8 +2,9 @@ import { Fragment, useState } from "react";
 import ShowExpenses from "./ShowExpenses";
 import Result from "./Result";
 import Swal from "sweetalert2";
+import PropTypes from "prop-types";
 
-const Expenses = ({budget, remaining, expenses, setShowForm, addExpense }) => {
+const Expenses = ({budget, remaining, expenses, setShowForm, addExpense, deleteExpense }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
 
@@ -76,7 +77,7 @@ const Expenses = ({budget, remaining, expenses, setShowForm, addExpense }) => {
           </form>
         </div>
         <div className="one-half column">
-          <ShowExpenses expenses={expenses} />
+          <ShowExpenses expenses={expenses} deleteExpense={deleteExpense} />
           <Result budget={budget} remaining={remaining} />
         </div>
       </div>
@@ -84,5 +85,14 @@ const Expenses = ({budget, remaining, expenses, setShowForm, addExpense }) => {
     </Fragment>
   );
 };
+
+Expenses.propTypes = {
+  budget: PropTypes.number.isRequired,
+  remaining: PropTypes.number.isRequired,
+  expenses: PropTypes.array.isRequired,
+  setShowForm: PropTypes.func.isRequired,
+  addExpense: PropTypes.func.isRequired,
+  deleteExpense: PropTypes.func.isRequired,
+}
 
 export default Expenses;

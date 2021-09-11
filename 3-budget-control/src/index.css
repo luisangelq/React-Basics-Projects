@@ -113,3 +113,17 @@ h2 {
   padding: 1rem;
   color:white;
 }
+
+.btn-delete {
+  background-color: #e74a3b;
+  border-color: #e74a3b;
+  color: white;
+  border-radius: 1rem;
+  padding: 0 1rem;
+
+}
+.btn-delete:hover {
+  background-color: #d2322d;
+  border-color: #d2322d;
+
+}
