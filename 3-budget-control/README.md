@@ -10,6 +10,7 @@ You can see this project on https://budgetcontrol1.netlify.app
 To deploy this project run
 
 ```bash
+  npm install
   npm start
 ```
 
