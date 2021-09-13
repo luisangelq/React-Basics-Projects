@@ -6,24 +6,24 @@ export const incrementByContinent = (continent) => {
     let increment
 
     switch (continent) {
-        case 'north-america':
+        case 'North America':
             increment = 1.20;
             break;
-        case 'south-america':
+        case 'South America':
             increment = 1.05;
             break;
         
-        case 'europe':
+        case 'Europe':
             increment = 1.30;
             break;
         
-        case 'asia':
+        case 'Asia':
             increment = 1.15;
             break;
-        case 'africa':
+        case 'Africa':
             increment = 1.10;
             break;
-        case 'oceania':
+        case 'Oceania':
             increment = 1.25;
             break;
         default:

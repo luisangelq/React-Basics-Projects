@@ -1,14 +1,18 @@
+import { useState } from "react";
 import Header from "./components/Header";
 import Form from "./components/Form";
 
 import styled from "styled-components";
 
 function App() {
+
+  const [result, setResult] = useState({});
+
   return (
     <Content>
       <Header title="Insurance Quote" />
       
-      <Form />
+      <Form result={result} setResult={setResult}/>
     </Content>
   );
 }

@@ -1,9 +1,14 @@
 import { useState } from "react";
-import {getYearDifference, incrementByContinent, incrementByPlan} from "../helper" 
+import Result from "./Result";
+import {
+  getYearDifference,
+  incrementByContinent,
+  incrementByPlan,
+} from "../helper";
 import Swal from "sweetalert2";
 import styled from "styled-components";
 
-const Form = () => {
+const Form = ({result, setResult }) => {
   const [formData, setFormData] = useState({
     continent: "",
     year: "",
@@ -33,41 +38,42 @@ const Form = () => {
     if (continent === "" || year === "" || plan === "") {
       Swal.fire({
         position: "top",
-        icon: 'error',
-        title: 'All fields Are Required',
+        icon: "error",
+        title: "All fields Are Required",
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 1500,
+      });
       return;
     }
 
     //Calculate insurance
     let price = 2000;
 
-    const yearDifference = getYearDifference(year)
-    
+    const yearDifference = getYearDifference(year);
+
     price = price - (yearDifference * 3 * price) / 100;
     price = incrementByContinent(continent) * price;
     price = incrementByPlan(plan) * price;
-    console.log(price);
 
-  }
+    setResult({
+      formData,
+      price,
+    });
+  };
 
   return (
     <FormContainer>
-      <form 
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit}>
         <Field>
           <Label>Continent</Label>
           <Select name="continent" value={continent} onChange={getData}>
             <option value="">Select Continent</option>
-            <option value="north-america">North America</option>
-            <option value="south-america">South America</option>
-            <option value="europe">Europe</option>
-            <option value="asia">Asia</option>
-            <option value="africa">Africa</option>
-            <option value="oceania">Oceania</option>
+            <option value="North America">North America</option>
+            <option value="South America">South America</option>
+            <option value="Europe">Europe</option>
+            <option value="Asia">Asia</option>
+            <option value="Africa">Africa</option>
+            <option value="Oceania">Oceania</option>
           </Select>
         </Field>
 
@@ -84,6 +90,7 @@ const Form = () => {
         </Field>
 
         <Field>
+
           <Label>Plan</Label>
           <Radio
             type="radio"
@@ -102,6 +109,9 @@ const Form = () => {
           />{" "}
           Premium
         </Field>
+
+        <Result result={result} />
+
 
         <Button type="submit" value="Get Quote" />
       </form>
@@ -127,7 +137,7 @@ const Label = styled.label`
 `;
 
 const Select = styled.select`
-  display: block;
+background-color: rgba(255, 255, 255, 0.8);
   width: 100%;
   padding: 1rem;
   border-radius: 0.5rem;

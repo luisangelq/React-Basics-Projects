@@ -18,6 +18,9 @@ ul {
   padding: none;
   margin: none;
 }
+h2 {
+  text-align: center;
+}
 span.resultado {
   position: relative;
   width: 100%;
