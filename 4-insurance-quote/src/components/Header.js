@@ -9,10 +9,12 @@ const Header = ({title}) => {
 }
 
 const ContentHeader = styled.header`
+    margin-top: 2rem;
     background-color: #916001;
     padding: 10px;
     font-weight: bold;
     color: #FFFFFF;
+    border-radius: .5rem;
 `;
 
 const HeaderText = styled.h1`
