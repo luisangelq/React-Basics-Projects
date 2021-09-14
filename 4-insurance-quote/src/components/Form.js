@@ -6,14 +6,16 @@ import {
   incrementByPlan,
 } from "../helper";
 import Swal from "sweetalert2";
+import Spinner from "./Spinner";
 import styled from "styled-components";
 
-const Form = ({result, setResult }) => {
+const Form = ({ result, setResult }) => {
   const [formData, setFormData] = useState({
     continent: "",
     year: "",
     plan: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const { continent, year, plan } = formData;
 
@@ -48,17 +50,22 @@ const Form = ({result, setResult }) => {
 
     //Calculate insurance
     let price = 2000;
-
     const yearDifference = getYearDifference(year);
 
     price = price - (yearDifference * 3 * price) / 100;
     price = incrementByContinent(continent) * price;
     price = incrementByPlan(plan) * price;
 
-    setResult({
-      formData,
-      price,
-    });
+    setLoading(true);
+
+    setTimeout(() => {
+      setResult({
+        formData,
+        price,
+      });
+
+      setLoading(false);
+    }, 2000);
   };
 
   return (
@@ -90,7 +97,6 @@ const Form = ({result, setResult }) => {
         </Field>
 
         <Field>
-
           <Label>Plan</Label>
           <Radio
             type="radio"
@@ -110,8 +116,7 @@ const Form = ({result, setResult }) => {
           Premium
         </Field>
 
-        <Result result={result} />
-
+        {loading ? <Spinner /> : <Result result={result} />}
 
         <Button type="submit" value="Get Quote" />
       </form>
@@ -137,7 +142,7 @@ const Label = styled.label`
 `;
 
 const Select = styled.select`
-background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   width: 100%;
   padding: 1rem;
   border-radius: 0.5rem;
