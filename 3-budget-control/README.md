@@ -3,7 +3,7 @@
 
 This project was made using React and can show the basic way to create a web application using components, some hooks and conditional loading of components.
 
-You can see this project on https://budgetcontrol1.netlify.app
+You can see this project on https://budget-control-project-1.netlify.app/
 
 ## Deployment
 
