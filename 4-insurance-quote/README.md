@@ -4,6 +4,11 @@ This project was made using React and can show the basic way to create a web app
 
 You can see this project on https://insurance-quote-project.netlify.app/
 
+## Screenshots
+
+![App Screenshot](https://d33wubrfki0l68.cloudfront.net/6140262f02d6b400072f9cc7/screenshot_2021-09-14-04-35-18-0000.png)
+
+
 ## Deployment
 
 To deploy this project run
