@@ -2,7 +2,7 @@
 
 This project was made using React and the main feature is that we are consulting an API to get the information.
 
-You can see this project on https://phrasesforbreakingbad.netlify.app/
+You can see this project on https://breaking-bad-phrases-1.netlify.app/
 
 ## Screenshots
 
