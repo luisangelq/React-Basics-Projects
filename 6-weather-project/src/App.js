@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import styled from "styled-components";
+import Header from "./components/Header";
+import Form from "./components/Form";
 
-function App() {
+const App = () => {
+  const [search, setSearch] = useState({
+    city: "",
+    country: "",
+  });
+  const [data, setData] = useState({});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Content>
+      <Header title="Weather API Project" />
+
+      <Form
+        search={search}
+        setSearch={setSearch}
+        data={data}
+        setData={setData}
+      />
+    </Content>
   );
-}
+};
+
+const Content = styled.div`
+  max-width: 60%;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`;
 
 export default App;

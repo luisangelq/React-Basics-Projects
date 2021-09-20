@@ -1,13 +1,119 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  background: #2DAAD8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #2DAAD8, #094479
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2DAAD8, #094479);
+  font-family: Arial, Helvetica, sans-serif;
+}
+nav {
+  background: #fff;
+}
+nav .brand-logo {
+  display: block;
+  color: #fff;
+  text-align: center;
+  position: relative;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.input-field input[type="text"]:focus {
+  border-bottom: 1px solid white;
+  box-shadow: 0 1px 0 0 #000;
+}
+
+
+.form-content {
+  padding: 3rem 0 1px 0;
+  background-color: #03a9f4;
+}
+.message {
+  text-align: center;
+  font-size: 2rem;
+}
+.search i {
+  width: 100%;
+}
+.error {
+  padding: 1rem !important;
+  color: white;
+  margin-top: 3rem;
+  text-align: center;
+  text-emphasis: left;
+}
+.card-panel h2 {
+  font-size: 1.6rem;
+  text-align: center;
+}
+.card-panel p {
+  text-align: center;
+  font-size: 1.4rem;
+}
+.temperature {
+  font-size: 4rem !important;
+}
+.temperature span {
+  font-size: 2rem !important;
+  vertical-align: super;
+}
+
+.btn-block {
+  display: block !important;
+}
+
+.error {
+  padding: 1rem !important;
+  text-align: center !important;
+  color: #fff !important;
+}
+
+
+/* Spinner styles */
+.spinner {
+  margin: 100px auto 0;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #F7B146;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
 }
