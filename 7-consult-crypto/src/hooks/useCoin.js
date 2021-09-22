@@ -1,11 +1,12 @@
 import { useState } from "react";
+import styled from "styled-components";
 
 const useCoin = (label, initialState, options) => {
 
   const [coin, saveCoin] = useState(initialState);
 
   const Select = () => (
-    <div className="contentUseCoin">
+    <Content >
       <label > {label} </label>
 
       <select
@@ -19,10 +20,32 @@ const useCoin = (label, initialState, options) => {
           </option>
         ))}
       </select>
-    </div>
+    </Content>
   );
 
   return [coin, Select, saveCoin];
 };
+
+const Content = styled.div`
+  label {
+    font-family: "Bebas Neue", cursive;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 2.4rem;
+    margin-top: 2rem;
+    display: block;
+  }
+
+  select {
+    width: 100%;
+    display: block;
+    padding: 1rem;
+    -webkit-appearance: none;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.2rem;
+  }
+`
 
 export default useCoin;

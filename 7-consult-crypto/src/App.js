@@ -35,33 +35,29 @@ function App() {
   }, [coin, crypto]);
 
   return (
-    <div className="App">
+    <StyledApp>
       <div>
-        <img src={Image} alt="imageCrypto" />
-      </div>
-      <div>
-        <h1>Cotiza Criptomonedas</h1>
+        <h1>Quote Crypto</h1>
 
         <Form saveCoin={saveCoin} saveCrypto={saveCrypto} />
 
         {loading ? <Spinner /> : <Quote result={result} />}
       </div>
-    </div>
+      <ImageContent>
+        <img src={Image} alt="imageCrypto" />
+      </ImageContent>
+    </StyledApp>
   );
 }
 
 const StyledApp = styled.div`
   max-width: 900px;
-  margin: 0 auto;
-  @media (min-width: 992px) {
+  margin: 5rem auto;
+  @media (min-width: 778px) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 2rem;
-  }
-
-  img {
-    max-width: 100%;
-    margin-top: 5rem;
+    margin: 2rem auto;
   }
 
   h1 {
@@ -71,7 +67,6 @@ const StyledApp = styled.div`
     font-weight: 700;
     font-size: 50px;
     margin-bottom: 50px;
-    margin-top: 80px;
 
     &::after {
       content: "";
@@ -79,6 +74,22 @@ const StyledApp = styled.div`
       height: 6px;
       background-color: #66a2fe;
       display: block;
+    }
+  }
+`;
+
+const ImageContent = styled.div`
+  @media (max-width: 778px) {
+    display: flex;
+    justify-content: center;
+  }
+
+  img {
+    max-width: 100%;
+
+    @media (max-width: 778px) {
+      max-width: 70%;
+      margin-top: 5rem;
     }
   }
 `;
