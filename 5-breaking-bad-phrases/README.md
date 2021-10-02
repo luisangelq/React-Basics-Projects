@@ -6,7 +6,7 @@ You can see this project on https://breaking-bad-phrases-1.netlify.app/
 
 ## Screenshots
 
-![App Screenshot](https://d33wubrfki0l68.cloudfront.net/61466c59d98b4c000813cdc2/screenshot_2021-09-18-22-47-28-0000.png)
+![App Screenshot](https://d33wubrfki0l68.cloudfront.net/6147e8eee4b2d2000887d19e/screenshot_2021-09-20-01-51-17-0000.png)
 
 
 ## Deployment
