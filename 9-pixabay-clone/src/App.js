@@ -50,7 +50,7 @@ function App() {
   return (
     <div className="container">
       <div className="jumbotron">
-        <p className="lead text-center">Image Search</p>
+        <h1 className="mb-5 text-center">Pixabay Clone</h1>
         <Form saveSearch={saveSearch} />
       </div>
 
