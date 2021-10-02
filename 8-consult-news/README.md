@@ -1,4 +1,4 @@
-#Consult News Project
+# Consult News Project
 
 This project was made using React and the main feature is that we are sending data to API and getting the information.
 
