@@ -6,7 +6,7 @@ You can see this project on https://consult-crypto.netlify.app
 
 ## Screenshots
 
-![App Screenshot](https://d33wubrfki0l68.cloudfront.net/615804f748af42dd0e402db7/screenshot_2021-10-02-07-08-43-0000.png)
+![App Screenshot](https://d33wubrfki0l68.cloudfront.net/6158fbf0bb941746ecd9e3a7/screenshot_2021-10-03-00-41-27-0000.png)
 
 
 ## Deployment
