@@ -1,11 +1,13 @@
 :root {
-  --blanco: #FCFCFC;
-  --gris1: #E1EEC7;
-  --gris2: #2f3848;
-  --gris3: #1a202d;
-  --negro: #161616;
-  --green1: #61B136;
-  --green2: #BBDC2F;
+  --white: #FCFCFC;
+  --green1: #E5F6DF;
+  --green2: #CAEEC2;
+  --green3: #90EE91;
+  --blue1: #54C2CC;
+  --blue2: #20525C;
+  --black: #161616;
+ 
+ 
   --headingFont:'Raleway', sans-serif;
   --textFont:  'Roboto', sans-serif;
 }
@@ -19,7 +21,7 @@ html {
 }
 body {
   min-height: 100%;
-  background-color: var(--gris1);
+  background-color: var(--green1);
   font-size: 16px; 
   font-size: 1.6rem;
   font-family: var(--textFont);
@@ -38,6 +40,7 @@ h1 span {
 }
 h1 {
   font-size: 3rem;
+  color: var(--black);
 }
 h2 {
   font-size: 2.4rem;
@@ -49,7 +52,6 @@ ul {
 }
 a {
   text-decoration: none;
-  color: var(--gris2);
 }
 
 /** BOTONES **/
@@ -286,7 +288,7 @@ aside  {
   transition: opacity 200ms;
 }
 
-.form-usuario {
+.form-user {
     background-color: var(--gris2);
     height: 100vh;
     min-height: 800px;
@@ -295,7 +297,7 @@ aside  {
     justify-content: center;
 }
 
-.contenedor-form {
+.content-form {
     padding: 5rem 3rem;
     max-width: 500px;
     width: 95%;
@@ -303,7 +305,7 @@ aside  {
     border-radius: 1rem;
 }
 
-.campo-form {
+.field-form {
     display: flex;
     margin-bottom: 2rem;
     align-items: center;
