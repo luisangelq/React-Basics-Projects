@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import FormTask from "../tasks/FormTask";
+import TaskList from "../tasks/TasksList";
 
 const MainPanel = () => {
   return (
@@ -12,7 +13,11 @@ const MainPanel = () => {
         <Header />
         <main>
           <FormTask />
-          <div></div>
+
+          <TaskContainer>
+            <TaskList />
+          </TaskContainer>
+          
         </main>
       </div>
     </Page>
@@ -28,6 +33,10 @@ const Page = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
+`;
+
+const TaskContainer = styled.div`
+  padding: 4rem;
 `;
 
 export default MainPanel;

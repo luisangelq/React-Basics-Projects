@@ -251,13 +251,13 @@ aside  {
 .mensaje:hover {
   cursor: default;
 }
-.completo,
-.correcto {
-  background-color: rgba(154, 252, 154, .3);
+.complete,
+.correct {
+  background-color: rgba(40, 167, 69, 0.6);
   color: var(--gris3);
 }
-.incompleto{
-  background-color: rgba(255, 178, 178, .4);
+.incomplete{
+  background-color: rgba(220, 53, 69, 0.6);
   color: var(--gris3);
 }
 .error {
