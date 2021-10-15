@@ -1,13 +1,19 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useContext } from "react";
 import styled from "styled-components";
 
+import ProjectContext from "../../context/projects/ProjectContext";
+
 const NewProject = () => {
-  const [project, serProject] = useState({
+  const getProjectContext = useContext(ProjectContext);
+  const { newProjectForm, showNewProjectFormFn, addProjectFn } =
+    getProjectContext;
+
+  const [project, setProject] = useState({
     name: "",
   });
 
   const handleChange = (e) => {
-    serProject({
+    setProject({
       ...project,
       [e.target.name]: e.target.value,
     });
@@ -15,25 +21,37 @@ const NewProject = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(project);
+
+    addProjectFn({ id: Date.now(), ...project });
+
+    setProject({
+      name: "",
+    });
+    showNewProjectFormFn(false);
   };
 
   return (
     <Fragment>
-      <Btn>New Project</Btn>
-
-      <Form 
-        onSubmit={handleSubmit}
-      >
-        <input
-          type="text"
-          placeholder="Project Name"
-          name="name"
-          value={project.name}
-          onChange={handleChange}
-        />
-        <Btn type="submit">Create Project</Btn>
-      </Form>
+      {newProjectForm ? (
+        <Form
+          animation-delay="250"
+          animation-type="fadeIn"
+          onSubmit={handleSubmit}
+        >
+          <input
+            type="text"
+            placeholder="Project Name"
+            name="name"
+            value={project.name}
+            onChange={handleChange}
+          />
+          <Btn type="submit">Create Project</Btn>
+        </Form>
+      ) : (
+        <Btn type="button" onClick={() => showNewProjectFormFn(true)}>
+          New Project
+        </Btn>
+      )}
     </Fragment>
   );
 };

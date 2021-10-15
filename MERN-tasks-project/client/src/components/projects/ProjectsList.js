@@ -1,33 +1,42 @@
-import {Fragment} from 'react' 
-import styled from 'styled-components';
-import Project from './Project';
+import { useContext, useEffect } from "react";
+import styled from "styled-components";
+import Project from "./Project";
+
+import ProjectContext from "../../context/projects/ProjectContext";
 
 const ProjectsList = () => {
+  const getProjectState = useContext(ProjectContext);
+  const { projects, getProjectsFn } = getProjectState;
 
-    const projects = [
-        {name: 'Project 1'},
-        {name: 'Project 2'},
-        {name: 'Project 3'},
-        {name: 'Project 4'},
-        {name: 'Project 5'},
-        {name: 'Project 6'},
-    ]
+  console.log(projects);
 
-    return(
-        <List>
-            {projects.map(project => (
-                <Fragment key={project.name}>
-                    <Project
-                        project={project}
-                    />
-                </Fragment>
-            ))}
-        </List>
-    )
-}
+  //Get projects on component mount
+  useEffect(() => {
+    getProjectsFn();
 
-const List = styled.ul`
-    
-`
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (projects.length === 0) {
+    return <Title>No projects</Title>;
+  } else {
+    return (
+      <ul>
+        <Title>Your Projects</Title>
+        {projects.map((project) => (
+          <Project key={project.id} project={project} />
+        ))}
+      </ul>
+    );
+  }
+};
+
+const Title = styled.p`
+margin: 4rem 0;
+  color: var(--blue2);
+  font-weight: bold;
+  text-align: center;
+  font-size: 2rem;
+`;
 
 export default ProjectsList;

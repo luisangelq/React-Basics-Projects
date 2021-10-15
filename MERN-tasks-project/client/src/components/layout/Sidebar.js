@@ -11,7 +11,6 @@ const Sidebar = () => {
 
       <NewProject />
       <Projects>
-        <h2>Your Projects</h2>
         <ProjectsList />
       </Projects>
     </Aside>
@@ -30,6 +29,6 @@ const Projects = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 10rem;
+  margin-top: 5rem;
 `;
 export default Sidebar;

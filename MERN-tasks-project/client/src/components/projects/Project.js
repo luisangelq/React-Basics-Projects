@@ -2,24 +2,39 @@ import styled from "styled-components";
 
 const Project = ({ project }) => {
   return (
-    <li>
-      <Btn type="button">{project.name}</Btn>
-    </li>
+    <List>
+      <button type="button">{project.name}</button>
+    </List>
   );
 };
 
-const Btn = styled.button`
+const List = styled.li`
+  display: flex;
+  justify-content: center;
   margin-top: 1rem;
-  font-family: var(--headingFont);
-  padding: 1.5rem;
-  font-size: 1.4;
-  font-weight: 400;
-  border-radius: 0.5rem;
-  border: none;
-  transition: background-color 0.3s ease;
-  display: block;
-  background-color: transparent;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  button {
+    font-family: var(--headingFont);
+    color: rgba(0, 0, 0, 0.6);
+    padding: 1.5rem;
+    font-size: 1.4;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    border: none;
+    transition: background-color 0.3s ease;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  &:hover {
+    border-bottom: 2px solid var(--blue2);
+
+    button {
+      color: var(--blue2);
+    }
+  }
 `;
 
 export default Project;
