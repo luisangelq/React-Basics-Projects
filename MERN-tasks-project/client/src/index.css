@@ -1,34 +1,35 @@
 :root {
-  --white: #FCFCFC;
-  --green1: #E5F6DF;
-  --green2: #CAEEC2;
-  --green3: #90EE91;
-  --blue1: #54C2CC;
-  --blue2: #20525C;
+  --white: #fcfcfc;
+  --green1: #e5f6df;
+  --green2: #caeec2;
+  --green3: #90ee91;
+  --blue1: #54c2cc;
+  --blue2: #20525c;
   --black: #161616;
- 
- 
-  --headingFont:'Raleway', sans-serif;
-  --textFont:  'Roboto', sans-serif;
+
+  --headingFont: "Raleway", sans-serif;
+  --textFont: "Roboto", sans-serif;
 }
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
-} 
+}
 html {
   box-sizing: border-box;
   height: 100%;
-  font-size: 62.5%; 
+  font-size: 62.5%;
 }
 body {
   min-height: 100%;
   background-color: var(--green1);
-  font-size: 16px; 
+  font-size: 16px;
   font-size: 1.6rem;
   font-family: var(--textFont);
 }
 
-
-h1, h2 {
+h1,
+h2 {
   font-family: var(--headingFont);
   font-weight: 900;
   margin: 0 0 4rem 0;
@@ -55,15 +56,39 @@ a {
 }
 
 /** BOTONES **/
+/* .complete {
+  background-color: rgba(40, 167, 69, 0.6);
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+.incomplete {
+  background-color: rgba(220, 53, 69, 0.6);
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.edit {
+  padding: 1rem;
+}
+.edit:hover {
+  background-color: var(--blue2);
+  opacity: 80%;
+}
+
+.delete:hover {
+  background-color: rgba(220, 53, 69, 1);
+  opacity: 80%;
+} */
+
 .btn {
   margin-top: 2rem;
   font-family: var(--headingFont);
   padding: 1.5rem;
   font-size: 1.4;
   font-weight: 400;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   border: none;
-  transition: background-color .3s ease;
+  transition: background-color 0.3s ease;
 }
 .btn:hover {
   cursor: pointer;
@@ -94,23 +119,21 @@ a {
 
 @media (min-width: 768px) {
   .contenedor-app {
-      display: flex;
-      min-height: 100vh;
+    display: flex;
+    min-height: 100vh;
   }
 
   aside {
-      background-color: var(--blanco);
-      flex: 0 0 300px;
+    background-color: var(--blanco);
+    flex: 0 0 300px;
   }
   .seccion-principal {
-      flex: 1;
+    flex: 1;
   }
-
 }
 
-
 /* BARRA LATERAL */
-aside  {
+aside {
   padding: 3rem;
 }
 
@@ -122,7 +145,7 @@ aside  {
   border-radius: 0;
   background-color: var(--gris1);
 }
-.formulario-nuevo-proyecto .input-text::placeholder{
+.formulario-nuevo-proyecto .input-text::placeholder {
   color: var(--gris2);
 }
 .proyectos {
@@ -178,7 +201,7 @@ aside  {
 .input-text {
   padding: 1rem;
   border: none;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   flex: 1;
   width: 100%;
 }
@@ -187,8 +210,6 @@ aside  {
 .contenedor-tareas {
   padding: 4rem;
 }
-
-
 
 .listado-tareas {
   max-width: 600px;
@@ -199,21 +220,20 @@ aside  {
   display: flex;
   justify-content: space-between;
   background-color: var(--blanco);
-  padding: .5rem 2rem;
+  padding: 0.5rem 2rem;
   align-items: center;
   margin-bottom: 1rem;
-  border-radius: .5rem;
-
+  border-radius: 0.5rem;
 }
 .sombra {
-  -webkit-box-shadow: 0px 4px 10px -3px rgba(117,117,117,1);
-  -moz-box-shadow: 0px 4px 10px -3px rgba(117,117,117,1);
-  box-shadow: 0px 4px 10px -3px rgba(117,117,117,1);
+  -webkit-box-shadow: 0px 4px 10px -3px rgba(117, 117, 117, 1);
+  -moz-box-shadow: 0px 4px 10px -3px rgba(117, 117, 117, 1);
+  box-shadow: 0px 4px 10px -3px rgba(117, 117, 117, 1);
 }
 .sombra-dark {
-  -webkit-box-shadow: 0px 6px 11px -8px rgba(0,0,0,0.9);
-  -moz-box-shadow: 0px 6px 11px -8px rgba(0,0,0,0.9);
-  box-shadow: 0px 6px 11px -8px rgba(0,0,0,0.9);
+  -webkit-box-shadow: 0px 6px 11px -8px rgba(0, 0, 0, 0.9);
+  -moz-box-shadow: 0px 6px 11px -8px rgba(0, 0, 0, 0.9);
+  box-shadow: 0px 6px 11px -8px rgba(0, 0, 0, 0.9);
 }
 .tarea .acciones .btn:first-of-type {
   margin-right: 1rem;
@@ -224,8 +244,8 @@ aside  {
   padding-right: 2rem;
 }
 .tarea .btn {
-  padding: .8rem;
-  font-size:1.4rem;
+  padding: 0.8rem;
+  font-size: 1.4rem;
   border-radius: 0;
   margin: 0;
 }
@@ -233,13 +253,13 @@ aside  {
 .estado {
   margin-right: 1rem;
 }
-.estado button, 
+.estado button,
 .mensaje {
   font-weight: 900;
   font-family: var(--textFont);
   font-size: 1rem;
-  padding: .5rem;
-  border-radius: .5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   border: none;
 }
@@ -251,12 +271,12 @@ aside  {
 .mensaje:hover {
   cursor: default;
 }
-.complete,
-.correct {
+.completo,
+.correcto {
   background-color: rgba(40, 167, 69, 0.6);
   color: var(--gris3);
 }
-.incomplete{
+.incompleto {
   background-color: rgba(220, 53, 69, 0.6);
   color: var(--gris3);
 }
@@ -266,8 +286,6 @@ aside  {
   background-color: rgb(170, 0, 0);
   color: var(--blanco);
 }
-
-
 
 .tarea-enter,
 .proyecto-enter {
@@ -289,26 +307,26 @@ aside  {
 }
 
 .form-user {
-    background-color: var(--gris2);
-    height: 100vh;
-    min-height: 800px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: var(--gris2);
+  height: 100vh;
+  min-height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .content-form {
-    padding: 5rem 3rem;
-    max-width: 500px;
-    width: 95%;
-    background-color: var(--blanco);
-    border-radius: 1rem;
+  padding: 5rem 3rem;
+  max-width: 500px;
+  width: 95%;
+  background-color: var(--blanco);
+  border-radius: 1rem;
 }
 
 .field-form {
-    display: flex;
-    margin-bottom: 2rem;
-    align-items: center;
+  display: flex;
+  margin-bottom: 2rem;
+  align-items: center;
 }
 .campo-form:last-of-type {
   margin: 0;
@@ -318,7 +336,7 @@ aside  {
   font-family: var(--textFont);
 }
 .campo-form input[type="password"],
-.campo-form input[type="email"], 
+.campo-form input[type="email"],
 .campo-form input[type="text"] {
   border: 1px solid #e1e1e1;
   padding: 1rem;
@@ -328,5 +346,5 @@ aside  {
 .enlace-cuenta {
   margin-top: 2rem;
   display: block;
-  opacity: .7;
+  opacity: 0.7;
 }

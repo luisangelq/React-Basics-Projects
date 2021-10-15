@@ -41,6 +41,7 @@ const Inputcontainer = styled.div`
   }
 
   button {
+    width: 10rem;
     background-color: var(--blue2);
     color: var(--white);
     padding: 1rem;

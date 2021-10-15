@@ -22,7 +22,7 @@ const TaskList = () => {
             <p>There Are No Tasks</p>
           </li>
         ) : (
-          tasks.map((task) => <Task task={task} />)
+          tasks.map((task) => <Task key={task.name} task={task} />)
         )}
       </Ul>
     </Fragment>
@@ -33,20 +33,12 @@ const Ul = styled.ul`
   max-width: 600px;
   margin: 0 auto;
 
-  li {
-    display: flex;
-    justify-content: space-between;
-    background-color: var(--white);
-    padding: 0.5rem 2rem;
-    align-items: center;
-    margin-bottom: 1rem;
-    border-radius: 0.5rem;
-
-    p {
+  p {
       font-size: 1.6rem;
       padding-right: 2rem;
+      text-align: center;
     }
-  }
+
 `;
 
 export default TaskList;
