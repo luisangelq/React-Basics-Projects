@@ -22,7 +22,7 @@ const FormTask = () => {
 
 const Form = styled.form`
   padding: 4rem;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
 `;
 
@@ -39,9 +39,12 @@ const Inputcontainer = styled.div`
     border: none;
     border-radius: 1rem;
     margin-right: 1rem;
+    border-bottom: 2px solid transparent;
+    box-shadow: 0px 4px 10px -3px rgba(117, 117, 117, 1);
 
     &:focus {
       outline: none;
+      border-bottom: 2px solid var(--blue2);
     }
   }
 
@@ -52,10 +55,14 @@ const Inputcontainer = styled.div`
     background-color: var(--blue2);
     color: var(--white);
     padding: 1rem;
-    
     border: none;
     border-radius: 1rem;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      opacity: 80%;
+    }
 
     @media (max-width: 768px) {
       margin-top: 2rem;

@@ -37,7 +37,7 @@ const Li = styled.li`
   display: grid;
   grid-template-columns: 3fr 1fr 2fr;
   background-color: var(--white);
-  padding: 0.5rem 2rem;
+  padding: 1.5rem;
   align-items: center;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
