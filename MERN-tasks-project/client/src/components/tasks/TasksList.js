@@ -14,14 +14,7 @@ const TaskList = () => {
 
   const [project] = currentProject;
 
-  const tasks = [
-    { name: "Do Chores and set the closet by colors", state: true },
-
-    { name: "Cook Dinner", state: false },
-    { name: "Clean House", state: false },
-    { name: "Wash Car", state: true },
-    { name: "Go to Gym", state: true },
-  ];
+  const tasks = [];
 
   return (
     <Fragment>

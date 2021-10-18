@@ -1,14 +1,23 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import ProjectContext from "../../context/projects/ProjectContext";
+import TaskContext from "../../context/tasks/TaskContext";
 
 const Project = ({ project }) => {
   const getProjectContext = useContext(ProjectContext);
   const { currentProjectFn } = getProjectContext;
 
+  const getTaskContext = useContext(TaskContext);
+  const { getTasksFn } = getTaskContext;
+
+  const selectProject = (id) => {
+    currentProjectFn(id);
+    getTasksFn(id);
+  }
+
   return (
     <List>
-      <button type="button" onClick={() => currentProjectFn(project.id)}>
+      <button type="button" onClick={selectProject}>
         {project.name}
       </button>
     </List>
