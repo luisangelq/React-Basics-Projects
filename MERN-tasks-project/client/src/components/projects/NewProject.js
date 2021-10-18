@@ -1,5 +1,6 @@
 import { Fragment, useState, useContext } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 import ProjectContext from "../../context/projects/ProjectContext";
 
@@ -21,6 +22,17 @@ const NewProject = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (project.name === "") {
+      Swal.fire({
+        icon: "error",
+        title: "Name Is Required",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      return;
+    }
 
     addProjectFn({ id: Date.now(), ...project });
 

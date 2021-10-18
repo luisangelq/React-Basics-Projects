@@ -1,8 +1,16 @@
+import {useContext} from 'react';
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+import ProjectContext from "../../context/projects/ProjectContext";
 const FormTask = () => {
+
+    const projectContext = useContext(ProjectContext);
+    const {currentProject} = projectContext;
+
+    if (!currentProject) return null;
+
   return (
     <Form>
       <Inputcontainer>

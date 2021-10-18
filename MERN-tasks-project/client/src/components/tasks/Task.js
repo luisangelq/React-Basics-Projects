@@ -1,8 +1,19 @@
+// import { useContext } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit, faCheck, faClock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faEdit,
+  faCheck,
+  faClock,
+} from "@fortawesome/free-solid-svg-icons";
+
+// import ProjectContext from "../../context/projects/ProjectContext";
 
 const Task = ({ task }) => {
+  // const projectContext = useContext(ProjectContext);
+  // const { currentProject, deleteProjectFn } = projectContext;
+
   return (
     <Li>
       <p>{task.name}</p>
@@ -24,7 +35,11 @@ const Task = ({ task }) => {
           Edit
           <FontAwesomeIcon icon={faEdit} />
         </button>
-        <button type="button" className="delete">
+        <button
+          type="button"
+          className="delete"
+          // onClick={() => deleteProjectFn(5)}
+        >
           Delete
           <FontAwesomeIcon icon={faTrash} />
         </button>
@@ -61,7 +76,6 @@ const TaskState = styled.div`
     border-radius: 100%;
     cursor: pointer;
     border: none;
-    margin-right: 1rem;
     padding: 0;
     color: var(--blue2);
   }
@@ -70,7 +84,7 @@ const TaskState = styled.div`
     button {
       width: 4rem;
       height: 4rem;
-      margin-bottom: 1rem;
+      margin: 1.5rem;
     }
   }
 

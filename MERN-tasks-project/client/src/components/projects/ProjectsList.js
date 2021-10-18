@@ -8,8 +8,6 @@ const ProjectsList = () => {
   const getProjectState = useContext(ProjectContext);
   const { projects, getProjectsFn } = getProjectState;
 
-  console.log(projects);
-
   //Get projects on component mount
   useEffect(() => {
     getProjectsFn();
@@ -32,7 +30,7 @@ const ProjectsList = () => {
 };
 
 const Title = styled.p`
-margin: 4rem 0;
+  margin: 4rem 0;
   color: var(--blue2);
   font-weight: bold;
   text-align: center;

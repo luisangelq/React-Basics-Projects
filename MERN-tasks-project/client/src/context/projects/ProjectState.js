@@ -2,7 +2,13 @@ import { useReducer } from "react";
 
 import projectContext from "./ProjectContext";
 import projectReducer from "./ProjectReducer";
-import { NEW_PROJECT_FORM, GET_PROJECTS, ADD_PROJECT } from "../../types";
+import {
+  NEW_PROJECT_FORM,
+  GET_PROJECTS,
+  ADD_PROJECT,
+  CURRENT_PROJECT,
+  DELETE_PROJECT
+} from "../../types";
 
 const ProjectState = (props) => {
   const projects = [
@@ -13,6 +19,7 @@ const ProjectState = (props) => {
   const initialState = {
     projects: [],
     newProjectForm: false,
+    currentProject: null,
   };
 
   //Dispath actions
@@ -40,14 +47,34 @@ const ProjectState = (props) => {
     });
   };
 
+  //Select the project
+  const currentProjectFn = (projectId) => {
+    dispatch({
+      type: CURRENT_PROJECT,
+      payload: projectId
+    })
+  }
+
+  //Delete the project
+  const deleteProjectFn = (projectId) => {
+    dispatch({
+      type: DELETE_PROJECT,
+      payload: projectId
+    })
+  }
+
   return (
     <projectContext.Provider
       value={{
         projects: state.projects,
         newProjectForm: state.newProjectForm,
+        project: state.project,
+        currentProject: state.currentProject,
         showNewProjectFormFn,
         getProjectsFn,
         addProjectFn,
+        currentProjectFn,
+        deleteProjectFn
       }}
     >
       {props.children}
