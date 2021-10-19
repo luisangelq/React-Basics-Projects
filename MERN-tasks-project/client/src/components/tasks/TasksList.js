@@ -1,44 +1,87 @@
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import Task from "./Task";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 import ProjectContext from "../../context/projects/ProjectContext";
+import TaskContext from "../../context/tasks/TaskContext";
 
 const TaskList = () => {
-  const getTaskInfo = useContext(ProjectContext);
-  const { currentProject, deleteProjectFn } = getTaskInfo;
+  const projectContext = useContext(ProjectContext);
+  const { currentProject, deleteProjectFn } = projectContext;
 
-  if (!currentProject) return <h2>Select Some Project</h2>;
+  const taskContext = useContext(TaskContext);
+  const { projectTasks } = taskContext;
+
+  if (!currentProject) return <Title>Select Some Project</Title>;
 
   const [project] = currentProject;
 
-  const tasks = [];
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#FA312D",
+      cancelButtonColor: "#20525c",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteProjectFn(project.id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Project Has Been Deleted",
+          icon: "success",
+          confirmButtonColor: "#20525c",
+        });
+      }
+    });
+  };
 
   return (
-    <Fragment>
-      <h2>Project: {project.name} </h2>
+    <TaskContainer>
+      <Title>
+        Project: <span>{project.name}</span>{" "}
+      </Title>
 
       <Ul>
-        {tasks.length === 0 ? (
+        {projectTasks.length === 0 ? (
           <li>
             <p>There Are No Tasks</p>
           </li>
         ) : (
-          tasks.map((task) => <Task key={task.name} task={task} />)
+          projectTasks.map((task) => <Task key={task.name} task={task} />)
         )}
       </Ul>
 
       <DeleteProject>
-        <button onClick={() => deleteProjectFn(project.id)}>
+        <button onClick={() => handleDelete()}>
           Delete Project
           <FontAwesomeIcon icon={faTrash} />
         </button>
       </DeleteProject>
-    </Fragment>
+    </TaskContainer>
   );
 };
+
+const Title = styled.h2`
+  color: var(--blue2);
+  margin-top: 4rem;
+
+  span {
+    font-weight: normal;
+  }
+`;
+const TaskContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 40rem;
+  padding: 0 2rem;
+`;
 
 const Ul = styled.ul`
   max-width: 800px;
@@ -46,7 +89,6 @@ const Ul = styled.ul`
 
   p {
     font-size: 1.8rem;
-    padding-right: 2rem;
     text-align: center;
   }
 `;
@@ -54,7 +96,6 @@ const Ul = styled.ul`
 const DeleteProject = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 4rem;
 
   button {
     display: flex;
@@ -64,6 +105,7 @@ const DeleteProject = styled.div`
     color: var(--white);
     border: none;
     padding: 1rem;
+    margin: 4rem 0;
     border-radius: 1rem;
     font-size: 1.8rem;
     cursor: pointer;

@@ -46,8 +46,6 @@ const NewProject = () => {
     <Fragment>
       {newProjectForm ? (
         <Form
-          animation-delay="250"
-          animation-type="fadeIn"
           onSubmit={handleSubmit}
         >
           <input

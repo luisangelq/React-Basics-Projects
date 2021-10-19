@@ -14,10 +14,7 @@ const MainPanel = () => {
         <main>
           <FormTask />
 
-          <TaskContainer>
-            <TaskList />
-          </TaskContainer>
-          
+          <TaskList />
         </main>
       </div>
     </Page>
@@ -33,10 +30,6 @@ const Page = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
-`;
-
-const TaskContainer = styled.div`
-  padding: 4rem;
 `;
 
 export default MainPanel;

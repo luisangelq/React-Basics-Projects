@@ -23,7 +23,6 @@ html {
 body {
   min-height: 100%;
   background-color: var(--green1);
-  font-size: 16px;
   font-size: 1.6rem;
   font-family: var(--textFont);
 }
@@ -57,6 +56,18 @@ a {
 p {
   margin: 0;
 }
+
+/* Sweet Alert */
+.swal2-popup {
+  font-size: 1.6rem !important ;
+  margin-left: 25rem;
+}
+@media (max-width: 768px) {
+  .swal2-popup {
+    margin-left: 0;
+  }
+}
+
 
 /** BOTONES **/
 

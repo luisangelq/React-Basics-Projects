@@ -1,27 +1,75 @@
-import {useContext} from 'react';
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 import ProjectContext from "../../context/projects/ProjectContext";
+import TaskContext from "../../context/tasks/TaskContext";
+
 const FormTask = () => {
+  const projectContext = useContext(ProjectContext);
+  const { currentProject } = projectContext;
 
-    const projectContext = useContext(ProjectContext);
-    const {currentProject} = projectContext;
+  const taskContext = useContext(TaskContext);
+  const { addTaskFn, getTasksFn } = taskContext;
 
-    if (!currentProject) return null;
+  const [task, setTask] = useState({
+    name: "",
+    state: false,
+  });
+
+  const handleChange = (e) => {
+    setTask({
+      ...task,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(currentProject[0].id);
+
+    if (task.name === "") {
+      Swal.fire({
+        icon: "error",
+        title: "Name Is Required",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      return;
+    }
+
+    addTaskFn({
+      id: Date.now(),
+      ...task,
+      projectId: currentProject[0].id,
+    });
+
+    setTask({
+      name: "",
+    });
+
+    getTasksFn(currentProject[0].id);
+  };
+
+  if (!currentProject) return null;
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Inputcontainer>
         <input
           type="text"
-          name="task"
+          name="name"
           placeholder="Add a task"
+          value={task.name}
+          onChange={handleChange}
         />
         <button type="submit">
           Add
-          <FontAwesomeIcon icon={faPlus} />  
+          <FontAwesomeIcon icon={faPlus} />
         </button>
       </Inputcontainer>
     </Form>
@@ -35,11 +83,11 @@ const Form = styled.form`
 `;
 
 const Inputcontainer = styled.div`
-    display: flex;
+  display: flex;
 
-    @media (max-width: 768px) {
-      flex-direction: column;
-    }
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 
   input {
     width: 100%;
