@@ -16,7 +16,6 @@ const FormTask = () => {
 
   const [task, setTask] = useState({
     name: "",
-    state: false,
   });
 
   const handleChange = (e) => {
@@ -31,7 +30,7 @@ const FormTask = () => {
 
     console.log(currentProject[0].id);
 
-    if (task.name === "") {
+    if (task.name.trim() === "") {
       Swal.fire({
         icon: "error",
         title: "Name Is Required",
@@ -43,16 +42,17 @@ const FormTask = () => {
     }
 
     addTaskFn({
-      id: Date.now(),
-      ...task,
+      id: new Date().getTime(),
       projectId: currentProject[0].id,
+      state: false,
+      ...task,
     });
+
+    getTasksFn(currentProject[0].id);
 
     setTask({
       name: "",
     });
-
-    getTasksFn(currentProject[0].id);
   };
 
   if (!currentProject) return null;

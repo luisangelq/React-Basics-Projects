@@ -20,6 +20,7 @@ const Sidebar = () => {
 const Aside = styled.aside`
   background-color: var(--green3);
   min-width: 250px;
+  
 
   @media (max-width: 768px) {
     padding-top: 15rem;

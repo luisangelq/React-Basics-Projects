@@ -23,9 +23,8 @@ const MainPanel = () => {
 
 const Page = styled.div`
   display: grid;
-  height: 100vh;
-  flex-direction: row;
   grid-template-columns: 0.6fr 3fr;
+  height: 100vh;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;

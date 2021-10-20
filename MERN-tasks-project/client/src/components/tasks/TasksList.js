@@ -53,7 +53,7 @@ const TaskList = () => {
             <p>There Are No Tasks</p>
           </li>
         ) : (
-          projectTasks.map((task) => <Task key={task.name} task={task} />)
+          projectTasks.map((task) => <Task key={task.id} task={task} />)
         )}
       </Ul>
 
@@ -69,7 +69,7 @@ const TaskList = () => {
 
 const Title = styled.h2`
   color: var(--blue2);
-  margin-top: 4rem;
+  margin-top: 2rem;
 
   span {
     font-weight: normal;
@@ -78,8 +78,7 @@ const Title = styled.h2`
 const TaskContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 40rem;
+  
   padding: 0 2rem;
 `;
 
@@ -91,6 +90,8 @@ const Ul = styled.ul`
     font-size: 1.8rem;
     text-align: center;
   }
+
+  
 `;
 
 const DeleteProject = styled.div`

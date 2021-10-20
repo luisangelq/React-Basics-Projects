@@ -64,7 +64,6 @@ const Li = styled.li`
 `;
 const TaskState = styled.div`
   display: flex;
-  margin-right: 1rem;
   justify-content: center;
 
   button {
@@ -78,10 +77,8 @@ const TaskState = styled.div`
     border: none;
     padding: 0;
     color: var(--blue2);
-  }
 
-  @media (max-width: 480px) {
-    button {
+    @media (max-width: 480px) {
       width: 4rem;
       height: 4rem;
       margin: 1.5rem;
@@ -128,13 +125,15 @@ const Actions = styled.div`
     color: var(--white);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-  }
 
-  @media (max-width: 480px) {
-    button {
+    @media (max-width: 480px) {
       margin-bottom: 1rem;
       justify-content: center;
       gap: 1rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 
