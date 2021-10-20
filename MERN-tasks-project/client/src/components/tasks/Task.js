@@ -1,4 +1,4 @@
-// import { useContext } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,13 +6,61 @@ import {
   faEdit,
   faCheck,
   faClock,
+  faTimesCircle
 } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
-// import ProjectContext from "../../context/projects/ProjectContext";
+import TaskContext from "../../context/tasks/TaskContext";
 
 const Task = ({ task }) => {
-  // const projectContext = useContext(ProjectContext);
-  // const { currentProject, deleteProjectFn } = projectContext;
+  const taskContext = useContext(TaskContext);
+  const { currentTask, getTasksFn, stateTaskFn, currentTaskFn, deleteTaskFn } =
+    taskContext;
+
+  const changeState = (task) => {
+    if (task.state) {
+      task.state = false;
+    } else {
+      task.state = true;
+    }
+
+    stateTaskFn(task);
+  };
+
+  const editTask = (task) => {
+    if (currentTask) {
+      if (currentTask.id === task.id) {
+        currentTaskFn(null);
+      } else {
+        currentTaskFn(task);
+      }
+    } else {
+      currentTaskFn(task);
+    }
+  };
+
+  const handleDeleteTask = (id, projectId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#FA312D",
+      cancelButtonColor: "#20525c",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteTaskFn(id);
+        getTasksFn(projectId);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Task Has Been Deleted",
+          icon: "success",
+          confirmButtonColor: "#20525c",
+        });
+      }
+    });
+  };
 
   return (
     <Li>
@@ -20,25 +68,41 @@ const Task = ({ task }) => {
 
       <TaskState>
         {task.state ? (
-          <button type="button" className="complete">
+          <button
+            type="button"
+            className="complete"
+            onClick={() => changeState(task)}
+          >
             <FontAwesomeIcon icon={faCheck} />
           </button>
         ) : (
-          <button type="button" className="incomplete">
+          <button
+            type="button"
+            className="incomplete"
+            onClick={() => changeState(task)}
+          >
             <FontAwesomeIcon icon={faClock} />
           </button>
         )}
       </TaskState>
 
       <Actions>
-        <button type="button" className="edit">
-          Edit
-          <FontAwesomeIcon icon={faEdit} />
-        </button>
+        {currentTask && currentTask.id === task.id ? (
+          <button type="button" className="edit" onClick={() => editTask(task)}>
+            Cancel
+            <FontAwesomeIcon icon={faTimesCircle} />
+          </button>
+        ) : (
+          <button type="button" className="edit" onClick={() => editTask(task)}>
+            Edit
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        )}
+
         <button
           type="button"
           className="delete"
-          // onClick={() => deleteProjectFn(5)}
+          onClick={() => handleDeleteTask(task.id, task.projectId)}
         >
           Delete
           <FontAwesomeIcon icon={faTrash} />
@@ -114,6 +178,7 @@ const Actions = styled.div`
     justify-content: space-around;
     gap: 0.5rem;
     width: 100%;
+    min-width: 8rem;
     font-weight: bold;
     font-family: var(--textFont);
     font-size: 1.2rem;

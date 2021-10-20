@@ -1,4 +1,4 @@
-import { Fragment, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 
@@ -43,7 +43,7 @@ const NewProject = () => {
   };
 
   return (
-    <Fragment>
+    <Container>
       {newProjectForm ? (
         <Form
           onSubmit={handleSubmit}
@@ -62,9 +62,15 @@ const NewProject = () => {
           New Project
         </Btn>
       )}
-    </Fragment>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100px;
+`
 
 const Btn = styled.button`
   width: 100%;

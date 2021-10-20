@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 import ProjectContext from "../../context/projects/ProjectContext";
@@ -12,11 +12,21 @@ const FormTask = () => {
   const { currentProject } = projectContext;
 
   const taskContext = useContext(TaskContext);
-  const { addTaskFn, getTasksFn } = taskContext;
+  const { currentTask, addTaskFn, getTasksFn } = taskContext;
 
   const [task, setTask] = useState({
     name: "",
   });
+
+  useEffect(() => {
+    if (currentTask) {
+      setTask({ name: currentTask.name });
+    } else {
+      setTask({
+        name: "",
+      });
+    }
+  }, [currentTask]);
 
   const handleChange = (e) => {
     setTask({
@@ -28,8 +38,6 @@ const FormTask = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(currentProject[0].id);
-
     if (task.name.trim() === "") {
       Swal.fire({
         icon: "error",
@@ -37,16 +45,19 @@ const FormTask = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-
       return;
     }
 
-    addTaskFn({
-      id: new Date().getTime(),
-      projectId: currentProject[0].id,
-      state: false,
-      ...task,
-    });
+    if (currentTask) {
+      addTaskFn({
+        id: new Date().getTime(),
+        projectId: currentProject[0].id,
+        state: false,
+        ...task,
+      });
+    }
+
+    
 
     getTasksFn(currentProject[0].id);
 
@@ -67,10 +78,17 @@ const FormTask = () => {
           value={task.name}
           onChange={handleChange}
         />
-        <button type="submit">
-          Add
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
+        {currentTask ? (
+          <button type="submit">
+            Update
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        ) : (
+          <button type="submit">
+            Add
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
+        )}
       </Inputcontainer>
     </Form>
   );
@@ -113,6 +131,7 @@ const Inputcontainer = styled.div`
     padding: 1rem;
     border: none;
     border-radius: 1rem;
+    gap: 1rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 

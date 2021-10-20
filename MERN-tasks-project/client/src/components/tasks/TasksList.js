@@ -4,6 +4,7 @@ import Task from "./Task";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import ProjectContext from "../../context/projects/ProjectContext";
 import TaskContext from "../../context/tasks/TaskContext";
@@ -19,7 +20,7 @@ const TaskList = () => {
 
   const [project] = currentProject;
 
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -30,7 +31,7 @@ const TaskList = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteProjectFn(project.id);
+        deleteProjectFn(id);
         Swal.fire({
           title: "Deleted!",
           text: "Your Project Has Been Deleted",
@@ -53,12 +54,18 @@ const TaskList = () => {
             <p>There Are No Tasks</p>
           </li>
         ) : (
-          projectTasks.map((task) => <Task key={task.id} task={task} />)
+          <TransitionGroup>
+            {projectTasks.map((task) => (
+              <CSSTransition key={task.id} timeout={1000} classNames="transition">
+                <Task task={task} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
         )}
       </Ul>
 
       <DeleteProject>
-        <button onClick={() => handleDelete()}>
+        <button onClick={() => handleDelete(project.id)}>
           Delete Project
           <FontAwesomeIcon icon={faTrash} />
         </button>
@@ -78,7 +85,7 @@ const Title = styled.h2`
 const TaskContainer = styled.div`
   display: flex;
   flex-direction: column;
-  
+
   padding: 0 2rem;
 `;
 
@@ -90,8 +97,6 @@ const Ul = styled.ul`
     font-size: 1.8rem;
     text-align: center;
   }
-
-  
 `;
 
 const DeleteProject = styled.div`
