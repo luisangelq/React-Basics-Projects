@@ -3,6 +3,7 @@ import {
   ADD_TASK,
   STATE_TASK,
   CURRENT_TASK,
+  UPDATE_TASK,
   DELETE_TASK,
 } from "../../types";
 
@@ -21,11 +22,12 @@ const TaskReducer = (state, action) => {
         tasks: [action.payload, ...state.tasks],
       };
     case STATE_TASK:
+    case UPDATE_TASK:
       return {
         ...state,
         tasks: state.tasks.map((task) =>
           task.id === action.payload.id
-            ? { ...task, state: action.payload.state }
+            ?  action.payload 
             : task
         ),
       };

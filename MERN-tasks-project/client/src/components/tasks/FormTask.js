@@ -12,7 +12,7 @@ const FormTask = () => {
   const { currentProject } = projectContext;
 
   const taskContext = useContext(TaskContext);
-  const { currentTask, addTaskFn, getTasksFn } = taskContext;
+  const { currentTask, currentTaskFn, updateTaskFn, addTaskFn, getTasksFn } = taskContext;
 
   const [task, setTask] = useState({
     name: "",
@@ -20,7 +20,7 @@ const FormTask = () => {
 
   useEffect(() => {
     if (currentTask) {
-      setTask({ name: currentTask.name });
+      setTask(currentTask);
     } else {
       setTask({
         name: "",
@@ -48,16 +48,24 @@ const FormTask = () => {
       return;
     }
 
-    if (currentTask) {
+    if (currentTask === null) {
       addTaskFn({
         id: new Date().getTime(),
         projectId: currentProject[0].id,
         state: false,
         ...task,
       });
-    }
+    } else {
+      updateTaskFn(task);
+      Swal.fire({
+        icon: "success",
+        title: "Task Updated",
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-    
+      currentTaskFn(null);
+    }
 
     getTasksFn(currentProject[0].id);
 

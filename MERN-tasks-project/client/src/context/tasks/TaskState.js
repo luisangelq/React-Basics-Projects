@@ -7,6 +7,7 @@ import {
   ADD_TASK,
   STATE_TASK,
   CURRENT_TASK,
+  UPDATE_TASK,
   DELETE_TASK,
 } from "../../types";
 
@@ -62,6 +63,14 @@ const TaskState = (props) => {
     });
   };
 
+  const updateTaskFn = (task) => {
+    console.log(task);
+    dispatch({
+      type: UPDATE_TASK,
+      payload: task,
+    });
+  }
+
   const deleteTaskFn = (taskId) => {
     dispatch({
       type: DELETE_TASK,
@@ -79,6 +88,7 @@ const TaskState = (props) => {
         addTaskFn,
         stateTaskFn,
         currentTaskFn,
+        updateTaskFn,
         deleteTaskFn,
       }}
     >
