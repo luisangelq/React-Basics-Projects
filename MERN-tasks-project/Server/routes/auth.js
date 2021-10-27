@@ -1,8 +1,9 @@
-//Routes to create users
+//Routes to handle authentication
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/userController");
 const { check } = require("express-validator");
+
+const authController = require("../controllers/authController");
 
 //Create User
 
@@ -10,14 +11,13 @@ const { check } = require("express-validator");
 router.post(
   "/",
   [
-    check("userName", "Name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check(
       "password",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
   ],
-  userController.createUser
+  authController.authUser
 );
 
 module.exports = router;
