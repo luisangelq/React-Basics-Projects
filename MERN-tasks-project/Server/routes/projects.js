@@ -1,18 +1,26 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const projectController = require('../controllers/projectController');
 
-const { check } = require('express-validator');
+const projectController = require("../controllers/projectController");
+const auth = require("../middleware/auth");
+const { check } = require("express-validator");
 
 //create a new project
 // api/projects
-router.post('/',
+router.post(
+  "/",
+  auth,
+  [check("projectName", "Name is required").not().isEmpty()],
+  projectController.createProject
+);
 
-    [
-        check('name', 'Name is required').not().isEmpty()
-    ],
+router.get("/", auth, projectController.getProjects);
 
-    projectController.createProject
-)
+router.put(
+  "/:id",
+  auth,
+  [check("projectName", "Name is required").not().isEmpty()],
+  projectController.updateProject
+);
 
 module.exports = router;

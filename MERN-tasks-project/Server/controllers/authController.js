@@ -39,8 +39,10 @@ exports.authUser = async (req, res) => {
       (err, token) => {
         if (err) throw err;
         res.json({ msg: "User Logged ", token });
+        console.log("Succesfull Authentication Request");
       }
     );
+
 
   } catch (error) {
     console.log(error);
