@@ -42,28 +42,28 @@ exports.updateProject = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  //extract project info
-  const { projectName } = req.body;
-  const projectUpdated = {};
-
-  if (projectName) projectUpdated.projectName = projectName;
-
   try {
+    //extract project info
+    const { projectName } = req.body;
     //check id
-    const updatingProject = await Project.findById(req.params.id);
+    const projectId = await Project.findById(req.params.id);
 
-    // if (!updatingProject.projectName) {
-    //   return res.status(404).json({
-    //     msg: "Project not found",
-    //   });
-    // }
+    //(This validation only works with a valid moongoose id) For Example: 6185d5bfbe3069dcf1a23ae2
+    if (!projectId) {
+      return res.status(404).json({
+        msg: "Project not found",
+      });
+    }
 
     //Verify user
-    if (req.user.id !== updatingProject.owner.toString()) {
+    if (req.user.id !== projectId.owner.toString()) {
       return res.status(401).json({
         msg: "User not authorized",
       });
     }
+
+    const projectUpdated = {};
+    if (projectName) projectUpdated.projectName = projectName;
 
     // update project
     const project = await Project.findByIdAndUpdate(
@@ -71,7 +71,8 @@ exports.updateProject = async (req, res) => {
       { $set: projectUpdated },
       { new: true }
     );
-    res.status(200).json({msg: "Project updated", project});
+    res.status(200).json({ msg: "Project updated", project });
+    console.log("Succesfull Project updated request");
   } catch (error) {
     // console.log(error);
     res.status(500).send(error);
@@ -79,20 +80,18 @@ exports.updateProject = async (req, res) => {
 };
 
 exports.deleteProject = async (req, res) => {
-
   try {
-
     //check id
-    const updatingProject = await Project.findById(req.params.id);
+    const projectId = await Project.findById(req.params.id);
 
-    // if (!updatingProject.projectName) {
-    //   return res.status(404).json({
-    //     msg: "Project not found",
-    //   });
-    // }
+    if (!projectId) {
+      return res.status(404).json({
+        msg: "Project not found",
+      });
+    }
 
     //Verify user
-    if (req.user.id !== updatingProject.owner.toString()) {
+    if (req.user.id !== projectId.owner.toString()) {
       return res.status(401).json({
         msg: "User not authorized",
       });
@@ -102,9 +101,8 @@ exports.deleteProject = async (req, res) => {
     await Project.findByIdAndRemove({ _id: req.params.id });
     res.status(200).json({ msg: "Project removed" });
     console.log("Successfull Delete Request");
-    
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).json({ msg: "Server error" });
   }
-}
+};
