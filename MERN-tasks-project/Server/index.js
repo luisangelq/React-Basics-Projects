@@ -1,12 +1,16 @@
 //add express
 const express = require("express");
 const connectDB = require("./config/db");
+const cors = require("cors");
 
 //create express app
 const app = express();
 
 //connect to database
 connectDB();
+
+//Enable CORS
+app.use(cors());
 
 //enable body parser
 app.use(express.json({ extended: true }));

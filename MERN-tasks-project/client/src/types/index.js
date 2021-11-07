@@ -11,3 +11,11 @@ export const STATE_TASK = "STATE_TASK";
 export const CURRENT_TASK = "CURRENT_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
 export const DELETE_TASK = "DELETE_TASK";
+
+export const SUCCESSFUL_REGISTER = 'SUCCESSFUL_REGISTER';
+export const ERROR_REGISTER = 'ERROR_REGISTER';
+export const GET_USER = 'GET_USER';
+export const SUCCESSFUL_LOGIN = 'SUCCESSFUL_LOGIN';
+export const ERROR_LOGIN = 'ERROR_LOGIN';
+export const LOGOUT = 'LOGOUT';
+
