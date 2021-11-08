@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 exports.authUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ msg: errors.array()[0].msg });
   }
 
   const { email, password } = req.body;
@@ -34,7 +34,7 @@ exports.authUser = async (req, res) => {
       payload,
       process.env.SECRET_KEY,
       {
-        expiresIn: 7200, // 2 hours
+        expiresIn: 120, // 2 hours
       },
       (err, token) => {
         if (err) throw err;
@@ -46,5 +46,19 @@ exports.authUser = async (req, res) => {
 
   } catch (error) {
     console.log(error);
+    res.status(500).json({ msg: " Server Error "});
   }
 };
+
+exports.getLoggedUser = async (req, res) => {
+
+  try{
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: " Server Error "});
+  }
+
+}

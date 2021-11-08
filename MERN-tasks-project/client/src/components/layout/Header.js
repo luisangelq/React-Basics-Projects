@@ -1,14 +1,45 @@
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
-const Header = () => {
+const Header = ({user, logout }) => {
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Exit",
+      text: "Are You Sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#FA312D",
+      cancelButtonColor: "#20525c",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        Swal.fire({
+          title: "Have a great day!",
+          icon: "info",
+          confirmButtonColor: "#20525c",
+          timer: 2000,
+        });
+      }
+    });
+    
+  }
   return (
     <HeaderContainer>
       <UserName>
-        Hello <span>Luis</span>
+        Hello {user ? <span>{user.userName}</span> : <span>Guest</span>}
       </UserName>
 
       <Nav>
-        <a href="#!">Log Out</a>
+        <button
+          onClick={handleLogout}
+        >
+          Log Out
+          <Icon icon={faSignOutAlt} />
+        </button>
       </Nav>
     </HeaderContainer>
   );
@@ -28,7 +59,7 @@ const HeaderContainer = styled.header`
 `;
 
 const UserName = styled.p`
-  color: var(--black);
+  color: var(--blue2);
   font-size: 2.2rem;
   margin: 0;
   span {
@@ -37,14 +68,27 @@ const UserName = styled.p`
 `;
 
 const Nav = styled.nav`
-  a {
-    color: var(--black);
+  button {
+    color: var(--blue2);
+    padding-bottom: 0.5rem;
     font-weight: bold;
+    outline: none;
+    background: none;
+    border: none;
+    border-radius: 0.5rem;
+    border-bottom: 2px solid var(--blue2);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
 
-    &:first-of-type {
-      margin-right: 2rem;
+    &:hover {
+      color: #fa312d;
+      border-bottom: 2px solid #fa312d;
     }
   }
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+  margin-left: 1rem;
 `;
 
 export default Header;

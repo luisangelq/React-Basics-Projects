@@ -9,14 +9,17 @@ import {
   GET_USER,
   SUCCESSFUL_LOGIN,
   ERROR_LOGIN,
+  RESET_ALERT,
   LOGOUT,
 } from "../../types/index";
+import authToken from "../../config/authToken";
 
 const AuthState = (props) => {
   const initialState = {
-    token: localStorage.getItem("token") || null,
-    userName: null,
+    token: localStorage.getItem("token"),
+    user: JSON.parse(localStorage.getItem("user")),
     isAuthenticated: null,
+    page: "",
     alert: null,
   };
 
@@ -31,6 +34,8 @@ const AuthState = (props) => {
         type: SUCCESSFUL_REGISTER,
         payload: res.data,
       });
+
+      getLoggedUser();
     } catch (error) {
       console.log(error.response);
       dispatch({
@@ -40,15 +45,83 @@ const AuthState = (props) => {
     }
   };
 
+
+  //Login User
+  const loginUser = async (user) => {
+    try {
+      const res = await axiosClient.post("/api/auth", user);
+      console.log(res.data);
+      dispatch({
+        type: SUCCESSFUL_LOGIN,
+        payload: res.data,
+      });
+
+      getLoggedUser();
+    } catch (error) {
+      console.log(error.response);
+      dispatch({
+        type: ERROR_LOGIN,
+        payload: error.response.data,
+      });
+    }
+  };
+
+  
+  //Return register user
+  const getLoggedUser = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      authToken(token);
+    }
+
+    try {
+      const res = await axiosClient.get("/api/auth");
+      console.log(res);
+      dispatch({
+        type: GET_USER,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error.response);
+      dispatch({
+        type: ERROR_LOGIN,
+        payload: error.response.data,
+      });
+    }
+  };
+
+  //Redirect to main panel
+  const resetAlert = (page) => {
+    dispatch({
+      type: RESET_ALERT,
+      payload: page,
+    });
+  };
+
+  //Logout
+  const logout = () => {
+    dispatch({
+      type: LOGOUT,
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{
+    <AuthContext.Provider
+      value={{
         token: state.token,
         user: state.user,
         isAuthenticated: state.isAuthenticated,
+        page: state.page,
         alert: state.alert,
         registerUser,
-
-    }}>{props.children}</AuthContext.Provider>
+        loginUser,
+        getLoggedUser,
+        resetAlert,
+        logout,
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
   );
 };
 

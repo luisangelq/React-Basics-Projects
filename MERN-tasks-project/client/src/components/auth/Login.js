@@ -1,12 +1,50 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import Spinner from "../layout/Spinner";
 
-const Login = () => {
+import AuthContext from "../../context/auth/AuthContext";
+
+const Login = (props) => {
+  const { alert, isAuthenticated, page, loginUser, resetAlert } =
+    useContext(AuthContext);
+
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const [spinner, setSpinner] = useState(false);
+
+  useEffect(() => {
+    if (!alert) return;
+
+    if (alert.type === "success" && page === "login") {
+      Swal.fire({
+        icon: alert.type,
+        title: "Success!",
+        text: alert.msg,
+        timer: 3000,
+        confirmButtonColor: "#20525c",
+      });
+    }
+    if (alert.type === "error" && page === "login") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: alert.msg,
+        timer: 3000,
+        confirmButtonColor: "#20525c",
+      });
+    }
+
+    resetAlert("login");
+
+    if (isAuthenticated) {
+      props.history.push("/main-panel");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [alert, isAuthenticated]);
 
   const { email, password } = user;
 
@@ -19,7 +57,28 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
+
+    if (email.trim() === "" || password.trim() === "") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please fill in all the fields!",
+        timer: 3000,
+        confirmButtonColor: "#20525c",
+      });
+
+      return;
+    }
+
+    setSpinner(true);
+
+    setTimeout(() => {
+      loginUser({
+        email,
+        password,
+      });
+      setSpinner(false);
+    }, 500);
   };
 
   return (
@@ -71,6 +130,7 @@ const Login = () => {
               onChange={handleChange}
             />
           </FieldForm>
+          {spinner ? <Spinner /> : <div style={{ height: "5rem" }}></div>}
           <FieldForm>
             <Btn type="submit" value="Log In" />
           </FieldForm>

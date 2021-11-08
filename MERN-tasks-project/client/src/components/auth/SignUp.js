@@ -2,42 +2,13 @@ import { useState, useContext, useEffect } from "react";
 import Styled from "styled-components";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import Spinner from "../layout/Spinner";
 
 import AuthContext from "../../context/auth/AuthContext";
 
 const SignUp = (props) => {
-  const authContext = useContext(AuthContext);
-  const { alert, isAuthenticated, registerUser } = authContext;
-
-  useEffect(() => {
-    //alert
-    console.log(alert);
-    if (!alert) return null;
-
-    if (alert.type === "success") {
-      Swal.fire({
-        icon: alert.type,
-        title: "Success!",
-        text: alert.msg,
-        timer: 3000,
-        confirmButtonColor: "#20525c",
-      });
-    }
-    if (alert.type === "error") {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: alert.msg,
-        timer: 3000,
-        confirmButtonColor: "#20525c",
-      });
-    }
-
-    if (isAuthenticated) {
-      props.history.push("/main-panel");
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [alert, isAuthenticated]);
+  const { alert, isAuthenticated, page, registerUser, resetAlert } =
+    useContext(AuthContext);
 
   const [user, setUser] = useState({
     userName: "",
@@ -47,6 +18,37 @@ const SignUp = (props) => {
   });
 
   const [spinner, setSpinner] = useState(false);
+
+  useEffect(() => {
+    //alert
+
+    if (!alert) return;
+
+    if (alert.type === "success" && page === "signUp") {
+      Swal.fire({
+        icon: alert.type,
+        title: "Success!",
+        text: alert.msg,
+        timer: 3000,
+        confirmButtonColor: "#20525c",
+      });
+    }
+    if (alert.type === "error" && page === "signUp") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: alert.msg,
+        timer: 3000,
+        confirmButtonColor: "#20525c",
+      });
+    }
+    resetAlert("signUp");
+
+    if (isAuthenticated) {
+      props.history.push("/main-panel");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [alert, isAuthenticated]);
 
   const { userName, email, password, password2 } = user;
 
@@ -110,7 +112,7 @@ const SignUp = (props) => {
         password,
       });
       setSpinner(false);
-    }, 1000);
+    }, 500);
   };
 
   return (
@@ -208,16 +210,7 @@ const SignUp = (props) => {
             />
           </FieldForm>
 
-          {spinner ? (
-            <Spinner>
-              <div className="spinner">
-                <div className="double-bounce1"></div>
-                <div className="double-bounce2"></div>
-              </div>
-            </Spinner>
-          ) : (
-            <div style={{ height: "5rem" }}></div>
-          )}
+          {spinner ? <Spinner /> : <div style={{ height: "5rem" }}></div>}
 
           <FieldForm>
             <Btn type="submit" value="Register" />
@@ -278,50 +271,6 @@ const FieldForm = Styled.div`
         outline: none;
         border-bottom: 2px solid var(--green3);
     }
-`;
-
-const Spinner = Styled.div`
-  .spinner {
-  width: 40px;
-  height: 40px;
-
-  position: relative;
-  margin: 1rem auto;
-}
-
-.double-bounce1, .double-bounce2 {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: var(--blue2);
-  opacity: 0.6;
-  position: absolute;
-  top: 0;
-  left: 0;
-  
-  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-  animation: sk-bounce 2.0s infinite ease-in-out;
-}
-
-.double-bounce2 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
-}
-
-@-webkit-keyframes sk-bounce {
-  0%, 100% { -webkit-transform: scale(0.0) }
-  50% { -webkit-transform: scale(1.0) }
-}
-
-@keyframes sk-bounce {
-  0%, 100% { 
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 50% { 
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
-  }
-}
 `;
 
 const Btn = Styled.input`

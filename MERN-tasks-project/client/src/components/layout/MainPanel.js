@@ -1,16 +1,32 @@
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import FormTask from "../tasks/FormTask";
 import TaskList from "../tasks/TasksList";
 
+import AuthContext from "../../context/auth/AuthContext";
+
+
 const MainPanel = () => {
+  const { user, getLoggedUser, resetAlert, logout }  = useContext(AuthContext);
+
+  useEffect(() => {
+    getLoggedUser();
+    resetAlert("login");
+    // eslint-disable-next-line
+  }, []);
+  
+
   return (
     <Page>
       <Sidebar />
 
       <div>
-        <Header />
+        <Header 
+          user={user}
+          logout={logout}
+        />
         <main>
           <FormTask />
 

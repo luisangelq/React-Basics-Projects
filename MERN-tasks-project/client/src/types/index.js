@@ -17,5 +17,6 @@ export const ERROR_REGISTER = 'ERROR_REGISTER';
 export const GET_USER = 'GET_USER';
 export const SUCCESSFUL_LOGIN = 'SUCCESSFUL_LOGIN';
 export const ERROR_LOGIN = 'ERROR_LOGIN';
+export const RESET_ALERT = 'RESET_ALERT';
 export const LOGOUT = 'LOGOUT';
 

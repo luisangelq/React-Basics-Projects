@@ -10,7 +10,7 @@ exports.createUser = async (req, res) => {
   // Check if there are any errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ msg: errors.array()[0].msg });
   }
   try {
     // Check if user already exists
@@ -41,7 +41,7 @@ exports.createUser = async (req, res) => {
       payload,
       process.env.SECRET_KEY,
       {
-        expiresIn: 7200, // 2 hours
+        expiresIn: 120, // 2 hours
       },
       (err, token) => {
         if (err) throw err;

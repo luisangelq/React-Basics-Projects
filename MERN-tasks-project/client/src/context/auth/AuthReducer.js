@@ -4,6 +4,7 @@ import {
   GET_USER,
   SUCCESSFUL_LOGIN,
   ERROR_LOGIN,
+  RESET_ALERT,
   LOGOUT,
 } from "../../types/index";
 
@@ -13,23 +14,73 @@ const AuthReducer = (state, action) => {
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
-        userName: action.payload.userName,
+        token: action.payload.token,
         isAuthenticated: true,
-        alert: {msg: action.payload.msg, type: "success"},
+        page: "signUp",
+        alert: { msg: action.payload.msg, type: "success" },
       };
-      break;
+
+    case SUCCESSFUL_LOGIN:
+      localStorage.setItem("token", action.payload.token);
+      return {
+        ...state,
+        token: action.payload.token,
+        isAuthenticated: true,
+        page: "login",
+        alert: { msg: action.payload.msg, type: "success" },
+      };
+
+    case GET_USER:
+      localStorage.setItem("user", JSON.stringify(action.payload));
+      return {
+        ...state,
+        user: action.payload,
+        isAuthenticated: true,
+      };
 
     case ERROR_REGISTER:
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       return {
         ...state,
         token: null,
         isAuthenticated: false,
-        alert: {msg: action.payload.msg, type: "error"},
+        page: "signUp",
+        alert: { msg: action.payload.msg, type: "error" },
       };
-      break;
+
+    case ERROR_LOGIN:
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        page: "login",
+        alert: { msg: action.payload.msg, type: "error" },
+      };
+
+    case RESET_ALERT:
+      return {
+        ...state,
+        page: action.payload,
+        alert: null,
+      };
+
+    case LOGOUT:
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      return {
+        ...state,
+        token: null,
+        user: null,
+        isAuthenticated: null,
+        page: "login",
+        alert: null,
+      };
 
     default:
-      break;
+      return state;
   }
 };
 
