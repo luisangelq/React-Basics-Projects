@@ -16,25 +16,25 @@ const ProjectReducer = (state, action) => {
     case GET_PROJECTS:
       return {
         ...state,
-        projects: action.payload,
+        projects: action.payload.projects,
       };
     case ADD_PROJECT:
       return {
         ...state,
-        projects: [action.payload, ...state.projects],
+        projects: [action.payload.project, ...state.projects],
       };
     case CURRENT_PROJECT:
       return {
         ...state,
         currentProject: state.projects.filter(
-          (project) => project.id === action.payload
+          (project) => project._id === action.payload
         ),
       };
     case DELETE_PROJECT:
       return {
         ...state,
         projects: state.projects.filter(
-          (project) => project.id !== action.payload
+          (project) => project._id !== action.payload
         ),
         currentProject: null,
       };

@@ -45,7 +45,7 @@ const TaskList = () => {
   return (
     <TaskContainer>
       <Title>
-        Project: <span>{project.name}</span>{" "}
+        Project: <span>{project.projectName}</span>{" "}
       </Title>
 
       <Ul>

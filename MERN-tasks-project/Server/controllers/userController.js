@@ -41,7 +41,7 @@ exports.createUser = async (req, res) => {
       payload,
       process.env.SECRET_KEY,
       {
-        expiresIn: 120, // 2 hours
+        expiresIn: 7200, // 2 hours
       },
       (err, token) => {
         if (err) throw err;

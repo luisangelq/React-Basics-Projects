@@ -13,11 +13,12 @@ exports.createProject = (req, res) => {
     project.owner = req.user.id;
 
     project.save();
-    res.status(200).json(project);
     console.log(req.body);
+    res.status(200).json({project});
+    
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    res.status(500).json({msg: "Server error"});
   }
 };
 
@@ -27,10 +28,10 @@ exports.getProjects = async (req, res) => {
     const projects = await Project.find({ owner: req.user.id }).sort({
       date: -1,
     });
-    res.status(200).json(projects);
+    res.status(200).json({projects});
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    res.status(500).json({msg: "Server error"});
   }
 };
 
@@ -75,7 +76,7 @@ exports.updateProject = async (req, res) => {
     console.log("Succesfull Project updated request");
   } catch (error) {
     // console.log(error);
-    res.status(500).send(error);
+    res.status(500).json({msg: "Server error"});
   }
 };
 

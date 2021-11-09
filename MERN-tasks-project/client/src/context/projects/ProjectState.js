@@ -2,6 +2,7 @@ import { useReducer } from "react";
 
 import projectContext from "./ProjectContext";
 import projectReducer from "./ProjectReducer";
+import axiosClient from "../../config/axios";
 import {
   NEW_PROJECT_FORM,
   GET_PROJECTS,
@@ -10,12 +11,8 @@ import {
   DELETE_PROJECT
 } from "../../types";
 
-const ProjectState = (props) => {
-  const projects = [
-    { id: 1, name: "Learn GitHub" },
-    { id: 2, name: "Invest on Crypto" },
-  ];
 
+const ProjectState = (props) => {
   const initialState = {
     projects: [],
     newProjectForm: false,
@@ -33,22 +30,40 @@ const ProjectState = (props) => {
     });
   };
 
-  const getProjectsFn = () => {
-    dispatch({
-      type: GET_PROJECTS,
-      payload: projects,
-    });
+  const getProjectsFn = async () => {
+    try {
+      const res = await axiosClient.get("/api/projects");
+      console.log(res);
+      dispatch({
+        type: GET_PROJECTS,
+        payload: res.data,
+      });
+      
+    } catch (error) {
+      console.log(error.response);
+    }
   };
 
-  const addProjectFn = (project) => {
-    dispatch({
-      type: ADD_PROJECT,
-      payload: project,
-    });
+  const addProjectFn = async (project) => {
+    console.log(project);
+    try {
+      const res = await axiosClient.post("/api/projects", project);
+      console.log(res);
+
+      dispatch({
+        type: ADD_PROJECT,
+        payload: res.data,
+      });
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
 
   //Select the project
   const currentProjectFn = (projectId) => {
+    console.log(projectId);
     dispatch({
       type: CURRENT_PROJECT,
       payload: projectId

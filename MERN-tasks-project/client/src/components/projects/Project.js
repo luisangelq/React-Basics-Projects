@@ -12,13 +12,13 @@ const Project = ({ project }) => {
 
   const selectProject = (id) => {
     currentProjectFn(id);
-    getTasksFn(id);
+    // getTasksFn(id);
   };
 
   return (
     <List>
-      <button type="button" onClick={() => selectProject(project.id)}>
-        {project.name}
+      <button type="button" onClick={() => selectProject(project._id)}>
+        {project.projectName}
       </button>
     </List>
   );

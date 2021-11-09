@@ -16,7 +16,7 @@ const ProjectsList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (projects.length === 0) {
+  if (!projects) {
     return <Title>No projects</Title>;
   } else {
     return (
@@ -24,7 +24,7 @@ const ProjectsList = () => {
         <Title>Your Projects</Title>
         <TransitionGroup>
           {projects.map((project) => (
-            <CSSTransition key={project.id} timeout={500} classNames="transition">
+            <CSSTransition key={project._id} timeout={500} classNames="transition">
               <Project  project={project} />
             </CSSTransition>
             

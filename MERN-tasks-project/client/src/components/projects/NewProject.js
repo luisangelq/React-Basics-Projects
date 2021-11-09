@@ -10,7 +10,7 @@ const NewProject = () => {
     getProjectContext;
 
   const [project, setProject] = useState({
-    name: "",
+    projectName: "",
   });
 
   const handleChange = (e) => {
@@ -23,7 +23,7 @@ const NewProject = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (project.name === "") {
+    if (project.projectName === "") {
       Swal.fire({
         icon: "error",
         title: "Name Is Required",
@@ -34,10 +34,10 @@ const NewProject = () => {
       return;
     }
 
-    addProjectFn({ id: Date.now(), ...project });
+    addProjectFn(project);
 
     setProject({
-      name: "",
+      projectName: "",
     });
     showNewProjectFormFn(false);
   };
@@ -51,8 +51,8 @@ const NewProject = () => {
           <input
             type="text"
             placeholder="Project Name"
-            name="name"
-            value={project.name}
+            name="projectName"
+            value={project.projectName}
             onChange={handleChange}
           />
           <Btn type="submit">Create Project</Btn>

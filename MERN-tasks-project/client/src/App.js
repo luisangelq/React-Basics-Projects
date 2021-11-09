@@ -8,6 +8,12 @@ import ProjectState from "./context/projects/ProjectState";
 import TaskState from "./context/tasks/TaskState";
 import AuthState from "./context/auth/AuthState";
 import AccessControl from "./config/accessControl";
+import authToken from "./config/authToken";
+
+const token = localStorage.getItem("token");
+if (token) {
+  authToken(token);
+}
 
 const App = () => {
   
