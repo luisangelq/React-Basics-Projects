@@ -2,7 +2,11 @@ export const NEW_PROJECT_FORM = 'NEW_PROJECT_FORM';
 export const GET_PROJECTS = 'GET_PROJECTS';
 export const ADD_PROJECT = 'ADD_PROJECT';
 export const CURRENT_PROJECT = "CURRENT_PROJECT";
+export const SELECT_PROJECT = "SELECT_PROJECT";
+export const UPDATE_PROJECT = "UPDATE_PROJECT";
 export const DELETE_PROJECT = "DELETE_PROJECT";
+export const ERROR_PROJECT = "ERROR_PROJECT";
+export const RESET_PROJECT_ALERT = "RESET_PROJECT_ALERT";
 
 //Task Types
 export const GET_TASKS = 'GET_TASKS';

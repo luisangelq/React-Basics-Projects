@@ -1,17 +1,32 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 
 import ProjectContext from "../../context/projects/ProjectContext";
 
 const NewProject = () => {
-  const getProjectContext = useContext(ProjectContext);
-  const { newProjectForm, showNewProjectFormFn, addProjectFn } =
-    getProjectContext;
+  const {
+    newProjectForm,
+    selectToEdit,
+    showNewProjectFormFn,
+    addProjectFn,
+    selectProjectFn,
+    updateProjectFn,
+  } = useContext(ProjectContext);
 
   const [project, setProject] = useState({
     projectName: "",
   });
+
+  useEffect(() => {
+    if (selectToEdit) {
+      setProject(selectToEdit);
+    } else {
+      setProject({
+        projectName: "",
+      });
+    }
+  }, [selectToEdit]);
 
   const handleChange = (e) => {
     setProject({
@@ -34,7 +49,12 @@ const NewProject = () => {
       return;
     }
 
-    addProjectFn(project);
+    if (selectToEdit) {
+      updateProjectFn(project);
+      selectProjectFn(null);
+    } else {
+      addProjectFn(project);
+    }
 
     setProject({
       projectName: "",
@@ -45,9 +65,7 @@ const NewProject = () => {
   return (
     <Container>
       {newProjectForm ? (
-        <Form
-          onSubmit={handleSubmit}
-        >
+        <Form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Project Name"
@@ -55,7 +73,11 @@ const NewProject = () => {
             value={project.projectName}
             onChange={handleChange}
           />
-          <Btn type="submit">Create Project</Btn>
+          {selectToEdit ? (
+            <Btn type="submit">Update Project</Btn>
+          ) : (
+            <Btn type="submit">Create Project</Btn>
+          )}
         </Form>
       ) : (
         <Btn type="button" onClick={() => showNewProjectFormFn(true)}>
@@ -70,7 +92,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   height: 100px;
-`
+`;
 
 const Btn = styled.button`
   width: 100%;
@@ -90,6 +112,7 @@ const Btn = styled.button`
 `;
 
 const Form = styled.form`
+  width: 100%;
   input {
     width: 100%;
     border: none;

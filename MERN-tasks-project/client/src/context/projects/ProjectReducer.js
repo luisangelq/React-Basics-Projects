@@ -3,7 +3,11 @@ import {
   ADD_PROJECT,
   GET_PROJECTS,
   CURRENT_PROJECT,
+  SELECT_PROJECT,
+  UPDATE_PROJECT,
   DELETE_PROJECT,
+  ERROR_PROJECT,
+  RESET_PROJECT_ALERT,
 } from "../../types";
 
 const ProjectReducer = (state, action) => {
@@ -30,6 +34,19 @@ const ProjectReducer = (state, action) => {
           (project) => project._id === action.payload
         ),
       };
+    case SELECT_PROJECT:
+      return {
+        ...state,
+        selectToEdit: action.payload,
+      };
+    case UPDATE_PROJECT:
+      return {
+        ...state,
+        projects: state.projects.map((project) =>
+          project._id === action.payload._id ? action.payload : project
+        ),
+      };
+
     case DELETE_PROJECT:
       return {
         ...state,
@@ -37,6 +54,16 @@ const ProjectReducer = (state, action) => {
           (project) => project._id !== action.payload
         ),
         currentProject: null,
+      };
+    case ERROR_PROJECT:
+      return {
+        ...state,
+        alert: { msg: action.payload, type: "error" },
+      };
+    case RESET_PROJECT_ALERT:
+      return {
+        ...state,
+        alert: null,
       };
     default:
       return state;
