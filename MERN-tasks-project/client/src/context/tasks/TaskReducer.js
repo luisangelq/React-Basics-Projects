@@ -1,7 +1,6 @@
 import {
   GET_TASKS,
   ADD_TASK,
-  STATE_TASK,
   CURRENT_TASK,
   UPDATE_TASK,
   DELETE_TASK,
@@ -12,21 +11,18 @@ const TaskReducer = (state, action) => {
     case GET_TASKS:
       return {
         ...state,
-        projectTasks: state.tasks.filter(
-          (task) => task.projectId === action.payload
-        ),
+        projectTasks: action.payload.tasks,
       };
     case ADD_TASK:
       return {
         ...state,
-        tasks: [action.payload, ...state.tasks],
+        projectTasks: [action.payload, ...state.projectTasks],
       };
-    case STATE_TASK:
     case UPDATE_TASK:
       return {
         ...state,
-        tasks: state.tasks.map((task) =>
-          task.id === action.payload.id
+        projectTasks: state.projectTasks.map((task) =>
+          task._id === action.payload._id
             ?  action.payload 
             : task
         ),
@@ -39,7 +35,7 @@ const TaskReducer = (state, action) => {
     case DELETE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task.id !== action.payload),
+        projectTasks: state.projectTasks.filter((task) => task._id !== action.payload),
       };
     default:
       return state;

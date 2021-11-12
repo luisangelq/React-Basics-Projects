@@ -12,10 +12,6 @@ const TaskList = () => {
 
   if (!currentProject) return <Title>Select Some Project</Title>;
 
-  console.log(currentProject);
-  const [project] = currentProject;
-  console.log(project);
-
   return (
     <TaskContainer>
       <Title>
@@ -30,7 +26,7 @@ const TaskList = () => {
         ) : (
           <TransitionGroup>
             {projectTasks.map((task) => (
-              <CSSTransition key={task.id} timeout={1000} classNames="transition">
+              <CSSTransition key={task._id} timeout={1000} classNames="transition">
                 <Task task={task} />
               </CSSTransition>
             ))}

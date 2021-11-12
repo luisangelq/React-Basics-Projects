@@ -45,13 +45,11 @@ const MainPanel = () => {
 
   useEffect(() => {
     getLoggedUser();
-    console.log("algo");
     resetAlert("login");
     // eslint-disable-next-line
   }, []);
 
   const editProject = (project) => {
-    console.log(project);
     showNewProjectFormFn(true);
 
     if (selectToEdit) {
@@ -67,7 +65,6 @@ const MainPanel = () => {
   };
 
   const handleDelete = (id) => {
-    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

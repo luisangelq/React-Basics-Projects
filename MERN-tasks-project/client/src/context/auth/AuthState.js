@@ -50,7 +50,6 @@ const AuthState = (props) => {
   const loginUser = async (user) => {
     try {
       const res = await axiosClient.post("/api/auth", user);
-      console.log(res.data);
       dispatch({
         type: SUCCESSFUL_LOGIN,
         payload: res.data,
@@ -76,7 +75,6 @@ const AuthState = (props) => {
 
     try {
       const res = await axiosClient.get("/api/auth");
-      console.log(res);
       dispatch({
         type: GET_USER,
         payload: res.data,

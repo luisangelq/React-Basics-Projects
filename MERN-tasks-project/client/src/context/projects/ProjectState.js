@@ -38,7 +38,6 @@ const ProjectState = (props) => {
   const getProjectsFn = async () => {
     try {
       const res = await axiosClient.get("/api/projects");
-      console.log(res);
       dispatch({
         type: GET_PROJECTS,
         payload: res.data,

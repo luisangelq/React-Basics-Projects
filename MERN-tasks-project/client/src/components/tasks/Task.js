@@ -14,22 +14,19 @@ import TaskContext from "../../context/tasks/TaskContext";
 
 const Task = ({ task }) => {
   const taskContext = useContext(TaskContext);
-  const { currentTask, getTasksFn, stateTaskFn, currentTaskFn, deleteTaskFn } =
+  const { currentTask, getTasksFn, updateTaskFn, currentTaskFn, deleteTaskFn } =
     taskContext;
 
-  const changeState = (task) => {
-    if (task.state) {
-      task.state = false;
-    } else {
-      task.state = true;
-    }
-
-    stateTaskFn(task);
+  const changeState = (tasktate) => {
+    updateTaskFn({
+      ...task,
+      state: tasktate
+    });
   };
 
   const editTask = (task) => {
     if (currentTask) {
-      if (currentTask.id === task.id) {
+      if (currentTask._id === task._id) {
         currentTaskFn(null);
       } else {
         currentTaskFn(task);
@@ -50,7 +47,7 @@ const Task = ({ task }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteTaskFn(id);
+        deleteTaskFn(id, projectId);
         getTasksFn(projectId);
         Swal.fire({
           title: "Deleted!",
@@ -64,14 +61,14 @@ const Task = ({ task }) => {
 
   return (
     <Li>
-      <p>{task.name}</p>
+      <p>{task.taskName}</p>
 
       <TaskState>
         {task.state ? (
           <button
             type="button"
             className="complete"
-            onClick={() => changeState(task)}
+            onClick={() => changeState(task.state = false)}
           >
             <FontAwesomeIcon icon={faCheck} />
           </button>
@@ -79,7 +76,7 @@ const Task = ({ task }) => {
           <button
             type="button"
             className="incomplete"
-            onClick={() => changeState(task)}
+            onClick={() => changeState(task.state = true)}
           >
             <FontAwesomeIcon icon={faClock} />
           </button>
@@ -87,7 +84,7 @@ const Task = ({ task }) => {
       </TaskState>
 
       <Actions>
-        {currentTask && currentTask.id === task.id ? (
+        {currentTask && currentTask._id === task._id ? (
           <button type="button" className="edit" onClick={() => editTask(task)}>
             Cancel
             <FontAwesomeIcon icon={faTimesCircle} />
@@ -102,7 +99,7 @@ const Task = ({ task }) => {
         <button
           type="button"
           className="delete"
-          onClick={() => handleDeleteTask(task.id, task.projectId)}
+          onClick={() => handleDeleteTask(task._id, task.projectId)}
         >
           Delete
           <FontAwesomeIcon icon={faTrash} />

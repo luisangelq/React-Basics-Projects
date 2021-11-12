@@ -5,26 +5,14 @@ import taskReducer from "./TaskReducer";
 import {
   GET_TASKS,
   ADD_TASK,
-  STATE_TASK,
   CURRENT_TASK,
   UPDATE_TASK,
   DELETE_TASK,
 } from "../../types";
+import axiosClient from "../../config/axios";
 
 const TaskState = (props) => {
   const initialState = {
-    tasks: [
-      {
-        id: 1,
-        name: "Do Chores and set the closet by colors",
-        state: true,
-        projectId: 1,
-      },
-      { id: 2, name: "Cook Dinner", state: false, projectId: 2 },
-      { id: 3, name: "Clean House", state: false, projectId: 2 },
-      { id: 4, name: "Wash Car", state: true, projectId: 2 },
-      { id: 5, name: "Go to Gym", state: true, projectId: 2 },
-    ],
     projectTasks: [],
     currentTask: null,
   };
@@ -33,60 +21,75 @@ const TaskState = (props) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   //Actions
-  const getTasksFn = (projectId) => {
-    dispatch({
-      type: GET_TASKS,
-      payload: projectId,
-    });
+  const getTasksFn = async (projectId) => {
+    try {
+      const res = await axiosClient.get(`/api/tasks`, {
+        params: { projectId },
+      });
+      dispatch({
+        type: GET_TASKS,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const addTaskFn = (task) => {
-    console.log(task);
-    dispatch({
-      type: ADD_TASK,
-      payload: task,
-    });
-  };
-
-  const stateTaskFn = (task) => {
-    dispatch({
-      type: STATE_TASK,
-      payload: task,
-    });
+  const addTaskFn = async (task) => {
+    try {
+      const res = await axiosClient.post("/api/tasks", task);
+      dispatch({
+        type: ADD_TASK,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const currentTaskFn = (task) => {
-    console.log(task);
     dispatch({
       type: CURRENT_TASK,
       payload: task,
     });
   };
 
-  const updateTaskFn = (task) => {
-    console.log(task);
-    dispatch({
-      type: UPDATE_TASK,
-      payload: task,
-    });
-  }
+  const updateTaskFn = async (task) => {
+    try {
+      const res = await axiosClient.put(`/api/tasks/${task._id}`, task);
+      
+      dispatch({
+        type: UPDATE_TASK,
+        payload: res.data.task,
+      });
+    } catch (error) {
+      console.log(error);
+    
+      
+    }
+    
+  };
 
-  const deleteTaskFn = (taskId) => {
-    dispatch({
-      type: DELETE_TASK,
-      payload: taskId,
-    });
+  const deleteTaskFn = async (taskId, projectId) => {
+    try {
+      await axiosClient.delete(`/api/tasks/${taskId}`, {params: {projectId}});
+    
+      dispatch({
+        type: DELETE_TASK,
+        payload: taskId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <taskContext.Provider
       value={{
-        tasks: state.tasks,
         projectTasks: state.projectTasks,
         currentTask: state.currentTask,
         getTasksFn,
         addTaskFn,
-        stateTaskFn,
         currentTaskFn,
         updateTaskFn,
         deleteTaskFn,

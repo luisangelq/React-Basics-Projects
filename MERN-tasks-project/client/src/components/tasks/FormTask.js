@@ -15,7 +15,7 @@ const FormTask = () => {
   const { currentTask, currentTaskFn, updateTaskFn, addTaskFn, getTasksFn } = taskContext;
 
   const [task, setTask] = useState({
-    name: "",
+    taskName: "",
   });
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const FormTask = () => {
       setTask(currentTask);
     } else {
       setTask({
-        name: "",
+        taskName: "",
       });
     }
   }, [currentTask]);
@@ -38,10 +38,12 @@ const FormTask = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (task.name.trim() === "") {
+    console.log(currentProject[0]._id);
+
+    if (task.taskName.trim() === "") {
       Swal.fire({
         icon: "error",
-        title: "Name Is Required",
+        title: "Task Name Is Required",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -50,9 +52,7 @@ const FormTask = () => {
 
     if (currentTask === null) {
       addTaskFn({
-        id: new Date().getTime(),
-        projectId: currentProject[0].id,
-        state: false,
+        projectId: currentProject[0]._id,
         ...task,
       });
     } else {
@@ -67,10 +67,10 @@ const FormTask = () => {
       currentTaskFn(null);
     }
 
-    getTasksFn(currentProject[0].id);
+    getTasksFn(currentProject[0]._id);
 
     setTask({
-      name: "",
+      taskName: "",
     });
   };
 
@@ -81,9 +81,9 @@ const FormTask = () => {
       <Inputcontainer>
         <input
           type="text"
-          name="name"
+          name="taskName"
           placeholder="Add a task"
-          value={task.name}
+          value={task.taskName}
           onChange={handleChange}
         />
         {currentTask ? (

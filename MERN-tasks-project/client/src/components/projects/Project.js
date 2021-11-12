@@ -12,7 +12,7 @@ const Project = ({ project }) => {
 
   const selectProject = (id) => {
     currentProjectFn(id);
-    // getTasksFn(id);
+    getTasksFn(id);
   };
 
   return (
