@@ -11,22 +11,34 @@ Aditional features:
 
 
 
-You can't see this project for now, Im working on it
+You can't see this project on https://mern-project-2.netlify.app/
 
 ## Screenshots
 
-Comming soon!
-<!-- ![App Screenshot](https://d33wubrfki0l68.cloudfront.net/616047d07a1e86000826391f/screenshot_2021-10-08-13-30-48-0000.png) -->
+![App Screenshot](https://d33wubrfki0l68.cloudfront.net/61906e89ec13b71ac7316971/screenshot_2021-11-14-02-03-54-0000.png)
 
 
 ## Deployment
-
-<!-- To deploy this project run
+To deploy this project run
 
 ```bash
   npm install
   npm start
-``` -->
+```
+First you need to create a database in Mongo and
+Set your own .env file in server to connect with Mongodb
+
+```bash
+  DB_MONGO=[YOUR_DB_STRING_CONECTION]
+  SECRET_KEY=[YOUR_SECRET_KEY_TO_SIGN_THE_TOKEN]
+```
+
+Set your own .env file in client to connect with server
+
+```bash
+  REACT_APP_BACKEND_URL=http://localhost:4000  <-It depends on the route where you host your server
+```
+
 
   
 ## Authors
