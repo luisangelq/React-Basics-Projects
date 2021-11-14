@@ -6,7 +6,7 @@ import {
   faEdit,
   faCheck,
   faClock,
-  faTimesCircle
+  faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
@@ -20,7 +20,7 @@ const Task = ({ task }) => {
   const changeState = (tasktate) => {
     updateTaskFn({
       ...task,
-      state: tasktate
+      state: tasktate,
     });
   };
 
@@ -68,7 +68,7 @@ const Task = ({ task }) => {
           <button
             type="button"
             className="complete"
-            onClick={() => changeState(task.state = false)}
+            onClick={() => changeState((task.state = false))}
           >
             <FontAwesomeIcon icon={faCheck} />
           </button>
@@ -76,7 +76,7 @@ const Task = ({ task }) => {
           <button
             type="button"
             className="incomplete"
-            onClick={() => changeState(task.state = true)}
+            onClick={() => changeState((task.state = true))}
           >
             <FontAwesomeIcon icon={faClock} />
           </button>
@@ -90,10 +90,16 @@ const Task = ({ task }) => {
             <FontAwesomeIcon icon={faTimesCircle} />
           </button>
         ) : (
-          <button type="button" className="edit" onClick={() => editTask(task)}>
-            Edit
-            <FontAwesomeIcon icon={faEdit} />
-          </button>
+          <a href="#taskForm">
+            <button
+              type="button"
+              className="edit"
+              onClick={() => editTask(task)}
+            >
+              Edit
+              <FontAwesomeIcon icon={faEdit} />
+            </button>
+          </a>
         )}
 
         <button
@@ -168,6 +174,10 @@ const TaskState = styled.div`
 const Actions = styled.div`
   display: flex;
   justify-content: space-around;
+
+  a {
+    margin-right: 1rem;
+  }
 
   button {
     display: flex;

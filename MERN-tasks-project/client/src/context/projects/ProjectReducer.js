@@ -21,6 +21,7 @@ const ProjectReducer = (state, action) => {
       return {
         ...state,
         projects: action.payload.projects,
+        currentProject: null
       };
     case ADD_PROJECT:
       return {

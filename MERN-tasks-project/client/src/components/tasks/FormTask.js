@@ -12,7 +12,7 @@ const FormTask = () => {
   const { currentProject } = projectContext;
 
   const taskContext = useContext(TaskContext);
-  const { currentTask, currentTaskFn, updateTaskFn, addTaskFn, getTasksFn } = taskContext;
+  const { currentTask, currentTaskFn, updateTaskFn, addTaskFn } = taskContext;
 
   const [task, setTask] = useState({
     taskName: "",
@@ -66,8 +66,6 @@ const FormTask = () => {
 
       currentTaskFn(null);
     }
-
-    getTasksFn(currentProject[0]._id);
 
     setTask({
       taskName: "",

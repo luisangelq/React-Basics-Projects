@@ -92,8 +92,8 @@ const MainPanel = () => {
 
       <Panel>
         <main>
-          <Header user={user} logout={logout} />
-          <FormTask />
+          <Header user={user} logout={logout}  />
+          <FormTask/>
 
           <TaskList />
         </main>
@@ -108,13 +108,14 @@ const MainPanel = () => {
                 <FontAwesomeIcon icon={faTimesCircle} />
               </button>
             ) : (
-              <button
-                className="btn-update"
-                onClick={() => editProject(currentProject[0])}
-              >
-                Edit Project
-                <FontAwesomeIcon icon={faEdit} />
-              </button>
+              <a href="#projectForm"><button
+              className="btn-update"
+              onClick={() => editProject(currentProject[0])}
+            >
+              Edit Project
+              <FontAwesomeIcon icon={faEdit} />
+            </button></a>
+              
             )}
 
             <button

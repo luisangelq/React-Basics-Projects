@@ -16,11 +16,11 @@ const ProjectsList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!projects) {
+  if (projects.length === 0) {
     return <Title>No projects</Title>;
   } else {
     return (
-      <ul>
+      <ul id="taskForm">
         <Title>Your Projects</Title>
         <TransitionGroup>
           {projects.map((project) => (

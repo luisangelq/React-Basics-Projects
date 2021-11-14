@@ -4,8 +4,8 @@ import ProjectsList from "../projects/ProjectsList";
 
 const Sidebar = () => {
   return (
-    <Aside>
-      <h1>
+    <Aside id="projectForm">
+      <h1 >
         MERN <span>Task</span>
       </h1>
 

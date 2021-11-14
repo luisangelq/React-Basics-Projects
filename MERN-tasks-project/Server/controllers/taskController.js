@@ -43,7 +43,7 @@ exports.getTasksByProject = async (req, res) => {
     const project = await Project.findById(projectId);
 
     //check if user is the owner of the project
-    if (project.owner.toString() !== req.user.id) {
+    if (project.owner.toString() !== (req.user.id)) {
       return res.status(401).json({ msg: "User not authorized" });
     }
 

@@ -52,6 +52,12 @@ const NewProject = () => {
     if (selectToEdit) {
       updateProjectFn(project);
       selectProjectFn(null);
+      Swal.fire({
+        icon: "success",
+        title: "Project Updated",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
       addProjectFn(project);
     }
