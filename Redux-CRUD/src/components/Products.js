@@ -1,6 +1,21 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+//Redux Action
+import { getProducts } from "../actions/productsAction";
+
 
 const Products = () => {
+
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        const loadProducts = () => dispatch(getProducts());
+
+        loadProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    } , [])
 
     return(
         <Fragment>
