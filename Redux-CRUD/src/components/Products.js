@@ -1,4 +1,6 @@
 import { Fragment, useEffect } from "react";
+import Spinner from "./Spinner";
+import Product from "./Product";
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +19,10 @@ const Products = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     } , [])
 
+    //get the state
+    const products = useSelector(state => state.products.products);
+    console.log(products);
+
     return(
         <Fragment>
             <h2 className="text-center my-5">Product List</h2>
@@ -29,10 +35,17 @@ const Products = () => {
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-
+                <tbody className="text-center">
+                    {products.length !== 0 ? products.map(product => (
+                        <Product 
+                            key={product.id}
+                            product={product}
+                        />
+                    )) : null}
                 </tbody>
             </table>
+
+            {products.length === 0 ? <Spinner /> : null}
         </Fragment>
           
     )

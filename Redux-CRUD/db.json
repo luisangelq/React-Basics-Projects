@@ -9,41 +9,6 @@
       "name": "MERN",
       "price": 200,
       "id": 2
-    },
-    {
-      "name": "MERN",
-      "price": 200,
-      "id": 3
-    },
-    {
-      "name": "MERN",
-      "price": 200,
-      "id": 4
-    },
-    {
-      "name": "MERN",
-      "price": 200,
-      "id": 5
-    },
-    {
-      "name": "Learn Hooks",
-      "price": 300,
-      "id": 6
-    },
-    {
-      "name": "MERN",
-      "price": 200,
-      "id": 7
-    },
-    {
-      "name": "Luis Angel Quiñones",
-      "price": 200,
-      "id": 8
-    },
-    {
-      "name": "MERN",
-      "price": 3000,
-      "id": 9
     }
   ]
 }
