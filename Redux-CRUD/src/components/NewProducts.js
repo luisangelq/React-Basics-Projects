@@ -55,6 +55,7 @@ const NewProducts = () => {
     addProduct({
       name,
       price,
+      id: Date.now(),
     });
 
     //redirect to main page

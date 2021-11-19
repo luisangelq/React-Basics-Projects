@@ -42,6 +42,7 @@ export const getProducts = () => {
 
     try {
       const res = await axiosClient.get("/products");
+      console.log(res.data);
       setTimeout(() => {
         dispatch({
           type: "GET_PRODUCTS_SUCCESS",
@@ -57,4 +58,36 @@ export const getProducts = () => {
       });
     }
   }
+}
+
+//Delete Product
+export const deleteProduct = (id) => {
+  return async (dispatch) => {
+    dispatch({
+      type: "DELETE_PRODUCT",
+    });
+
+    try {
+      await axiosClient.delete(`/products/${id}`);
+      setTimeout(() => {
+        dispatch({
+          type: "DELETE_PRODUCT_SUCCESS",
+          payload: id,
+        });
+      }, 1000);
+
+      Swal.fire({
+        icon: "success",
+        title: "Product Deleted",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } catch (error) {
+      console.log(error.response);
+      dispatch({
+        type: "DELETE_PRODUCT_ERROR",
+        payload: true,
+      });
+    }
+  };
 }

@@ -4,10 +4,12 @@ const initialState = {
   products: [],
   error: null,
   loading: false,
+  deleteId: null,
 };
 
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "DELETE_PRODUCT":
     case "GET_PRODUCTS":
     case "ADD_PRODUCT":
       return {
@@ -18,7 +20,7 @@ const productsReducer = (state = initialState, action) => {
     case "ADD_PRODUCT_SUCCESS":
       return {
         ...state,
-        products: [...state.products, action.payload],
+        products: [ ...state.products, action.payload],
         loading: false,
       };
     case "ADD_PRODUCT_ERROR":

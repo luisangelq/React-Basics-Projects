@@ -1,14 +1,24 @@
 {
   "products": [
     {
-      "name": "MERN",
-      "price": 200,
-      "id": 1
+      "name": "Vodka",
+      "price": 250,
+      "id": 1637299190565
     },
     {
-      "name": "MERN",
-      "price": 200,
-      "id": 2
+      "name": "Learn Hooks",
+      "price": 1000,
+      "id": 1637300268390
+    },
+    {
+      "name": "bike",
+      "price": 1300,
+      "id": 1637300319268
+    },
+    {
+      "name": "salad",
+      "price": 30,
+      "id": 1637300407858
     }
   ]
 }

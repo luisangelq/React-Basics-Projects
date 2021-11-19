@@ -12,6 +12,9 @@ const Products = () => {
 
     const dispatch = useDispatch();
     
+    //get the state
+    const products = useSelector(state => state.products.products);
+    
     useEffect(() => {
         const loadProducts = () => dispatch(getProducts());
 
@@ -19,9 +22,7 @@ const Products = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     } , [])
 
-    //get the state
-    const products = useSelector(state => state.products.products);
-    console.log(products);
+    
 
     return(
         <Fragment>
@@ -37,11 +38,12 @@ const Products = () => {
                 </thead>
                 <tbody className="text-center">
                     {products.length !== 0 ? products.map(product => (
+                        
                         <Product 
                             key={product.id}
                             product={product}
                         />
-                    )) : null}
+                    )).reverse() : null}
                 </tbody>
             </table>
 
