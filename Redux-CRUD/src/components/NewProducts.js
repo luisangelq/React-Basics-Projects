@@ -34,9 +34,8 @@ const NewProducts = () => {
     }
 
     if (error === false) {
-      
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   const handleSubmit = (e) => {
@@ -59,7 +58,9 @@ const NewProducts = () => {
     });
 
     //redirect to main page
-    navigate("/");
+    setTimeout(() => {
+      navigate("/");
+    }, 1500);
   };
 
   return (
