@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:4000/',
+    baseURL: 'https://my-json-server.typicode.com/luisangelq/React-Basics-Projects/',
     headers: {
         'Content-Type': 'application/json'
     }
