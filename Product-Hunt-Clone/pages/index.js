@@ -1,18 +1,18 @@
 import styled from "styled-components";
-import Layout from "../components/layout/Layout";
+import MainLayout from "../components/MainLayout";
 
 const Home = () => {
   return (
     <div>
-      <Layout>
+      <MainLayout>
         <StyledHome>Home</StyledHome>
-      </Layout>
+      </MainLayout>
     </div>
   );
 };
 
 const StyledHome = styled.h1`
-  color: red;
+  color: var(--btn-primary);
 `;
 
 export default Home;
