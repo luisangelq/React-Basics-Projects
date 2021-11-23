@@ -1,42 +1,40 @@
-import { useState } from "react";
-import MainLayout from "../components/MainLayout";
+
 import styled from "styled-components";
+import MainLayout from "../components/MainLayout";
+
+import useFormValidation from "../hooks/useFormValidation";
+import RegisterForm from "../helpers/validations/RegisterForm";
 
 const Register = () => {
-  const [user, setUser] = useState({
-    userName: "",
+  const initialState = {
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
-  });
-
-  const { userName, email, password, confirmPassword } = user;
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    //validate
-    if (
-      userName === "" ||
-      email === "" ||
-      password === "" ||
-      confirmPassword === ""
-    ) {
-      alert("Please fill all fields");
-      return;
-    }
   };
+
+  const registerUser = () => {
+    console.log("Registering user...");
+  };
+
+  const { values, handleChange, handleSubmit } =
+    useFormValidation(initialState, RegisterForm, registerUser);
+
+  const { name, email, password, confirmPassword } = values;
+
   return (
     <MainLayout>
       <RegisterContainer>
         <h1>Register</h1>
 
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} noValidate>
           <input
             type="text"
-            id="userName"
-            name="userName"
+            id="name"
+            name="name"
             placeholder="User Name"
+            value={name}
+            onChange={handleChange}
           />
 
           <input
@@ -44,6 +42,8 @@ const Register = () => {
             id="email"
             name="email"
             placeholder="Your Email"
+            value={email}
+            onChange={handleChange}
           />
 
           <input
@@ -51,6 +51,8 @@ const Register = () => {
             id="password"
             name="password"
             placeholder="Your Password"
+            value={password}
+            onChange={handleChange}
           />
 
           <input
@@ -58,6 +60,8 @@ const Register = () => {
             id="confirmPassword"
             name="confirmPassword"
             placeholder="Confirm Your Password"
+            value={confirmPassword}
+            onChange={handleChange}
           />
 
           <button type="submit">Register</button>
