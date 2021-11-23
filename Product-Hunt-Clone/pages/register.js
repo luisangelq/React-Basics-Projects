@@ -1,9 +1,15 @@
-
 import styled from "styled-components";
 import MainLayout from "../components/MainLayout";
 
 import useFormValidation from "../hooks/useFormValidation";
 import RegisterForm from "../helpers/validations/RegisterForm";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import app from "../firebase/firebase";
 
 const Register = () => {
   const initialState = {
@@ -13,14 +19,34 @@ const Register = () => {
     confirmPassword: "",
   };
 
-  const registerUser = () => {
-    console.log("Registering user...");
-  };
-
-  const { values, handleChange, handleSubmit } =
-    useFormValidation(initialState, RegisterForm, registerUser);
+  const { values, handleChange, handleSubmit } = useFormValidation(
+    initialState,
+    RegisterForm,
+    registerUser
+  );
 
   const { name, email, password, confirmPassword } = values;
+
+  async function registerUser() {
+    console.log("Register User");
+    try {
+      app;
+      const auth = getAuth();
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      //Update the user name profile
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+      });
+
+      console.log(auth.currentUser);
+      console.log("User created");
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    }
+  }
 
   return (
     <MainLayout>
