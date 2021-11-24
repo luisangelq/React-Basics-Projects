@@ -1,4 +1,4 @@
-const RegisterForm = (data) => {
+const ValidateForm = (data) => {
   let errors = {};
 
   if (
@@ -43,4 +43,4 @@ const RegisterForm = (data) => {
   return errors;
 };
 
-export default RegisterForm;
+export default ValidateForm;

@@ -54,6 +54,19 @@ const ErrorHandler = (errors) => {
     });
     return;
   }
+
+  
+  //Firebase Response Errors
+  if (errors.emailExists) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: errors.emailExists,
+      showConfirmButton: false,
+      timer: 2000,
+    });
+    return;
+  }
 };
 
 export default ErrorHandler;

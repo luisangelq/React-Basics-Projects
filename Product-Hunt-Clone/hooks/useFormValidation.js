@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 
+import ValidateForm from "../helpers/validations/ValidateForm";
 import ErrorHandler from "../helpers/validations/ErrorHandler";
 
-const useFormValidation = (initialState, validate, fn) => {
+const useFormValidation = (initialState, fn) => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,13 +27,21 @@ const useFormValidation = (initialState, validate, fn) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errors = validate(values);
+    const errors = ValidateForm(values);
     setErrors(errors);
     ErrorHandler(errors);
     setIsSubmitting(true);
   };
 
-  return { values, errors, isSubmitting, handleChange, handleSubmit };
+  
+
+  return {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+  };
 };
 
 export default useFormValidation;
