@@ -1,6 +1,6 @@
-const ValidateForm = (data) => {
+const registerForm = (data) => {
   let errors = {};
-
+  
   if (
     data.name.trim() === "" &&
     data.email.trim() === "" &&
@@ -43,4 +43,36 @@ const ValidateForm = (data) => {
   return errors;
 };
 
-export default ValidateForm;
+const loginForm = (data) => {
+  let errors = {};
+
+  if (
+    data.email.trim() === "" &&
+    data.password.trim() === ""
+  ) {
+    errors.general = "All fields are required";
+  }
+
+  //Email Validation with regex
+  if (!data.email) {
+    errors.email = "Email is required";
+  } else if (
+    !data.email.match(
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    )
+  ) {
+    errors.email = "Email is invalid";
+  }
+
+  //Password Validation
+  if (!data.password) {
+    errors.password = "Password is required";
+  } else if (data.password.length < 6) {
+    errors.password = "Password must be at least 6 characters";
+  }
+
+  return errors;
+
+}
+
+export {registerForm, loginForm }

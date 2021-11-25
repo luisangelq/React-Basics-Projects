@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import MainLayout from "../components/MainLayout";
+import Router from "next/router";
 
 import useFormValidation from "../hooks/useFormValidation";
 import useFirebaseAccess from "../hooks/useFirebaseAccess";
@@ -12,7 +13,7 @@ const Register = () => {
     confirmPassword: "",
   };
 
-  const { values, handleChange, handleSubmit } = useFormValidation(
+  const { values, handleChange, handleRegisterSubmit } = useFormValidation(
     initialState,
     registerUser
   );
@@ -23,6 +24,7 @@ const Register = () => {
   async function registerUser() {
     try {
       await registerRequest(name, email, password);
+      Router.push("/");
     } catch (error) {
       registerErrorRequest(error.message);
     }
@@ -33,7 +35,7 @@ const Register = () => {
       <RegisterContainer>
         <h1>Register</h1>
 
-        <Form onSubmit={handleSubmit} noValidate>
+        <Form onSubmit={handleRegisterSubmit} noValidate>
           <input
             type="text"
             id="name"

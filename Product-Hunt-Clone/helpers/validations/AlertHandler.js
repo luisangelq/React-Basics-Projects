@@ -1,6 +1,15 @@
 import Swal from "sweetalert2";
 
-const ErrorHandler = (errors) => {
+export const successAlert = (msg) => {
+  Swal.fire({
+    icon: "success",
+    title: msg,
+    showConfirmButton: false,
+    timer: 2000,
+  });
+};
+
+export const errorAlert = (errors) => {
   console.log(errors);
 
   if (errors.general) {
@@ -55,7 +64,6 @@ const ErrorHandler = (errors) => {
     return;
   }
 
-  
   //Firebase Response Errors
   if (errors.emailExists) {
     Swal.fire({
@@ -67,6 +75,14 @@ const ErrorHandler = (errors) => {
     });
     return;
   }
-};
 
-export default ErrorHandler;
+  if (errors.userExists) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: errors.userExists,
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  }
+};
