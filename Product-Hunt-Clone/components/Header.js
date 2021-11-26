@@ -1,11 +1,19 @@
+
+import { useContext } from "react";
 import Link from "next/link";
 import Search from "./header-components/Search";
 import Navigation from "./header-components/Navigation";
 
 import styled from "styled-components";
 
-const Header = () => {
-  const user = false;
+import FirebaseContext from "../context/firebaseContext";
+
+const Header = (props) => {
+
+  const { user } = useContext(FirebaseContext);
+
+  console.log(user);
+  const user2 = false;
 
   return (
     <HeaderContainer>
@@ -39,7 +47,7 @@ const Header = () => {
       </CenterContainer>
 
       <RightContainer>
-        {user ? (
+        {user2 ? (
           <>
             <p>Hello </p>
 
