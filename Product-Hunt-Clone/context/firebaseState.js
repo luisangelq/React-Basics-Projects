@@ -5,10 +5,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signOut,
 } from "firebase/auth";
 import app from "../firebase";
 
-const useFirebaseAccess = () => {
+const firebaseState = () => {
   app();
 
   //Register User on Firebase
@@ -33,8 +34,7 @@ const useFirebaseAccess = () => {
 
   const loginRequest = async (email, password) => {
     const auth = getAuth();
-    const userAuth = await signInWithEmailAndPassword(auth, email, password);
-    console.log(userAuth);
+    await signInWithEmailAndPassword(auth, email, password);
     successAlert("User Logged In Successfully");
   };
 
@@ -45,12 +45,23 @@ const useFirebaseAccess = () => {
     }
   };
 
+
+  //Log Out User on Firebase
+  const logOutRequest = async () => {
+    const auth = getAuth();
+    await signOut(auth);
+    successAlert("User Logged Out Successfully");
+  }
+
+
+
   return {
     registerRequest,
     registerErrorRequest,
     loginRequest,
     loginErrorRequest,
+    logOutRequest,
   };
 };
 
-export default useFirebaseAccess;
+export default firebaseState;

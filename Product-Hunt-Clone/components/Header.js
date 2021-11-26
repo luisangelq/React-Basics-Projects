@@ -1,19 +1,35 @@
-
 import { useContext } from "react";
+import Swal from "sweetalert2";
+import styled from "styled-components";
 import Link from "next/link";
 import Search from "./header-components/Search";
 import Navigation from "./header-components/Navigation";
 
-import styled from "styled-components";
 
 import FirebaseContext from "../context/firebaseContext";
+import firebaseState from "../context/firebaseState";
 
-const Header = (props) => {
 
+const Header = () => {
   const { user } = useContext(FirebaseContext);
 
-  console.log(user);
-  const user2 = false;
+  const { logOutRequest } = firebaseState();
+
+  const logout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.value) {
+        logOutRequest();
+      }
+    });
+  }
 
   return (
     <HeaderContainer>
@@ -47,11 +63,11 @@ const Header = (props) => {
       </CenterContainer>
 
       <RightContainer>
-        {user2 ? (
+        {user ? (
           <>
-            <p>Hello </p>
+            <p>Hello: {user.displayName.split(" ")[0]} </p>
 
-            <button>Log Out</button>
+            <button onClick={logout}>Log Out</button>
           </>
         ) : (
           <>
@@ -118,6 +134,26 @@ const RightContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+
+  p {
+    color: var(--font-primary-color);
+  }
+
+  button {
+    background: var(--btn-primary);
+    color: var(--white);
+    font-weight: bold;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #ff4582;
+    }
+  }
 
   a {
     background-color: var(--btn-primary);

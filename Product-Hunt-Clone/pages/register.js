@@ -3,7 +3,7 @@ import MainLayout from "../components/MainLayout";
 import Router from "next/router";
 
 import useFormValidation from "../hooks/useFormValidation";
-import useFirebaseAccess from "../hooks/useFirebaseAccess";
+import firebaseState from "../context/firebaseState";
 
 const Register = () => {
   const initialState = {
@@ -17,7 +17,7 @@ const Register = () => {
     initialState,
     registerUser
   );
-  const { registerRequest, registerErrorRequest } = useFirebaseAccess();
+  const { registerRequest, registerErrorRequest } = firebaseState();
 
   const { name, email, password, confirmPassword } = values;
 
