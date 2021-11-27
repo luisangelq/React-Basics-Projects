@@ -1,4 +1,7 @@
+
 {
+  "_comment": "This db json comes from Redux-CRUD is a copy because we host it on a service to consume it and that service needed to put the file in the main route",
+  
   "products": [
     {
       "name": "Vodka",

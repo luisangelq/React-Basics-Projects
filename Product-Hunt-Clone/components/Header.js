@@ -59,7 +59,9 @@ const Header = () => {
       </LeftContainer>
 
       <CenterContainer>
-        <Navigation />
+        <Navigation 
+          user={user}
+        />
       </CenterContainer>
 
       <RightContainer>

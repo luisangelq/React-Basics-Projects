@@ -1,11 +1,9 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-import firebaseState from "../../context/firebaseState";
+const Navigation = ({user}) => {
 
-const Navigation = () => {
-  const { user } = firebaseState();
-
+  console.log(user);
   return (
     <Nav>
       <Link href="/">
@@ -15,7 +13,7 @@ const Navigation = () => {
         <a>Trending</a>
       </Link>
       {user ? (
-        <Link href="/newPost">
+        <Link href="/newProduct">
           <a>New Product</a>
         </Link>
       ) : null}
@@ -27,7 +25,7 @@ const Nav = styled.nav`
   display: flex;
   justify-content: center;
   gap: 2rem;
-  width: 25rem;
+  width: 30rem;
 
   a {
     color: var(--font-primary-color);
