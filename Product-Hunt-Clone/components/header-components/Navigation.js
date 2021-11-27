@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const Navigation = ({user}) => {
 
-  console.log(user);
   return (
     <Nav>
       <Link href="/">

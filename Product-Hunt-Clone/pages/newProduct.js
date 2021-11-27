@@ -1,57 +1,64 @@
-import Router from "next/router";
+import { useContext, useEffect } from "react";
+import Router, { useRouter } from "next/router";
 import MainLayout from "../components/MainLayout";
+import Spinner from "../components/Spinner";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 import useFormValidation from "../hooks/useFormValidation";
 import firebaseState from "../context/firebaseState";
+import FirebaseContext from "../context/firebaseContext";
 
 const newProduct = () => {
   const initialState = {
-    name: "",
-    email: "",
+    productName: "",
+    company: "",
+    image: "",
+    url: "",
+    description: "",
   };
+  const { user } = useContext(FirebaseContext);
+  const router = useRouter();
 
-  const { values, handleChange, handleRegisterSubmit } = useFormValidation(
+  const { values, handleChange, handleNewProductSubmit } = useFormValidation(
     initialState,
-    registerUser
+    addProduct
   );
   const { registerRequest, registerErrorRequest } = firebaseState();
 
-  const { name, email, password, confirmPassword } = values;
+  const { productName, company, url, description } = values;
 
-  async function registerUser() {
-    try {
-      await registerRequest(name, email, password);
-      Router.push("/");
-    } catch (error) {
-      registerErrorRequest(error.message);
-    }
+  async function addProduct() {
+    // try {
+    //   await registerRequest(name, email, password);
+    //   Router.push("/");
+    // } catch (error) {
+    //   registerErrorRequest(error.message);
+    // }
   }
 
   return (
     <MainLayout>
-      <RegisterContainer>
-        <h1>New Product</h1>
+      {user ? (
+        <RegisterContainer>
+          <h1>New Product</h1>
 
-        <Form onSubmit={handleRegisterSubmit} noValidate>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="User Name"
-            value={name}
-            onChange={handleChange}
-          />
-
-          <fieldset>
-            <legend>General Information</legend>
+          <Form onSubmit={handleNewProductSubmit} noValidate>
+            <input
+              type="text"
+              id="productName"
+              name="productName"
+              placeholder="Product Name"
+              value={productName}
+              onChange={handleChange}
+            />
 
             <input
               type="text"
               id="company"
               name="company"
               placeholder="Company Name"
-              value={name}
+              value={company}
               onChange={handleChange}
             />
 
@@ -59,8 +66,8 @@ const newProduct = () => {
               type="file"
               id="image"
               name="image"
-              value={name}
-              onChange={handleChange}
+              // value={image}
+              // onChange={handleChange}
             />
 
             <input
@@ -71,20 +78,26 @@ const newProduct = () => {
               value={url}
               onChange={handleChange}
             />
-          </fieldset>
-
-          <fieldset>
-            <legend>About Your Product</legend>
 
             <ProductDescription>
-              <label htmlFor="product">Product Name</label>
-              <input type="text" id="product" name="product" />
+              <label htmlFor="description">Product Description</label>
+              <textarea
+                type="text"
+                id="description"
+                name="description"
+                value={description}
+                onChange={handleChange}
+              />
             </ProductDescription>
-          </fieldset>
 
-          <button type="submit">Add Product</button>
-        </Form>
-      </RegisterContainer>
+            <button type="submit">Add Product</button>
+          </Form>
+        </RegisterContainer>
+      ) : (
+        <AccessDenied>
+          <h1>You need to be logged in to add a product</h1>
+        </AccessDenied>
+      )}
     </MainLayout>
   );
 };
@@ -104,7 +117,6 @@ const Form = styled.form`
   align-items: center;
   max-width: 50rem;
   margin: 0 auto;
-  margin-top: 5rem;
 
   input {
     border: none;
@@ -139,7 +151,44 @@ const Form = styled.form`
 `;
 
 const ProductDescription = styled.div`
-  
+  display: grid;
+  width: 100%;
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 2px solid var(--gray);
+  border-radius: 0.5rem;
+  transition: all, 0.3s ease-in-out;
+
+  &:hover {
+    border: 2px solid var(--btn-primary);
+  }
+
+  label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--font-primary-color);
+  }
+
+  textarea {
+    margin-top: 2rem;
+    border: none;
+    height: 15rem;
+    color: var(--font-primary-color);
+
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+`;
+
+const AccessDenied = styled.div`
+  h1 {
+    text-align: center;
+    margin: 5rem 0;
+    color: var(--font-primary-color);
+  }
+
 `
 
 export default newProduct;

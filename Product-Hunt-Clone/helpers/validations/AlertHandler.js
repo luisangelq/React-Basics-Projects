@@ -10,54 +10,38 @@ export const successAlert = (msg) => {
 };
 
 export const errorAlert = (errors) => {
-  console.log(errors);
+  const errorFilter = Object.values(errors)[0];
+  console.log(errorFilter);
 
-  if (errors.general) {
+  //Login and Register form errors
+  if (
+    errors.general ||
+    errors.name ||
+    errors.email ||
+    errors.password ||
+    errors.confirmPassword
+  ) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: errors.general,
+      text: errorFilter,
       showConfirmButton: false,
       timer: 2000,
     });
     return;
   }
 
-  if (errors.name) {
+  //newProductForm errors
+  if (
+    errors.productName ||
+    errors.company ||
+    errors.url ||
+    errors.description
+  ) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: errors.name,
-      showConfirmButton: false,
-      timer: 2000,
-    });
-    return;
-  }
-  if (errors.email) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: errors.email,
-      showConfirmButton: false,
-      timer: 2000,
-    });
-    return;
-  }
-  if (errors.password) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: errors.password,
-      showConfirmButton: false,
-      timer: 2000,
-    });
-    return;
-  }
-  if (errors.confirmPassword) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: errors.confirmPassword,
+      text: errorFilter,
       showConfirmButton: false,
       timer: 2000,
     });

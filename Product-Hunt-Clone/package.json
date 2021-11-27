@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "babel-plugin-styled-components": "^2.0.1",
     "firebase": "^9.5.0",
     "firebase-admin": "^10.0.0",
     "firebase-tools": "^9.16.6",

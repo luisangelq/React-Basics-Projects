@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import Search from "./header-components/Search";
 import Navigation from "./header-components/Navigation";
+import Router from "next/router";
 
 
 import FirebaseContext from "../context/firebaseContext";
@@ -27,6 +28,7 @@ const Header = () => {
     }).then((result) => {
       if (result.value) {
         logOutRequest();
+        Router.push("/");
       }
     });
   }

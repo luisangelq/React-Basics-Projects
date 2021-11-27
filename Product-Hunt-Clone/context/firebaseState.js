@@ -50,6 +50,9 @@ const firebaseState = () => {
   const logOutRequest = async () => {
     const auth = getAuth();
     await signOut(auth);
+    if (typeof window !== 'undefined') {
+      localStorage.clear();
+  }
     successAlert("User Logged Out Successfully");
   }
 

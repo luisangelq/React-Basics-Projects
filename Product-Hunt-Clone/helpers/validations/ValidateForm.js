@@ -1,6 +1,6 @@
 const registerForm = (data) => {
   let errors = {};
-  
+
   if (
     data.name.trim() === "" &&
     data.email.trim() === "" &&
@@ -11,12 +11,12 @@ const registerForm = (data) => {
   }
 
   //Name Validation
-  if (!data.name) {
+  if (data.name.trim() === "") {
     errors.name = "Name is required";
   }
 
   //Email Validation with regex
-  if (!data.email) {
+  if (data.email.trim() === "") {
     errors.email = "Email is required";
   } else if (
     !data.email.match(
@@ -46,15 +46,12 @@ const registerForm = (data) => {
 const loginForm = (data) => {
   let errors = {};
 
-  if (
-    data.email.trim() === "" &&
-    data.password.trim() === ""
-  ) {
+  if (data.email.trim() === "" && data.password.trim() === "") {
     errors.general = "All fields are required";
   }
 
   //Email Validation with regex
-  if (!data.email) {
+  if (data.email.trim() === "") {
     errors.email = "Email is required";
   } else if (
     !data.email.match(
@@ -72,7 +69,46 @@ const loginForm = (data) => {
   }
 
   return errors;
+};
 
-}
+const newProductForm = (data) => {
 
-export {registerForm, loginForm }
+  console.log(data);
+  let errors = {};
+
+  if (
+    data.productName.trim() === "" &&
+    data.company.trim() === "" &&
+    data.url.trim() === "" &&
+    data.description.trim() === ""
+  ) {
+    errors.general = "All fields are required";
+  }
+
+  if (data.productName.trim() === "") {
+    errors.productName = "Product Name is required";
+  }
+
+  if (data.company.trim() === "") {
+    errors.company = "Company is required";
+  }
+
+  if (data.url.trim() === "") {
+    errors.url = "Url is required";
+  } else if (
+    !data.url.match(
+      /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
+    )
+  ) {
+    errors.url = "Url is invalid";
+  }
+
+  if (data.description.trim() === "") {
+    errors.description = "Description is required";
+  }
+
+  return errors;
+};
+
+
+export { registerForm, loginForm, newProductForm };

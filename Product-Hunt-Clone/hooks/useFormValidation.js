@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import {registerForm, loginForm} from "../helpers/validations/ValidateForm";
+import {registerForm, loginForm, newProductForm} from "../helpers/validations/ValidateForm";
 import {errorAlert} from "../helpers/validations/AlertHandler";
 
 const useFormValidation = (initialState, fn) => {
@@ -25,6 +25,7 @@ const useFormValidation = (initialState, fn) => {
     }));
   };
 
+  //Submit belongs to the register page
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     const errors = registerForm(values);
@@ -33,9 +34,18 @@ const useFormValidation = (initialState, fn) => {
     setIsSubmitting(true);
   };
 
+  //Submit belongs to the login page
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     const errors = loginForm(values);
+    setErrors(errors);
+    errorAlert(errors);
+    setIsSubmitting(true);
+  }
+
+  const handleNewProductSubmit = (e) => {
+    e.preventDefault();
+    const errors = newProductForm(values);
     setErrors(errors);
     errorAlert(errors);
     setIsSubmitting(true);
@@ -47,7 +57,8 @@ const useFormValidation = (initialState, fn) => {
     isSubmitting,
     handleChange,
     handleRegisterSubmit,
-    handleLoginSubmit
+    handleLoginSubmit,
+    handleNewProductSubmit
   };
 };
 
