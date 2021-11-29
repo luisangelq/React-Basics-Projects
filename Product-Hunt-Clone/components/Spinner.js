@@ -17,7 +17,7 @@ const Spinner = () => {
 
 const SpinnerContainer = styled.div`
   .spinner {
-    margin: 100px auto;
+    margin: 0 auto;
     width: 50px;
     height: 40px;
     text-align: center;
@@ -25,7 +25,7 @@ const SpinnerContainer = styled.div`
   }
 
   .spinner > div {
-    background-color: red;
+    background-color: var(--font-primary-color);
     height: 100%;
     width: 6px;
     display: inline-block;

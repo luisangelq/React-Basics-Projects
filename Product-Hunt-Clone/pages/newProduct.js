@@ -1,9 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import Router, { useRouter } from "next/router";
 import MainLayout from "../components/MainLayout";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
-import Swal from "sweetalert2";
 
 import useFormValidation from "../hooks/useFormValidation";
 import firebaseState from "../context/firebaseState";
@@ -13,28 +12,46 @@ const newProduct = () => {
   const initialState = {
     productName: "",
     company: "",
-    image: "",
     url: "",
     description: "",
   };
+
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [imageURL, setImageURL] = useState("");
+
   const { user } = useContext(FirebaseContext);
   const router = useRouter();
 
   const { values, handleChange, handleNewProductSubmit } = useFormValidation(
     initialState,
-    addProduct
+    createProduct
   );
-  const { registerRequest, registerErrorRequest } = firebaseState();
+  const { createProductRequest } = firebaseState();
 
   const { productName, company, url, description } = values;
 
-  async function addProduct() {
-    // try {
-    //   await registerRequest(name, email, password);
-    //   Router.push("/");
-    // } catch (error) {
-    //   registerErrorRequest(error.message);
-    // }
+  async function createProduct() {
+    if (!user) {
+      return router.push("/login");
+    }
+
+    const product = {
+      productName,
+      company,
+      url,
+      imageURL,
+      description,
+      votes: 0,
+      coments: [],
+      date: Date.now(),
+    };
+
+    try {
+      await createProductRequest(image, setUploading, setImageURL, product);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   return (
@@ -63,11 +80,11 @@ const newProduct = () => {
             />
 
             <input
+              accept="image/*"
               type="file"
               id="image"
               name="image"
-              // value={image}
-              // onChange={handleChange}
+              onChange={(e) => setImage(e.target.files[0])}
             />
 
             <input
@@ -90,6 +107,10 @@ const newProduct = () => {
               />
             </ProductDescription>
 
+            <SpinnerContainer>
+              {uploading ? <Spinner /> : null }
+            </SpinnerContainer>
+
             <button type="submit">Add Product</button>
           </Form>
         </RegisterContainer>
@@ -106,7 +127,7 @@ const RegisterContainer = styled.div`
   margin: 2rem;
   h1 {
     text-align: center;
-    margin: 5rem 0;
+    margin: 2.5rem 0;
     color: var(--font-primary-color);
   }
 `;
@@ -121,7 +142,7 @@ const Form = styled.form`
   input {
     border: none;
     border-bottom: 2px solid var(--gray);
-    margin: 2rem 0;
+    margin: 1.5rem 0;
     box-sizing: border-box;
     height: 4rem;
     width: 100%;
@@ -140,7 +161,6 @@ const Form = styled.form`
     border-radius: 0.5rem;
     padding: 1rem;
     width: 100%;
-    margin: 2rem;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 
@@ -182,13 +202,20 @@ const ProductDescription = styled.div`
   }
 `;
 
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  height: 5rem;
+`
+
 const AccessDenied = styled.div`
   h1 {
     text-align: center;
     margin: 5rem 0;
     color: var(--font-primary-color);
   }
-
-`
+`;
 
 export default newProduct;

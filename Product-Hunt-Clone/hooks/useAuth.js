@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
 import { getAuth } from "firebase/auth";
-import app from "../firebase";
+import {firebaseApp} from "../firebase";
 
 const useAuth = () => {
   const [userLogged, setUserLogged] = useState(null);
 
   useEffect(() => {
-    app();
+    firebaseApp
     const auth = getAuth();
 
     const unsubscribe = auth.onAuthStateChanged((user) => {

@@ -1,5 +1,5 @@
 import { errorAlert, successAlert } from "../helpers/validations/AlertHandler";
-
+import Router from "next/router";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -7,10 +7,12 @@ import {
   updateProfile,
   signOut,
 } from "firebase/auth";
-import app from "../firebase";
+import { firebaseApp, storage } from "../firebase";
+import { getFirestore, setDoc, doc } from "@firebase/firestore";
+import { ref, getDownloadURL, uploadBytesResumable } from "@firebase/storage";
 
 const firebaseState = () => {
-  app();
+  firebaseApp;
 
   //Register User on Firebase
   const registerRequest = async (name, email, password) => {
@@ -45,18 +47,69 @@ const firebaseState = () => {
     }
   };
 
-
   //Log Out User on Firebase
   const logOutRequest = async () => {
     const auth = getAuth();
     await signOut(auth);
-    if (typeof window !== 'undefined') {
-      localStorage.clear();
-  }
     successAlert("User Logged Out Successfully");
-  }
+  };
 
+  //file uploader function
+  const createProductRequest = async (
+    image,
+    setUploading,
+    setImageURL,
+    product
+  ) => {
+    setUploading(true);
 
+    const id = Math.random().toString(36).substring(2);
+    const imageRef = ref(storage, `products/${id}`);
+
+    // Se inicia la subida
+    const uploadTask = uploadBytesResumable(imageRef, image);
+
+    // Registra eventos para cuando detecte un cambio en el estado de la subida
+    uploadTask.on(
+      "state_changed",
+      // Muestra progreso de la subida
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Subiendo imagen: ${progress}% terminado`);
+      },
+      // En caso de error
+      (error) => {
+        setUploading(false);
+        console.error(error);
+      },
+      // Subida finalizada correctamente
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((imageURL) => {
+          console.log("Imagen disponible en:", imageURL);
+          setImageURL(imageURL);
+
+          //Create product on Firebase
+          createProductFirebase({ ...product, imageURL }, setUploading);
+        });
+      }
+    );
+  };
+
+  //Create a new product
+  const createProductFirebase = async (product, setUploading) => {
+    console.log(product);
+    const db = getFirestore();
+
+    const newProduct = doc(db, `products/${Date.now()}`);
+
+    await setDoc(newProduct, product);
+
+    setUploading(false);
+    successAlert("Product Created Successfully");
+
+    Router.push("/");
+  };
 
   return {
     registerRequest,
@@ -64,6 +117,7 @@ const firebaseState = () => {
     loginRequest,
     loginErrorRequest,
     logOutRequest,
+    createProductRequest,
   };
 };
 
