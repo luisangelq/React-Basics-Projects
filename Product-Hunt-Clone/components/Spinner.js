@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const Spinner = () => {
-    console.log("Aqui estoy");
   return (
     <SpinnerContainer>
       <div className="spinner">

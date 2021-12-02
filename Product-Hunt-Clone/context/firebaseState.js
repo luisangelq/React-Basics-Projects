@@ -8,7 +8,14 @@ import {
   signOut,
 } from "firebase/auth";
 import { firebaseApp, storage } from "../firebase";
-import { getFirestore, setDoc, doc } from "@firebase/firestore";
+import {
+  getFirestore,
+  setDoc,
+  getDocs,
+  doc,
+  collection,
+  query,
+} from "@firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "@firebase/storage";
 
 const firebaseState = () => {
@@ -66,24 +73,23 @@ const firebaseState = () => {
     const id = Math.random().toString(36).substring(2);
     const imageRef = ref(storage, `products/${id}`);
 
-    // Se inicia la subida
+    // Start upload
     const uploadTask = uploadBytesResumable(imageRef, image);
 
-    // Registra eventos para cuando detecte un cambio en el estado de la subida
     uploadTask.on(
       "state_changed",
-      // Muestra progreso de la subida
+      // show upload progress
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log(`Subiendo imagen: ${progress}% terminado`);
       },
-      // En caso de error
+
       (error) => {
         setUploading(false);
         console.error(error);
       },
-      // Subida finalizada correctamente
+      // Successfully uploaded
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((imageURL) => {
           console.log("Imagen disponible en:", imageURL);
@@ -111,6 +117,21 @@ const firebaseState = () => {
     Router.push("/");
   };
 
+  //Get all products
+  const getProductsRequest = async (dataCollection, setProducts) => {
+    const products = [];
+
+    const db = getFirestore();
+    const req = query(collection(db, dataCollection));
+    const querySnapshot = await getDocs(req);
+
+    querySnapshot.forEach((doc) => {
+      products.push({ ...doc.data(), id: doc.id });
+    });
+
+    setProducts(products);
+  };
+
   return {
     registerRequest,
     registerErrorRequest,
@@ -118,6 +139,7 @@ const firebaseState = () => {
     loginErrorRequest,
     logOutRequest,
     createProductRequest,
+    getProductsRequest,
   };
 };
 

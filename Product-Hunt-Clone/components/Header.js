@@ -104,6 +104,7 @@ const HeaderContainer = styled.header`
 const LeftContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
 
   .logo {
     cursor: pointer;

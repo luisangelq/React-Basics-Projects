@@ -72,8 +72,6 @@ const loginForm = (data) => {
 };
 
 const newProductForm = (data) => {
-
-  console.log(data);
   let errors = {};
 
   if (

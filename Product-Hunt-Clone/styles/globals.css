@@ -28,7 +28,7 @@ body {
 }
 
 h1, h2, h3 {
-  margin: 0 0 2rem 0;
+  margin: 0;
   line-height: 1.5;
 }
 
@@ -40,6 +40,10 @@ ul {
 
 a {
   text-decoration: none;
+}
+
+p {
+  margin: 0;
 }
 
 .swal2-popup{
