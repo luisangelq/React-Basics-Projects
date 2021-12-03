@@ -4,7 +4,6 @@ import MainLayout from "../components/MainLayout";
 import ProductDetail from "../components/ProductDetail";
 
 import firebaseState from "../context/firebaseState";
-import FirebaseContext from "../context/firebaseContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);

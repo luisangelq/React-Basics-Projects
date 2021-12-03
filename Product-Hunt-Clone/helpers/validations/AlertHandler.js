@@ -49,24 +49,14 @@ export const errorAlert = (errors) => {
   }
 
   //Firebase Response Errors
-  if (errors.emailExists) {
+  if (errors.emailExists || errors.userExists || errors.productExists) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: errors.emailExists,
+      text: errorFilter,
       showConfirmButton: false,
       timer: 2000,
     });
     return;
-  }
-
-  if (errors.userExists) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: errors.userExists,
-      showConfirmButton: false,
-      timer: 2000,
-    });
   }
 };

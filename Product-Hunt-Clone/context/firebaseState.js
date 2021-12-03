@@ -12,6 +12,7 @@ import {
   getFirestore,
   setDoc,
   getDocs,
+  getDoc,
   doc,
   collection,
   query,
@@ -132,6 +133,27 @@ const firebaseState = () => {
     setProducts(products);
   };
 
+  //Get a product
+  const getProductRequest = async (id, dataCollection, setProduct) => {
+    try {
+      const db = getFirestore();
+      const req = doc(collection(db, dataCollection), id);
+      const product = await getDoc(req);
+
+      if(!product.exists()){
+        errorAlert({ productExists: "This Product Does Not Exist" });
+        Router.push("/");
+      } else {
+        setProduct(product.data());
+      }
+
+      
+    } catch (error) {
+      
+      console.log(error);
+    }
+  };
+
   return {
     registerRequest,
     registerErrorRequest,
@@ -140,6 +162,7 @@ const firebaseState = () => {
     logOutRequest,
     createProductRequest,
     getProductsRequest,
+    getProductRequest,
   };
 };
 

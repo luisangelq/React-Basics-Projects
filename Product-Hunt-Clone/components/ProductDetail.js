@@ -12,7 +12,6 @@ const ProductDetail = ({ product }) => {
     coments,
     votes,
   } = product;
-  console.log(product);
 
   return (
     <Product>

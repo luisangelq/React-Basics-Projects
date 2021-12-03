@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "../styles/normalize.css";
 import "../styles/globals.css";
 
@@ -7,6 +8,11 @@ import useAuth from "../hooks/useAuth";
 const MyApp = ({ Component, pageProps }) => {
   const user = useAuth();
 
+  useEffect(() => {
+    if(user) {
+      console.log("user", user);
+    }
+  }), [user];
   return (
     <FirebaseContext.Provider value={{ user }}>
       <Component {...pageProps} />
