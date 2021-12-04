@@ -14,6 +14,7 @@ const newProduct = () => {
     company: "",
     url: "",
     description: "",
+    quote: "",
   };
 
   const [image, setImage] = useState(null);
@@ -48,7 +49,8 @@ const newProduct = () => {
       postedBy: {
         id: user.uid,
         name: user.displayName,
-      }
+      },
+      votesUsers: [],
     };
 
     try {

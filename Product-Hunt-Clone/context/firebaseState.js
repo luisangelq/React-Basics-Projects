@@ -16,6 +16,7 @@ import {
   doc,
   collection,
   query,
+  updateDoc
 } from "@firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "@firebase/storage";
 
@@ -140,19 +141,31 @@ const firebaseState = () => {
       const req = doc(collection(db, dataCollection), id);
       const product = await getDoc(req);
 
-      if(!product.exists()){
+      if (!product.exists()) {
         errorAlert({ productExists: "This Product Does Not Exist" });
         Router.push("/");
       } else {
         setProduct(product.data());
       }
-
-      
     } catch (error) {
-      
       console.log(error);
     }
   };
+
+  //Update a product
+  const updateProductRequest = async (id, dataCollection, product) => {
+    try {
+      console.log(product);
+      const db = getFirestore();
+      const req = doc(collection(db, dataCollection), id);
+
+      await updateDoc(req, product);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //
 
   return {
     registerRequest,
@@ -163,6 +176,7 @@ const firebaseState = () => {
     createProductRequest,
     getProductsRequest,
     getProductRequest,
+    updateProductRequest,
   };
 };
 

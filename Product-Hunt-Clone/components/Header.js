@@ -69,7 +69,7 @@ const Header = () => {
       <RightContainer>
         {user ? (
           <>
-            <p>Hello: {user.displayName.split(" ")[0]} </p>
+            <p>Hello: {user.displayName} </p>
 
             <button onClick={logout}>Log Out</button>
           </>
@@ -96,7 +96,7 @@ const HeaderContainer = styled.header`
   box-shadow: 0 0 1px 1px rgb(33 41 63 / 10%);
   padding: 2rem;
 
-  @media (max-width: 980px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
   }
 `;
@@ -110,7 +110,7 @@ const LeftContainer = styled.div`
     cursor: pointer;
   }
 
-  @media (max-width: 980px) {
+  @media (max-width: 1200px) {
     order: 0;
     margin: 2rem 0;
   }
@@ -130,7 +130,7 @@ const CenterContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 980px) {
+  @media (max-width: 1200px) {
     margin: 2rem 0;
   }
 `;
@@ -142,6 +142,7 @@ const RightContainer = styled.div`
 
   p {
     color: var(--font-primary-color);
+    text-transform: capitalize;
   }
 
   button {
@@ -186,7 +187,7 @@ const RightContainer = styled.div`
     }
   }
 
-  @media (max-width: 980px) {
+  @media (max-width: 1200px) {
     order: -1;
   }
 `;
