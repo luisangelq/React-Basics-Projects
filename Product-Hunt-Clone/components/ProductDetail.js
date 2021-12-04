@@ -9,9 +9,12 @@ const ProductDetail = ({ product }) => {
     imageURL,
     url,
     description,
-    coments,
+    comments,
     votes,
   } = product;
+
+  //cut description to 10 words
+  const descriptionCut = description.split(" ").splice(0, 12).join(" ");
 
   return (
     <Product>
@@ -40,7 +43,7 @@ const ProductDetail = ({ product }) => {
               </svg>
             </div>
             <div className="content">
-              <p>{description}</p>
+              <p>{ descriptionCut  } ...</p>
             </div>
 
             <div className="footer">
@@ -58,11 +61,11 @@ const ProductDetail = ({ product }) => {
                   />
                 </svg>
                 <p>
-                  <span>{coments.length}</span>
+                  <span>{comments.length}</span>
                 </p>
               </div>
 
-              <p>· {company}</p>
+              <p> {company}</p>
             </div>
           </a>
         </Link>

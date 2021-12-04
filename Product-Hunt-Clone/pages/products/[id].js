@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import moment from "moment";
 import styled from "styled-components";
 import MainLayout from "../../components/MainLayout";
 import Spinner from "../../components/Spinner";
+
+import FirebaseContext from "../../context/firebaseContext";
 import firebaseState from "../../context/firebaseState";
 
 const Product = () => {
   const [product, setProduct] = useState(null);
+
+  const { user } = useContext(FirebaseContext);
 
   const router = useRouter();
   const { id } = router.query;
@@ -20,6 +24,8 @@ const Product = () => {
     }
   }, [id]);
 
+  console.log(user);
+
   return (
     <MainLayout>
       {product ? (
@@ -30,7 +36,7 @@ const Product = () => {
 
               <div className="productTitle">
                 <h2>{product.productName}</h2>
-                <p>{product.description}</p>
+                <p>{product.description.split(" ").splice(0, 12).join(" ")}</p>
               </div>
             </div>
 
@@ -67,13 +73,11 @@ const Product = () => {
               <div className="peopleComments">
                 <h3>Comments</h3>
 
-                {product.coments.map((comment) => (
+                {product.comments.map((comment) => (
                   <li>
                     <p>{comment}</p>
                   </li>
                 ))}
-
-                
               </div>
             </div>
           </Discussion>
@@ -223,7 +227,6 @@ const Discussion = styled.div`
     }
 
     .peopleComments {
-
     }
   }
 `;
