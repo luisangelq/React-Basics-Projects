@@ -43,8 +43,12 @@ const newProduct = () => {
       imageURL,
       description,
       votes: 0,
-      coments: [],
+      comments: [],
       date: Date.now(),
+      postedBy: {
+        id: user.uid,
+        name: user.displayName,
+      }
     };
 
     try {

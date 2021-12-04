@@ -25,21 +25,22 @@ const Product = () => {
       {product ? (
         <Container>
           <ProductHeader>
-            <div>
+            <div className="productCard">
               <img src={product.imageURL} alt={product.productName} />
-            </div>
-            <div className="productTitle">
-              <h2>{product.productName}</h2>
-              <p>{product.description}</p>
-            </div>
-          </ProductHeader>
 
-          <BtnContainer className="btnContaines">
-            <button> get it </button>
-            <button className="votes">
-              &#x25B2; upvote · {product.votes}{" "}
-            </button>
-          </BtnContainer>
+              <div className="productTitle">
+                <h2>{product.productName}</h2>
+                <p>{product.description}</p>
+              </div>
+            </div>
+
+            <BtnContainer>
+              <button> get it </button>
+              <button className="votes">
+                &#x25B2; upvote · {product.votes}{" "}
+              </button>
+            </BtnContainer>
+          </ProductHeader>
 
           <ProductDescription>
             <p>{product.description}</p>
@@ -50,6 +51,32 @@ const Product = () => {
               </span>
             </div>
           </ProductDescription>
+
+          <Discussion>
+            <h3>DISCUSSION</h3>
+
+            <div className="commentsPanel">
+              <div className="myComment">
+                <input
+                  type="text"
+                  placeholder="What do you think about this product?"
+                />
+                <button>SEND</button>
+              </div>
+
+              <div className="peopleComments">
+                <h3>Comments</h3>
+
+                {product.coments.map((comment) => (
+                  <li>
+                    <p>{comment}</p>
+                  </li>
+                ))}
+
+                
+              </div>
+            </div>
+          </Discussion>
         </Container>
       ) : (
         <Spinner />
@@ -59,28 +86,39 @@ const Product = () => {
 };
 
 const Container = styled.div`
-  width: 90%;
+  max-width: 1000px;
   margin: 5rem auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-
-  @media (max-width: 1000px) {
-    display: flex;
-    flex-direction: column;
-  }
 `;
 
 const ProductHeader = styled.div`
   display: flex;
+  justify-content: space-evenly;
+  margin: 2rem;
   img {
     width: 10rem;
     height: 10rem;
     border-radius: 0.5rem;
   }
 
+  .productCard {
+    display: flex;
+    color: var(--font-primary-color);
+
+    @media (max-width: 480px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
   .productTitle {
     margin: 1rem 2rem;
-    color: var(--font-primary-color);
+  }
+
+  @media (max-width: 1000px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -103,8 +141,6 @@ const BtnContainer = styled.div`
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
-
-    
   }
 
   .votes {
@@ -119,13 +155,12 @@ const BtnContainer = styled.div`
 `;
 
 const ProductDescription = styled.div`
-  margin-top: 5rem;
+  margin: 5rem 2rem;
   padding: 2rem;
   border: 1px solid var(--gray);
   border-radius: 0.5rem;
   background: white;
   grid-area: 2 / 1 / 3 / 3;
-
 
   .createdDate {
     display: flex;
@@ -138,6 +173,57 @@ const ProductDescription = styled.div`
       font-size: 1rem;
       color: var(--font-primary-color);
       text-transform: uppercase;
+    }
+  }
+`;
+
+const Discussion = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+
+  h3 {
+    margin: 2rem;
+    font-size: 1.2rem;
+    color: var(--font-primary-color);
+  }
+
+  .commentsPanel {
+    margin: 2rem;
+    background: white;
+    border: 1px solid var(--gray);
+    border-radius: 0.5rem;
+
+    .myComment {
+      display: flex;
+      padding: 2rem;
+      gap: 2rem;
+      border-bottom: 1px solid var(--gray);
+
+      input {
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid var(--gray);
+        border-radius: 0.5rem;
+        font-size: 1.4rem;
+        outline: none;
+      }
+
+      button {
+        outline: none;
+        padding: 1rem 1.5rem;
+        color: white;
+        font-size: 1.2rem;
+        border: 1px solid var(--gray);
+        background: #f64900;
+        border-radius: 0.5rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+
+    .peopleComments {
+
     }
   }
 `;
