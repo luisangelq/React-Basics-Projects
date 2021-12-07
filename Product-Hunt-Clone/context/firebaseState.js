@@ -158,7 +158,6 @@ const firebaseState = () => {
   //Update a product
   const updateProductRequest = async (id, dataCollection, product) => {
     try {
-      console.log(product);
       const db = getFirestore();
       const req = doc(collection(db, dataCollection), id);
 

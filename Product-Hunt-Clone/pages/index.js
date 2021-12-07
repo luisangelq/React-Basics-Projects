@@ -1,36 +1,43 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import styled from "styled-components";
 import MainLayout from "../components/MainLayout";
 import ProductDetail from "../components/ProductDetail";
 
+import FirebaseContext from "../context/firebaseContext";
+import ProductsContext from "../context/productsContext";
 import firebaseState from "../context/firebaseState";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-
+  const { user, products, setProducts } = useContext(FirebaseContext);
   const { getProductsRequest } = firebaseState();
 
   useEffect(() => {
     getProductsRequest("products", setProducts, "date");
   }, []);
 
-  console.log(products);
-
   return (
     <div>
-      <MainLayout>
-        <StyledHome>
-          <Container>
-            <Title>Is the next 🦄 here?</Title>
+      <ProductsContext.Provider value={{ products }}>
+        <MainLayout>
+          <StyledHome>
+            <Container>
+              <Title>Is the next 🦄 here?</Title>
 
-            {products
-              ? products.map((product) => (
-                  <ProductDetail key={product.id} product={product} />
-                )).reverse()
-              : null}
-          </Container>
-        </StyledHome>
-      </MainLayout>
+              {products
+                ? products
+                    .map((product) => (
+                      <ProductDetail
+                        key={product.id}
+                        product={product}
+                        user={user}
+                      />
+                    ))
+                    .reverse()
+                : null}
+            </Container>
+          </StyledHome>
+        </MainLayout>
+      </ProductsContext.Provider>
     </div>
   );
 };
@@ -50,6 +57,6 @@ const StyledHome = styled.div`
 
 const Container = styled.div`
   margin: 4rem;
-`
+`;
 
 export default Home;

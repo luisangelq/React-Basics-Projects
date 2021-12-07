@@ -1,17 +1,48 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { loginAlert }  from "../helpers/validations/AlertHandler"
 
-const ProductDetail = ({ product }) => {
-  const {
-    id,
-    productName,
-    company,
-    imageURL,
-    comments,
-    votes,
-    quote
-  } = product;
+import firebaseState from "../context/firebaseState";
 
+const ProductDetail = ({ product, user }) => {
+  const { id, productName, company, imageURL, comments, quote } =
+    product;
+
+  const [productState, setProductState] = useState(product);
+
+  const { updateProductRequest } = firebaseState();
+
+  const voteProduct = (id) => {
+    if (!user) {
+      loginAlert();
+      return;
+    }
+
+    const newProduct = {
+      ...productState,
+      votes: productState.votes + 1,
+      votesUsers: [...productState.votesUsers, user.uid],
+    };
+
+    if (productState.votesUsers.includes(user.uid)) {
+      const newProduct = {
+        ...productState,
+        votes: productState.votes - 1,
+        //delete user from votesUsers
+        votesUsers: productState.votesUsers.filter(
+          (userId) => userId !== user.uid
+        ),
+      };
+      setProductState(newProduct);
+      updateProductRequest(id, "products", newProduct);
+
+      return;
+    }
+
+    setProductState(newProduct);
+    updateProductRequest(id, "products", newProduct);
+  };
   return (
     <Product>
       <ProductImage src={imageURL} alt={productName} />
@@ -39,7 +70,7 @@ const ProductDetail = ({ product }) => {
               </svg>
             </div>
             <div className="content">
-              <p>{ quote  }</p>
+              <p>{quote}</p>
             </div>
 
             <div className="footer">
@@ -67,9 +98,18 @@ const ProductDetail = ({ product }) => {
         </Link>
       </ProductInfo>
 
-      <ProductVotes>
+      <ProductVotes
+        onClick={() => voteProduct(id)}
+        className={
+          user
+            ? productState.votesUsers.includes(user.uid)
+              ? "removeVote"
+              : null
+            : null
+        }
+      >
         <p className="rotate">◥</p>
-        <p>{votes}</p>
+        <p>{productState.votes}</p>
       </ProductVotes>
     </Product>
   );
@@ -156,6 +196,11 @@ const ProductVotes = styled.button`
   height: 6rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+
+  &.removeVote {
+    color: #f64900;
+    border: 1px solid #f64900;
+  }
 
   &:hover {
     border: 1px solid var(--btn-secondary);

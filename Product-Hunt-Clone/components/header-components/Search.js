@@ -1,8 +1,25 @@
+import { useState } from "react";
 import styled from "styled-components";
+import Router from "next/router";
 
 const Search = () => {
+  const [search, setSearch] = useState("");
+
+  const searchProduct = (e) => {
+    e.preventDefault();
+    
+    if (search.trim() === "") return;
+    
+    Router.push({
+      pathname: "/search",
+      query: { q : search },
+    }); 
+  }
+
   return (
-    <Form>
+    <Form
+      onSubmit={searchProduct}
+    >
       <div>
         <svg
           width="16"
@@ -16,7 +33,11 @@ const Search = () => {
             opacity="0.5"
           ></path>
         </svg>
-        <input type="text" placeholder="Search"></input>
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={(e) => setSearch(e.target.value)}
+        ></input>
       </div>
 
       <button type="submit">Search</button>
