@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MainLayout from "../components/MainLayout";
 import ProductDetail from "../components/ProductDetail";
@@ -11,7 +11,7 @@ const Home = () => {
   const { getProductsRequest } = firebaseState();
 
   useEffect(() => {
-    getProductsRequest("products", setProducts);
+    getProductsRequest("products", setProducts, "date");
   }, []);
 
   console.log(products);

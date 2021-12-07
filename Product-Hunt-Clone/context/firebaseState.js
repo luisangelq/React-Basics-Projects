@@ -16,12 +16,15 @@ import {
   doc,
   collection,
   query,
-  updateDoc
+  updateDoc,
+  deleteDoc,
+  orderBy
 } from "@firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "@firebase/storage";
 
 const firebaseState = () => {
   firebaseApp;
+  
 
   //Register User on Firebase
   const registerRequest = async (name, email, password) => {
@@ -120,11 +123,11 @@ const firebaseState = () => {
   };
 
   //Get all products
-  const getProductsRequest = async (dataCollection, setProducts) => {
+  const getProductsRequest = async (dataCollection, setProducts, order) => {
     const products = [];
 
     const db = getFirestore();
-    const req = query(collection(db, dataCollection));
+    const req = query(collection(db, dataCollection), orderBy(order, "desc"));
     const querySnapshot = await getDocs(req);
 
     querySnapshot.forEach((doc) => {
@@ -165,7 +168,21 @@ const firebaseState = () => {
     }
   };
 
-  //
+  //Delete a product
+  const deleteProductRequest = async (id, dataCollection) => {
+    try {
+      const db = getFirestore();
+      const req = doc(collection(db, dataCollection), id);
+
+      await deleteDoc(req);
+
+      successAlert("Product Deleted Successfully");
+
+      Router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     registerRequest,
@@ -177,6 +194,7 @@ const firebaseState = () => {
     getProductsRequest,
     getProductRequest,
     updateProductRequest,
+    deleteProductRequest
   };
 };
 

@@ -4,6 +4,7 @@ import moment from "moment";
 import styled from "styled-components";
 import MainLayout from "../../components/MainLayout";
 import Spinner from "../../components/Spinner";
+import Swal from "sweetalert2";
 import { loginAlert, errorAlert } from "../../helpers/validations/AlertHandler";
 
 import FirebaseContext from "../../context/firebaseContext";
@@ -17,7 +18,8 @@ const Product = () => {
   const { id } = router.query;
 
   const { user } = useContext(FirebaseContext);
-  const { getProductRequest, updateProductRequest } = firebaseState();
+  const { getProductRequest, updateProductRequest, deleteProductRequest } =
+    firebaseState();
 
   useEffect(() => {
     if (id) {
@@ -82,6 +84,32 @@ const Product = () => {
     setComment("");
   };
 
+  //Delete product by owner
+  const deleteProduct = () => {
+    if (!user) {
+      loginAlert();
+      return;
+    }
+
+    if (product.postedBy.id !== user.uid) {
+      errorAlert({ general: "You can't delete this product" });
+      return;
+    }
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.value) {
+        deleteProductRequest(id, "products");
+      }
+    });
+  };
   return (
     <MainLayout>
       {product ? (
@@ -93,6 +121,10 @@ const Product = () => {
               <div className="productTitle">
                 <h2>{product.productName}</h2>
                 <p>{product.quote}</p>
+
+                {product.postedBy.id === user.uid ? (
+                  <button onClick={deleteProduct}>Delete Product</button>
+                ) : null}
               </div>
             </div>
 
@@ -153,7 +185,12 @@ const Product = () => {
                           src="https://ph-static.imgix.net/guest-user-avatar.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&w=30&h=30&fit=crop"
                           alt="userIcon"
                         />
-                        <h4>{comment.userName}</h4>
+                        <h4>
+                          {comment.userName}{" "}
+                          {comment.userId === user.uid ? (
+                            <span>Maker</span>
+                          ) : null}
+                        </h4>
                       </div>
 
                       <p>{comment.text}</p>
@@ -199,6 +236,16 @@ const ProductHeader = styled.div`
 
   .productTitle {
     margin: 1rem 2rem;
+
+    button {
+      background: #e24444;
+      border: none;
+      border-radius: 1rem;
+      padding: 0.5rem 1rem;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
   }
 
   @media (max-width: 1000px) {
@@ -335,11 +382,22 @@ const Discussion = styled.div`
         .user {
           display: flex;
           align-items: center;
+
           img {
             border-radius: 100%;
           }
           h4 {
             margin: 1rem;
+
+            span {
+              background-color: #e5f7f2;
+              color: #44947c;
+              margin-left: 10px;
+              padding: 3px 10px;
+              border-radius: 10px;
+              font-weight: 600;
+              font-size: 1.2rem;
+            }
           }
         }
 
