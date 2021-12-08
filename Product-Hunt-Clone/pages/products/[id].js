@@ -131,7 +131,10 @@ const Product = () => {
             </div>
 
             <BtnContainer>
-              <a href={product.url} target="_blank"> get it </a>
+              <a href={product.url} target="_blank">
+                {" "}
+                get it{" "}
+              </a>
 
               <button
                 onClick={voteProduct}
@@ -179,25 +182,24 @@ const Product = () => {
               <div className="peopleComments">
                 <h3>Comments</h3>
 
-                {product.comments
-                  .map((comment) => (
-                    <li key={Math.random()}>
-                      <div className="user">
-                        <img
-                          src="https://ph-static.imgix.net/guest-user-avatar.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&w=30&h=30&fit=crop"
-                          alt="userIcon"
-                        />
-                        <h4>
-                          {comment.userName}{" "}
-                          {product.postedBy.id && comment.userId === user.uid ? (
-                            <span>Maker</span>
-                          ) : null}
-                        </h4>
-                      </div>
+                {product.comments.map((comment) => (
+                  <li key={Math.random()}>
+                    <div className="user">
+                      <img
+                        src="https://ph-static.imgix.net/guest-user-avatar.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&w=30&h=30&fit=crop"
+                        alt="userIcon"
+                      />
+                      <h4>
+                        {comment.userName}{" "}
+                        {product.postedBy.id === comment.userId ? (
+                          <span>Maker</span>
+                        ) : null}
+                      </h4>
+                    </div>
 
-                      <p>{comment.text}</p>
-                    </li>
-                  ))}
+                    <p>{comment.text}</p>
+                  </li>
+                ))}
               </div>
             </div>
           </Discussion>
@@ -269,7 +271,8 @@ const BtnContainer = styled.div`
   margin-top: 5rem;
   gap: 1rem;
 
-  button, a {
+  button,
+  a {
     text-align: center;
     outline: none;
     padding: 1.5rem;

@@ -30,7 +30,7 @@ const newProduct = () => {
   );
   const { createProductRequest } = firebaseState();
 
-  const { productName, company, url, description } = values;
+  const { productName, quote, company, url, description } = values;
 
   async function createProduct() {
     if (!user) {
@@ -39,6 +39,7 @@ const newProduct = () => {
 
     const product = {
       productName,
+      quote,
       company,
       url,
       imageURL,
@@ -73,6 +74,15 @@ const newProduct = () => {
               name="productName"
               placeholder="Product Name"
               value={productName}
+              onChange={handleChange}
+            />
+
+            <input
+              type="text"
+              id="quote"
+              name="quote"
+              placeholder="Product Quote"
+              value={quote}
               onChange={handleChange}
             />
 
@@ -114,7 +124,7 @@ const newProduct = () => {
             </ProductDescription>
 
             <SpinnerContainer>
-              {uploading ? <Spinner /> : null }
+              {uploading ? <Spinner /> : null}
             </SpinnerContainer>
 
             <button type="submit">Add Product</button>
@@ -214,7 +224,7 @@ const SpinnerContainer = styled.div`
   align-items: center;
   margin: 2rem auto;
   height: 5rem;
-`
+`;
 
 const AccessDenied = styled.div`
   h1 {

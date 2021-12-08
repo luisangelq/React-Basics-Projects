@@ -35,6 +35,7 @@ export const errorAlert = (errors) => {
   //newProductForm errors
   if (
     errors.productName ||
+    errors.quote ||
     errors.company ||
     errors.url ||
     errors.description

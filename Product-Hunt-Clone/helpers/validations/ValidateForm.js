@@ -76,6 +76,7 @@ const newProductForm = (data) => {
 
   if (
     data.productName.trim() === "" &&
+    data.quote.trim() === "" &&
     data.company.trim() === "" &&
     data.url.trim() === "" &&
     data.description.trim() === ""
@@ -85,6 +86,10 @@ const newProductForm = (data) => {
 
   if (data.productName.trim() === "") {
     errors.productName = "Product Name is required";
+  }
+
+  if (data.quote.trim() === "") {
+    errors.quote = "Quote is required";
   }
 
   if (data.company.trim() === "") {
