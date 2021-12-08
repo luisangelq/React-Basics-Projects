@@ -28,6 +28,7 @@ const firebaseState = () => {
 
   //Register User on Firebase
   const registerRequest = async (name, email, password) => {
+    
     const auth = getAuth();
     await createUserWithEmailAndPassword(auth, email, password);
 

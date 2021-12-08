@@ -23,7 +23,7 @@ const Register = () => {
 
   async function registerUser() {
     try {
-      await registerRequest(name, email, password);
+      await registerRequest( name.toLowerCase(), email, password);
       Router.push("/");
     } catch (error) {
       registerErrorRequest(error.message);

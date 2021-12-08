@@ -69,7 +69,7 @@ const Header = () => {
       <RightContainer>
         {user ? (
           <>
-            <p>Hello: {user.displayName} </p>
+            <p>Hello: <span>{user.displayName}</span> </p>
 
             <button onClick={logout}>Log Out</button>
           </>
@@ -143,6 +143,10 @@ const RightContainer = styled.div`
   p {
     color: var(--font-primary-color);
     text-transform: capitalize;
+
+    span {
+      text-transform: capitalize;
+    }
   }
 
   button {
