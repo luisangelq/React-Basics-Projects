@@ -7,16 +7,10 @@ import firebaseState from "../context/firebaseState";
 import useAuth from "../hooks/useAuth";
 
 const MyApp = ({ Component, pageProps }) => {
-  const [products, setProducts] = useState([]);
   const user = useAuth();
 
-  useEffect(() => {
-    
-  }),
-    [];
-
   return (
-    <FirebaseContext.Provider value={{ user, products, setProducts }}>
+    <FirebaseContext.Provider value={{ user }}>
       <Component {...pageProps} />
     </FirebaseContext.Provider>
   );

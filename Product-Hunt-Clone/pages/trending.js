@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import MainLayout from "../components/MainLayout";
 import ProductDetail from "../components/ProductDetail";
 
+import FirebaseContext from "../context/firebaseContext";
 import firebaseState from "../context/firebaseState";
 
 const Trending = () => {
   const [products, setProducts] = useState([]);
 
+  const { user } = useContext(FirebaseContext);
   const { getProductsRequest } = firebaseState();
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const Trending = () => {
 
             {products
               ? products.map((product) => (
-                  <ProductDetail key={product.id} product={product} />
+                  <ProductDetail key={product.id} product={product} user={user}/>
                 ))
               : null}
           </Container>

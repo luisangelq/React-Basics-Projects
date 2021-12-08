@@ -122,14 +122,16 @@ const Product = () => {
                 <h2>{product.productName}</h2>
                 <p>{product.quote}</p>
 
-                {product.postedBy.id === user.uid ? (
-                  <button onClick={deleteProduct}>Delete Product</button>
+                {user ? (
+                  product.postedBy.id === user.uid ? (
+                    <button onClick={deleteProduct}>Delete Product</button>
+                  ) : null
                 ) : null}
               </div>
             </div>
 
             <BtnContainer>
-              <button> get it </button>
+              <a href={product.url} target="_blank"> get it </a>
 
               <button
                 onClick={voteProduct}
@@ -187,7 +189,7 @@ const Product = () => {
                         />
                         <h4>
                           {comment.userName}{" "}
-                          {comment.userId === user.uid ? (
+                          {product.postedBy.id && comment.userId === user.uid ? (
                             <span>Maker</span>
                           ) : null}
                         </h4>
@@ -195,14 +197,19 @@ const Product = () => {
 
                       <p>{comment.text}</p>
                     </li>
-                  ))
-                  .reverse()}
+                  ))}
               </div>
             </div>
           </Discussion>
         </Container>
       ) : (
-        <Spinner />
+        <div
+          style={{
+            marginTop: "100px",
+          }}
+        >
+          <Spinner />
+        </div>
       )}
     </MainLayout>
   );
@@ -262,7 +269,8 @@ const BtnContainer = styled.div`
   margin-top: 5rem;
   gap: 1rem;
 
-  button {
+  button, a {
+    text-align: center;
     outline: none;
     padding: 1.5rem;
     min-width: 10rem;
