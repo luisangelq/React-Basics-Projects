@@ -1,0 +1,20 @@
+{
+  "name": "Firefox_Send_Clone_Server",
+  "version": "1.0.0",
+  "description": " Tribute to firefox send, (Original Currently Down)",
+  "main": "index.js",
+  "author": "Luis Quiñones",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon ./index.js",
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
