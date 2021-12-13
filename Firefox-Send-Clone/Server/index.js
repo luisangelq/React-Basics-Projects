@@ -6,8 +6,12 @@ connectDB();
 // Set the port of our application
 const PORT = process.env.PORT || 8080; // default port 8080
 
+//Enable body parser
+app.use(express.json({ extended: false }));
+
 //app routes
-app.use("api/users", require("./routes/users"));
+app.use("/api/users", require("./routes/users"));
+app.use("/api/auth", require("./routes/auth"));
 
 // Launch our application
 app.listen(PORT, () => {
