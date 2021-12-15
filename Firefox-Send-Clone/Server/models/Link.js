@@ -17,6 +17,7 @@ const linkSchema = new Schema({
     },
     downloads: {
         type: Number,
+        default: 1,
 
     },
     author: {
