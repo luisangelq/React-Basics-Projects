@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader) {
-    res.status(401).json({ msg: "No Token, Sign In" });
+    // res.status(401).json({ msg: "No Token, Sign In" });
 
     return next();
   }

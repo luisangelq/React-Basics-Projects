@@ -5,14 +5,17 @@ const linkSchema = new Schema({
     url: {
         type: String,
         required: true,
+        default: null,
     },
     fileName: {
         type: String,
         required: true,
+        default: null,
     },
     originalName: {
         type: String,
         required: true,
+        default: null,
 
     },
     downloads: {
@@ -27,6 +30,7 @@ const linkSchema = new Schema({
     },
     password: {
         type: String,
+        default: null,
     },
     date: {
         type: Date,
