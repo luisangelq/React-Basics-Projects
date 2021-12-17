@@ -1,9 +1,10 @@
-import Layout from "../components/Layout"
+import MainPanel from "../components/MainPanel"
+import UploadPanel from "../components/UploadPanel"
 
 export default function Home() {
   return (
-    <Layout>
-      <h1>hola</h1> 
-    </Layout>
+    <MainPanel>
+      <UploadPanel />
+    </MainPanel>
   )
 }
