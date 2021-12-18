@@ -15,7 +15,7 @@ const UploadPanel = () => {
           private and make sure your stuff doesn’t stay online forever.
         </p>
         <img
-          src="https://raw.githubusercontent.com/luisangelq/React-Basics-Projects/14af5d08669afff5abe52226a9787a9502bdee50/Firefox-Send-Clone/client/assets/Firefox-send-back.svg"
+          src="assets/IntroImage.svg"
           alt="intro"
         />
       </LinkList>

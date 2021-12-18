@@ -1,18 +1,20 @@
 import styled from "styled-components";
+import Link from "next/link";
+
 
 const Header = () => {
   return (
     <HeaderContainer>
-      <div>
+      <Link href="/">
         <img
-          src="https://raw.githubusercontent.com/luisangelq/React-Basics-Projects/14af5d08669afff5abe52226a9787a9502bdee50/Firefox-Send-Clone/client/assets/HeaderLogo.svg"
+          src="assets/HeaderLogo.svg"
           alt="logo"
         />
-      </div>
+      </Link>
 
-      <div>
+      <Link href="/login">
         <Btn>Sign in/up</Btn>
-      </div>
+      </Link>
     </HeaderContainer>
   );
 };
@@ -23,15 +25,20 @@ const HeaderContainer = styled.header`
   align-items: center;
   height: 6rem;
   padding: 0 2rem;
+
+  img {
+    cursor: pointer;
+  }
  
 `;
 
-const Btn = styled.button`
+const Btn = styled.a`
     background: transparent;
     border: 1px solid #0060df;
     border-radius: 0.5rem;
     color: #0060df;
     padding: .8rem 1.1rem;
+    cursor: pointer;
     transition: all .2s ease-in-out;
 
     &:hover {
