@@ -5,6 +5,20 @@ require("dotenv").config({ path: ".env" });
 
 const { validationResult } = require("express-validator");
 
+exports.isEmailExist = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  const { email } = req.body;
+  let user = await User.findOne({ email });
+  if (user) {
+    res.status(200).json({ msg: "User Exists", exist: true });
+  } else {
+    res.status(200).json({ msg: "User Doesn't Exist", exist: false });
+  }
+}
+
 exports.signIn = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
-
 import { EmailForm, SignInForm, SignUpForm } from "./HandleForm";
 
+import AuthContext from "../../context/auth/authContext";
+
 const Sign_In_Up = () => {
-  const [isEmail, setEmail] = useState(null);
+  const { handleExist, emailExist, createUser, authUser, user, exist } =
+    useContext(AuthContext);
 
   return (
     <Container>
@@ -25,12 +27,16 @@ const Sign_In_Up = () => {
         </div>
       </Info>
 
-      {isEmail === null ? (
-        <EmailForm />
-      ) : isEmail ? (
-        <SignInForm />
+      {exist === null ? (
+        <EmailForm handleExist={handleExist} emailExist={emailExist} />
+      ) : exist ? (
+        <SignInForm handleExist={handleExist} authUser={authUser} user={user} />
       ) : (
-        <SignUpForm />
+        <SignUpForm
+          handleExist={handleExist}
+          createUser={createUser}
+          user={user}
+        />
       )}
     </Container>
   );

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Swal from "sweetalert2";
+import { errorAlert, goToLoginAlert } from "../AlertHandler";
 
 const Form = styled.form`
   display: flex;
@@ -38,25 +38,27 @@ const Form = styled.form`
     }
   }
 
-  a {
-    color: #0060df;
-    font-weight: bold;
-    margin-top: 1rem;
+  .lastBtns {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+
+    a {
+      color: #0060df;
+      font-weight: bold;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        opacity: 0.8;
+      }
+      
+    }
   }
 `;
 
-const Alert = (error) => {
-  const msg = Object.values(error)[0];
-
-  Swal.fire({
-    icon: "error",
-    title: msg,
-    showConfirmButton: false,
-    timer: 2000,
-  });
-};
-
-const EmailForm = () => {
+const EmailForm = ({ emailExist }) => {
   //Validation with formik
   const formik = useFormik({
     initialValues: {
@@ -69,13 +71,13 @@ const EmailForm = () => {
         .required("Email is required"),
     }),
 
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: (email) => {
+      emailExist(email);
     },
   });
 
   if (formik.errors.email) {
-    Alert(formik.errors);
+    errorAlert(formik.errors);
     formik.setErrors({});
   }
 
@@ -102,11 +104,11 @@ const EmailForm = () => {
   );
 };
 
-const SignInForm = () => {
+const SignInForm = ({ handleExist, authUser, user }) => {
   //Validation with formik
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: user ? user.email : "",
       password: "",
     },
     validateOnChange: false,
@@ -120,12 +122,12 @@ const SignInForm = () => {
     }),
 
     onSubmit: (values) => {
-      console.log(values);
+      authUser(values);
     },
   });
 
   if (formik.errors.email || formik.errors.password) {
-    Alert(formik.errors);
+    errorAlert(formik.errors);
     formik.setErrors({});
   }
 
@@ -150,19 +152,22 @@ const SignInForm = () => {
 
       <button type="submit">Sign in</button>
 
-      <Link href="/">
-        <a>Cancel</a>
-      </Link>
+      <div className="lastBtns">
+        <a onClick={() => handleExist(false)}>Sign Up</a>
+        <Link href="/">
+          <a>Cancel</a>
+        </Link>
+      </div>
     </Form>
   );
 };
 
-const SignUpForm = () => {
+const SignUpForm = ({ handleExist, createUser, user }) => {
   //Validation with formik
   const formik = useFormik({
     initialValues: {
       name: "",
-      email: "",
+      email: user ? user.email : "",
       password: "",
     },
     validateOnChange: false,
@@ -179,19 +184,17 @@ const SignUpForm = () => {
     }),
 
     onSubmit: (values) => {
-      console.log(values);
+      createUser(values);
     },
   });
 
   if (formik.errors.name || formik.errors.email || formik.errors.password) {
-    Alert(formik.errors);
+    errorAlert(formik.errors);
     formik.setErrors({});
   }
 
   return (
-    <Form 
-      onSubmit={formik.handleSubmit}
-    >
+    <Form onSubmit={formik.handleSubmit}>
       <input
         id="name"
         type="text"
@@ -201,7 +204,7 @@ const SignUpForm = () => {
       />
       <input
         id="email"
-        type="email"
+        type="text"
         placeholder="Enter your email"
         value={formik.values.email}
         onChange={formik.handleChange}
@@ -216,9 +219,12 @@ const SignUpForm = () => {
 
       <button type="submit">Sign up</button>
 
-      <Link href="/">
-        <a>Cancel</a>
-      </Link>
+      <div className="lastBtns">
+        <a onClick={() => handleExist(true)}>Sign In</a>
+        <Link href="/">
+          <a>Cancel</a>
+        </Link>
+      </div>
     </Form>
   );
 };

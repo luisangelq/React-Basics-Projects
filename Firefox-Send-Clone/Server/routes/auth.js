@@ -5,6 +5,15 @@ const { check } = require("express-validator");
 const auth = require("../middleware/auth");
 
 router.post(
+  "/email",
+  [
+    check("email", "Please enter a valid email").isEmail(),
+    check("email", "Please enter an email").notEmpty(),
+  ],
+  authController.isEmailExist
+)
+
+router.post(
   "/",
   [
     check("email", "Add a valid email").isEmail(),
