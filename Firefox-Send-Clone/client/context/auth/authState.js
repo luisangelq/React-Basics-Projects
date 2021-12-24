@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import Router from "next/router";
 import {
   successAlert,
   errorAlert,
@@ -36,8 +37,6 @@ const AuthState = ({ children }) => {
     try {
       const res = await axiosClient.post("/api/auth/email", email);
 
-      console.log(res.data);
-
       if (res.data.exist) {
         handleExist(res.data.exist, email, res.data.msg);
       } else {
@@ -51,7 +50,6 @@ const AuthState = ({ children }) => {
   const createUser = async (user) => {
     try {
       const res = await axiosClient.post("/api/users", user);
-      console.log(res);
       dispatch({
         type: "CREATE_USER",
         payload: user,
@@ -63,8 +61,6 @@ const AuthState = ({ children }) => {
 
       if (error.response.data.msg.includes("User already exists")) {
         const exist = await goToSignAlert(error.response.data, "Sign In");
-
-        console.log(exist);
 
         if (exist) {
           handleExist(exist);
@@ -78,7 +74,6 @@ const AuthState = ({ children }) => {
   const authUser = async (user) => {
     try {
       const res = await axiosClient.post("/api/auth", user);
-      console.log(res.data);
 
       dispatch({
         type: "AUTH_USER",
@@ -88,13 +83,19 @@ const AuthState = ({ children }) => {
             msg: res.data.msg
         }
       });
+      successAlert(res.data);
+
+      //Go to main page after sign up
+      setTimeout(() => {
+        Router.push("/");
+
+        handleExist(null);
+      }, 2000);
     } catch (error) {
       console.log(error.response.data);
 
       if (error.response.data.msg.includes("This User Doesn't Exist")) {
         const exist = await goToSignAlert(error.response.data, "Sign Up");
-
-        console.log(exist);
 
         if (!exist) {
           handleExist(exist);

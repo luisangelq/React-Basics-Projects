@@ -1,8 +1,9 @@
+
 import styled from "styled-components";
 import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { errorAlert, goToLoginAlert } from "../AlertHandler";
+import { errorAlert } from "../AlertHandler";
 
 const Form = styled.form`
   display: flex;
@@ -42,18 +43,16 @@ const Form = styled.form`
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+  }
+  a {
+    color: #0060df;
+    font-weight: bold;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 
-    a {
-      color: #0060df;
-      font-weight: bold;
-      padding: 1rem;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-
-      &:hover {
-        opacity: 0.8;
-      }
-      
+    &:hover {
+      opacity: 0.8;
     }
   }
 `;
@@ -123,6 +122,8 @@ const SignInForm = ({ handleExist, authUser, user }) => {
 
     onSubmit: (values) => {
       authUser(values);
+
+      formik.resetForm();
     },
   });
 
@@ -155,7 +156,7 @@ const SignInForm = ({ handleExist, authUser, user }) => {
       <div className="lastBtns">
         <a onClick={() => handleExist(false)}>Sign Up</a>
         <Link href="/">
-          <a>Cancel</a>
+          <a onClick={() => handleExist(null)}>Cancel</a>
         </Link>
       </div>
     </Form>
@@ -185,6 +186,8 @@ const SignUpForm = ({ handleExist, createUser, user }) => {
 
     onSubmit: (values) => {
       createUser(values);
+
+      formik.resetForm();
     },
   });
 
@@ -222,7 +225,7 @@ const SignUpForm = ({ handleExist, createUser, user }) => {
       <div className="lastBtns">
         <a onClick={() => handleExist(true)}>Sign In</a>
         <Link href="/">
-          <a>Cancel</a>
+          <a onClick={() => handleExist(null)}>Cancel</a>
         </Link>
       </div>
     </Form>

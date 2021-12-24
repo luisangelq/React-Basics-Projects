@@ -27,6 +27,11 @@ const Sign_In_Up = () => {
         </div>
       </Info>
 
+    {/* This Componens shows in order to:
+      EmailForm if exist = null
+      SignInForm if exist = false
+      SignUpForm if exist = true
+    */}
       {exist === null ? (
         <EmailForm handleExist={handleExist} emailExist={emailExist} />
       ) : exist ? (

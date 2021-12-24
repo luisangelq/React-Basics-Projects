@@ -7,7 +7,7 @@ const successAlert = (data) => {
     icon: "success",
     title: msg,
     showConfirmButton: false,
-    timer: 3000,
+    timer: 2000,
   });
 };
 
