@@ -121,7 +121,7 @@ const AuthState = ({ children }) => {
   };
 
   const sendAuthToken = async () => {
-    if(state.token) {
+    if (state.token) {
       authToken(state.token);
     }
 
@@ -133,13 +133,15 @@ const AuthState = ({ children }) => {
       dispatch({
         type: "AUTH_TOKEN",
         payload: res.data,
-      });  
+      });
     } catch (error) {
-      console.log(error);
-    
-      
+      console.log(error.response.data);
+
+      dispatch({
+        type: "LOGOUT",
+      });
     }
-  }
+  };
 
   const logout = () => {
     authToken(null);
@@ -161,7 +163,7 @@ const AuthState = ({ children }) => {
         createUser,
         authUser,
         sendAuthToken,
-        logout
+        logout,
       }}
     >
       {children}
