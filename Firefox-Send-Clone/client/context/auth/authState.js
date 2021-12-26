@@ -6,17 +6,24 @@ import {
   goToSignAlert,
 } from "../../components/AlertHandler";
 import axiosClient from "../../config/axios";
+import authToken from "../../config/authToken";
 
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
 
+//get local storage object and parse it to JSON
+const localStorageObject =
+  typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem("login"))
+    : null;
+
 const AuthState = ({ children }) => {
   const initialState = {
-    user: null,
-    token: null,
-    isAuthenticated: null,
+    user: localStorageObject ? localStorageObject.user : null,
+    token: localStorageObject ? localStorageObject.token : null,
+    isAuthenticated: localStorageObject ? true : false,
     exist: null,
-    msg: null,
+    msg: localStorageObject ? localStorageObject.msg : null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -56,6 +63,13 @@ const AuthState = ({ children }) => {
       });
 
       successAlert(res.data);
+
+      //Go to main page after sign up
+      setTimeout(() => {
+        Router.push("/");
+
+        handleExist(null);
+      }, 2000);
     } catch (error) {
       console.log(error);
 
@@ -78,10 +92,10 @@ const AuthState = ({ children }) => {
       dispatch({
         type: "AUTH_USER",
         payload: {
-            user: user,
-            token: res.data.token,
-            msg: res.data.msg
-        }
+          user: user,
+          token: res.data.token,
+          msg: res.data.msg,
+        },
       });
       successAlert(res.data);
 
@@ -106,6 +120,34 @@ const AuthState = ({ children }) => {
     }
   };
 
+  const sendAuthToken = async () => {
+    if(state.token) {
+      authToken(state.token);
+    }
+
+    try {
+      const res = await axiosClient.get("/api/auth");
+
+      console.log(res);
+
+      dispatch({
+        type: "AUTH_TOKEN",
+        payload: res.data,
+      });  
+    } catch (error) {
+      console.log(error);
+    
+      
+    }
+  }
+
+  const logout = () => {
+    authToken(null);
+    dispatch({
+      type: "LOGOUT",
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -118,6 +160,8 @@ const AuthState = ({ children }) => {
         emailExist,
         createUser,
         authUser,
+        sendAuthToken,
+        logout
       }}
     >
       {children}

@@ -80,8 +80,6 @@ const EmailForm = ({ emailExist }) => {
     formik.setErrors({});
   }
 
-  console.log(formik.errors);
-
   return (
     <>
       <Form onSubmit={formik.handleSubmit}>
@@ -131,8 +129,6 @@ const SignInForm = ({ handleExist, authUser, user }) => {
     errorAlert(formik.errors);
     formik.setErrors({});
   }
-
-  console.log(formik.errors);
 
   return (
     <Form onSubmit={formik.handleSubmit}>

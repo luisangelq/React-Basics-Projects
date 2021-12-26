@@ -33,6 +33,11 @@ background-color: #fff;
   border-radius: 0.5rem;
   margin: 0 auto;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    height: auto;
+  }
 `;
 
 export default MainPanel;
