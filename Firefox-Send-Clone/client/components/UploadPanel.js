@@ -28,7 +28,7 @@ const UploadPanel = ({ isAuthenticated }) => {
       <img src="assets/documentIcon.svg" className="documentImg" />
       <div>
         <p className="fileName">{file.name}</p>
-        <p className="fileSize">{file.size} MB</p>
+        <p className="fileSize">{(file.size / Math.pow(1024, 2)).toFixed(2) } MB</p>
       </div>
 
       <button>
@@ -76,10 +76,9 @@ const UploadPanel = ({ isAuthenticated }) => {
           <div className="filesList">
             <ul>{filesLoop}</ul>
 
-            <div className="addFiles" {...getRootProps()}>
-              <input {...getInputProps()} />
-
-              <div className="addButton">
+            <div className="addFiles">
+              <div className="addButton" {...getRootProps()}>
+                <input {...getInputProps()} />
                 <img src="assets/addFiles.svg" />
                 <p>Select files to upload</p>
               </div>
@@ -90,7 +89,7 @@ const UploadPanel = ({ isAuthenticated }) => {
 
           <div className="fileConfig">
             <div className="fileExpires">
-              <label>Expires in</label>
+              <label>Expires after</label>
               <select>
                 <option value="1">1 download</option>
                 <option value="2">2 downloads</option>
@@ -102,19 +101,20 @@ const UploadPanel = ({ isAuthenticated }) => {
                 <option value="100">100 downloads</option>
               </select>
               <label>or</label>
-              <select>
+              <select defaultValue={"86400"}>
                 <option value="300">5 minutes</option>
                 <option value="3600">1 hour</option>
-                <option value="86400" selected="selected">
-                  1 day
-                </option>
+                <option value="86400">1 day</option>
                 <option value="604800">7 days</option>
               </select>
             </div>
+
             <div className="filePassword">
               <input type="checkbox" />
               <label>Protect with password</label>
             </div>
+
+            <button>Upload</button>
           </div>
         </FilesContainer>
       )}
@@ -267,7 +267,8 @@ const FilesContainer = styled.div`
       .addButton {
         display: flex;
         align-items: center;
-        gap: .5rem;
+        gap: 0.5rem;
+        cursor: pointer;
 
         img {
           height: 1.5rem;
@@ -288,10 +289,46 @@ const FilesContainer = styled.div`
   .fileConfig {
     .fileExpires {
       display: flex;
+      align-items: center;
+      padding: 0.25rem;
+      margin: 1rem 0;
+      gap: 0.5rem;
+
+      select {
+        padding: 0.3rem 0;
+        background: #f9f9fa;
+        background-position: calc(100% - 0.75rem);
+        border: 1px solid #dae1e7;
+        border-radius: 0.3rem;
+        color: #6c6c6d;
+      }
 
       @media (max-width: 480px) {
         flex-direction: column;
       }
+    }
+
+    .filePassword {
+      display: flex;
+      align-items: center;
+      input {
+        margin-right: 0.5rem;
+        height: 1.5rem;
+        width: 1.5rem;
+        border: 1px solid #dae1e7;
+        cursor: pointer;
+      }
+    }
+
+    button {
+      width: 100%;
+      background-color: #0060df;
+      padding: 1rem;
+      outline: none;
+      border: none;
+      border-radius: 0.5rem;
+      color: #fff;
+      margin-top: 1.5rem;
     }
   }
 `;
