@@ -27,7 +27,7 @@ const Main = styled.main`
 const Content = styled.div`
 background-color: #fff;
   max-width: 64rem;
-  height: 36rem;
+  height: 38rem;
   padding: 1.5rem;
   box-shadow: 0 0 32px 0 rgb(12 12 13 / 10%), 0 2px 16px 0 rgb(12 12 13 / 5%);
   border-radius: 0.5rem;
