@@ -5,7 +5,7 @@ const fs = require("fs");
 
 exports.createFile = (req, res, next) => {
   const multerConfig = {
-    limits: { fileSize: req.user ? 1024 * 1024 * 10 : 1024 * 1024 },
+    limits: { fileSize: 1024 * 1024 * 10 },
     storage: multer.diskStorage({
       destination: (req, file, cb) => {
         cb(null, __dirname + "/../uploads");
@@ -43,7 +43,6 @@ exports.createFile = (req, res, next) => {
 };
 
 exports.deleteFile = async (req, res, next) => {
-
   try {
     fs.unlinkSync(`${__dirname}/../uploads/${req.file}`);
   } catch (error) {

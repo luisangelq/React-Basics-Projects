@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import shortId from "shortid";
 import JSZip from "jszip";
 import styled from "styled-components";
+import { errorAlert, goToSignUp } from "./AlertHandler";
 
 import DropzoneManager from "./Dropzone/DropzoneManager";
 import FilesManager from "./Dropzone/FilesManager";
@@ -9,35 +11,49 @@ import axiosClient from "../config/axios";
 
 const UploadPanel = ({ isAuthenticated }) => {
   const [files, setFiles] = useState([]);
+  console.log(files);
 
   const onDropRejected = useCallback((rejectedFiles) => {
     console.log(rejectedFiles);
   }, []);
+
   const onDropAccepted = useCallback(async (acceptedFiles) => {
     Array.from(acceptedFiles).forEach((file) => {
-      console.log(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const base64 = reader.result.split(",")[1];
 
         const fileData = {
+          fileId: shortId.generate(),
           base64,
           name: file.name,
           size: file.size,
         };
-        console.log(fileData);
         setFiles((prevFiles) => [...prevFiles, fileData]);
-        // setZipFile((zipFile) => [...zipFile, fileData]);
       };
     });
   }, []);
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({ onDropAccepted, onDropRejected, maxSize: isAuthenticated ? 100000000 : 1000000 });
-
-  console.log(files);
+    useDropzone({
+      onDropAccepted,
+      onDropRejected,
+      maxSize: isAuthenticated ? 100000000 : 1000000,
+    });
 
   const uploadFile = async () => {
+    const totalSize = files.reduce((total, file) => total + file.size, 0);
+
+    if (!isAuthenticated && totalSize > 1024 * 1024) {
+      goToSignUp({ msg: "Files Exceed 1MB" }, "Sign Up");
+      return;
+    }
+
+    if (isAuthenticated && totalSize > 1024 * 1024 * 10) {
+      errorAlert({ msg: "Files Exceed 10MB" });
+      return;
+    }
+
     const zip = new JSZip();
     files.map((file) => {
       zip.file(file.name, file.base64, { base64: true });
@@ -78,8 +94,10 @@ const UploadPanel = ({ isAuthenticated }) => {
         <FilesManager
           getRootProps={getRootProps}
           getInputProps={getInputProps}
-          files={files}
           uploadFile={uploadFile}
+          isAuthenticated={isAuthenticated}
+          files={files}
+          setFiles={setFiles}
         />
       )}
 
@@ -97,6 +115,7 @@ const UploadPanel = ({ isAuthenticated }) => {
 };
 
 const Container = styled.div`
+  height: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
   gap: 2rem;
@@ -123,7 +142,7 @@ const LinkList = styled.div`
     max-width: unset;
     height: unset;
     margin-bottom: -3rem;
-    margin-right: -7rem;
+    margin-right: -5rem;
 
     @media (max-width: 768px) {
       margin: 0;

@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import Router from "next/router";
 
 const successAlert = (data) => {
   const msg = Object.values(data)[0];
@@ -44,4 +45,23 @@ const goToSignAlert = async (error, route) => {
   return res;
 };
 
-export { successAlert, errorAlert, goToSignAlert };
+const goToSignUp = async (error, route) => {
+  const msg = Object.values(error)[0];
+  let res;
+
+  await Swal.fire({
+    title: msg,
+    icon: "warning",
+    confirmButtonColor: "#0060DF",
+    confirmButtonText: `Go to ${route}`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log("hola");
+        Router.push("/login");
+    }
+  });
+
+  return res;
+}
+
+export { successAlert, errorAlert, goToSignAlert, goToSignUp };

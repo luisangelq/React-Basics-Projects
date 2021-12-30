@@ -1,7 +1,6 @@
 import axiosClient from "./axios";
 
 const authToken = (token) => {
-    console.log(token);
     if (token) {
         axiosClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {

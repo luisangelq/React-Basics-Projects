@@ -1,14 +1,19 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const FilesManager = ({ getRootProps, getInputProps, files, uploadFile }) => {
+const FilesManager = ({
+  getRootProps,
+  getInputProps,
+  uploadFile,
+  isAuthenticated,
+  files,
+  setFiles,
+}) => {
   const [passwordInput, setPasswordInput] = useState(false);
 
   const deleteFile = (fileId) => {
-    
-    
-
-  }
+    setFiles((prevFiles) => prevFiles.filter((file) => file.fileId !== fileId));
+  };
 
   const filesLoop = files.map((file) => (
     <li key={file.fileId}>
@@ -24,9 +29,7 @@ const FilesManager = ({ getRootProps, getInputProps, files, uploadFile }) => {
         </p>
       </div>
 
-      <button
-        onClick={() => deleteFile(file.fileId)}
-      >
+      <button onClick={() => deleteFile(file.fileId)}>
         <img src="assets/deleteIcon.svg" />
       </button>
     </li>
@@ -45,7 +48,17 @@ const FilesManager = ({ getRootProps, getInputProps, files, uploadFile }) => {
             <p>Select files to upload</p>
           </div>
 
-          <label>
+          <label
+            className={
+              !isAuthenticated && totalSize > 1024 * 1024
+                ? "exceed"
+                : "normal"
+                ? isAuthenticated && totalSize > 1024 * 1024 * 10
+                  ? "exceed"
+                  : "normal"
+                : "normal"
+            }
+          >
             Total size: {(totalSize / Math.pow(1024, 2)).toFixed(2)} MB{" "}
           </label>
         </div>
@@ -91,9 +104,7 @@ const FilesManager = ({ getRootProps, getInputProps, files, uploadFile }) => {
           ) : null}
         </div>
 
-        <button
-            onClick={() => uploadFile()}
-        >Upload</button>
+        <button onClick={() => uploadFile()}>Upload</button>
       </div>
     </FilesContainer>
   );
@@ -194,6 +205,13 @@ const FilesContainer = styled.div`
 
       @media (max-width: 480px) {
         flex-direction: column;
+      }
+
+      .exceed {
+        color: #FB4B70;
+      }
+      .normal {
+        color: gray;
       }
     }
   }

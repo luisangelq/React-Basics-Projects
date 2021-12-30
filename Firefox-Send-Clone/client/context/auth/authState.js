@@ -121,7 +121,10 @@ const AuthState = ({ children }) => {
   };
 
   const sendAuthToken = async () => {
-    if (state.token) {
+    if (!state.token) {
+      authToken(null);
+      return;
+    } else {
       authToken(state.token);
     }
 
