@@ -10,7 +10,6 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   border: 0 solid #dae1e7;
-  margin-left: 1.5rem;
 
   input {
     width: 100%;

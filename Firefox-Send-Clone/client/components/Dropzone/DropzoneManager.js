@@ -77,6 +77,10 @@ const DropzoneContainer = styled.div`
     font-weight: 550;
     font-size: 0.8rem;
   }
+
+  @media (max-width: 768px) {
+    padding: 5rem .5rem;
+  }
 `;
 
 export default DropzoneManager;

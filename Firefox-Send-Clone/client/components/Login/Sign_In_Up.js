@@ -27,7 +27,7 @@ const Sign_In_Up = () => {
         </div>
       </Info>
 
-    {/* This Componens shows in order to:
+      {/* This Componens shows in order to:
       EmailForm if exist = null
       SignInForm if exist = false
       SignUpForm if exist = true
@@ -55,6 +55,16 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 8rem 0 6rem;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr;
+    margin: 0;
+    gap: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    margin: 2rem 0;
+  }
 `;
 
 const Info = styled.div`
@@ -66,7 +76,7 @@ const Info = styled.div`
 
     img {
       width: 4rem;
-      margin: 0 1rem;
+      margin: 0 1rem 1rem 0;
     }
 
     .description {
@@ -75,6 +85,16 @@ const Info = styled.div`
         line-height: 1.5;
       }
     }
+
+    @media (max-width: 1000px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    order: 1;
+    flex-direction: column;
   }
 `;
 

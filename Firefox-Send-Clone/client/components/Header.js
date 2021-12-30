@@ -26,7 +26,7 @@ const Header = () => {
               clipRule="evenodd"
             />
           </svg>
-        
+
           <div className="popup">
             <p>{user ? user.name : "Guest"}</p>
             <button onClick={() => logout()}>Logout</button>
@@ -46,14 +46,20 @@ const HeaderContainer = styled.header`
   justify-content: space-between;
   align-items: center;
   height: 6rem;
-  padding: 0 2rem;
 
   img {
+    margin-left: 2rem;
     cursor: pointer;
+
+    @media (max-width: 480px) {
+      margin-left: .5rem;
+      width: 10rem;
+    }
   }
 `;
 
 const AuthContainer = styled.div`
+  margin-right: 2rem;
   .popup {
     visibility: hidden;
     opacity: 0;
@@ -99,6 +105,10 @@ const AuthContainer = styled.div`
     color: #c0ced6;
     cursor: pointer;
   }
+
+  @media (max-width: 480px) {
+    margin-right: .5rem;
+  }
 `;
 
 const Btn = styled.a`
@@ -107,6 +117,7 @@ const Btn = styled.a`
   border-radius: 0.5rem;
   color: #0060df;
   padding: 0.8rem 1.1rem;
+  margin-right: 2rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
@@ -114,6 +125,12 @@ const Btn = styled.a`
     background: #0060df;
     color: #fff;
   }
+
+  @media (max-width: 480px) {
+    margin-right: 1rem;
+        padding: .5rem;
+        font-size: .8rem;
+      }
 `;
 
 export default Header;

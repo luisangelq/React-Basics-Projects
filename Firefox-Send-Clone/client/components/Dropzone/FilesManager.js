@@ -87,13 +87,15 @@ const FilesManager = ({
         </div>
 
         <div className="filePassword">
-          <input
-            type="checkbox"
-            onClick={() =>
-              passwordInput ? setPasswordInput(false) : setPasswordInput(true)
-            }
-          />
-          <label>Protect with password</label>
+          <div className="checkPassword">
+            <input
+              type="checkbox"
+              onClick={() =>
+                passwordInput ? setPasswordInput(false) : setPasswordInput(true)
+              }
+            />
+            <label>Protect with password</label>
+          </div>
 
           {passwordInput ? (
             <input
@@ -161,7 +163,6 @@ const FilesContainer = styled.div`
 
           @media (max-width: 480px) {
             align-items: center;
-            margin: 1rem 0;
           }
         }
 
@@ -176,7 +177,7 @@ const FilesContainer = styled.div`
         }
 
         @media (max-width: 480px) {
-          flex-direction: column;
+          padding: 0.5rem;
         }
       }
     }
@@ -208,7 +209,7 @@ const FilesContainer = styled.div`
       }
 
       .exceed {
-        color: #FB4B70;
+        color: #fb4b70;
       }
       .normal {
         color: gray;
@@ -240,24 +241,32 @@ const FilesContainer = styled.div`
     .filePassword {
       display: flex;
       align-items: center;
-      height: 2rem;
-      input {
-        margin-right: 0.5rem;
-        height: 1.5rem;
-        width: 1.5rem;
-        border: 1px solid #dae1e7;
-        cursor: pointer;
+      gap: 1rem;
+      
+      .checkPassword {
+        display: flex;
+        align-items: center;
+
+        input {
+          margin-right: 0.5rem;
+          min-height: 1.5rem;
+          min-width: 1.5rem;
+          border: 1px solid #dae1e7;
+          cursor: pointer;
+        }
       }
 
       .passwordInput {
-        margin-left: 0.5rem;
-        width: 15rem;
-        padding: 1rem;
+        padding: 0.5rem;
         background: #f9f9fa;
         border: 1px solid #dae1e7;
         border-radius: 0.3rem;
         color: #6c6c6d;
         cursor: text;
+      }
+
+      @media (max-width: 480px) {
+        flex-direction: column;
       }
     }
 

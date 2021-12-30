@@ -21,7 +21,11 @@ const MainPanel = ({ children }) => {
 };
 
 const Main = styled.main`
-  margin: 5rem 2rem 0 2rem;
+  margin: 5rem 1rem 0 1rem;
+
+  @media (max-width: 768px) {
+    margin: 2rem 1rem;
+  }
 
 `
 const Content = styled.div`
@@ -37,6 +41,7 @@ background-color: #fff;
   @media (max-width: 768px) {
     max-width: 100%;
     height: auto;
+    padding: 1rem;
   }
 `;
 
