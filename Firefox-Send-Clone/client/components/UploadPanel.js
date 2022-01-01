@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import shortId from "shortid";
 import JSZip from "jszip";
@@ -7,12 +7,12 @@ import { errorAlert, goToSignUp } from "./AlertHandler";
 
 import DropzoneManager from "./Dropzone/DropzoneManager";
 import FilesManager from "./Dropzone/FilesManager";
-import axiosClient from "../config/axios";
+
+import FilesContext from "../context/files/filesContext";
 
 const UploadPanel = ({ isAuthenticated }) => {
-  const [files, setFiles] = useState([]);
-  console.log(files);
-
+  const { files, loading, setFileFn, deleteFileFn, uploadZipFileFn, loadingFn } =
+    useContext(FilesContext);
   const onDropRejected = useCallback((rejectedFiles) => {
     console.log(rejectedFiles);
   }, []);
@@ -30,7 +30,8 @@ const UploadPanel = ({ isAuthenticated }) => {
           name: file.name,
           size: file.size,
         };
-        setFiles((prevFiles) => [...prevFiles, fileData]);
+
+        setFileFn(fileData);
       };
     });
   }, []);
@@ -42,6 +43,8 @@ const UploadPanel = ({ isAuthenticated }) => {
     });
 
   const uploadFile = async () => {
+    loadingFn(true);
+    
     const totalSize = files.reduce((total, file) => total + file.size, 0);
 
     if (!isAuthenticated && totalSize > 1024 * 1024) {
@@ -70,15 +73,10 @@ const UploadPanel = ({ isAuthenticated }) => {
         return file;
       });
 
-    try {
-      const formData = new FormData();
-      formData.append("file", zipFile);
+    const formData = new FormData();
+    formData.append("file", zipFile);
 
-      const res = await axiosClient.post("/api/files", formData);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+    uploadZipFileFn(formData);
   };
 
   return (
@@ -97,7 +95,8 @@ const UploadPanel = ({ isAuthenticated }) => {
           uploadFile={uploadFile}
           isAuthenticated={isAuthenticated}
           files={files}
-          setFiles={setFiles}
+          deleteFileFn={deleteFileFn}
+          loading={loading}
         />
       )}
 
@@ -125,7 +124,7 @@ const Container = styled.div`
   }
 
   @media (max-width: 480px) {
-    font-size: 80% ;
+    font-size: 80%;
   }
 `;
 
@@ -155,14 +154,14 @@ const LinkList = styled.div`
   }
 
   @media (max-width: 768px) {
-      margin: 1rem 0;
-      max-width: 100%;
-      height: auto;
+    margin: 1rem 0;
+    max-width: 100%;
+    height: auto;
 
-      p {
-        padding-right: 0;
-      }
+    p {
+      padding-right: 0;
     }
+  }
 `;
 
 export default UploadPanel;

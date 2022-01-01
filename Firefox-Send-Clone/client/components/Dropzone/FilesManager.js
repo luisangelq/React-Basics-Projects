@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import Spinner from "../Spinner";
 
 const FilesManager = ({
   getRootProps,
@@ -7,12 +8,13 @@ const FilesManager = ({
   uploadFile,
   isAuthenticated,
   files,
-  setFiles,
+  loading,
+  deleteFileFn,
 }) => {
   const [passwordInput, setPasswordInput] = useState(false);
 
   const deleteFile = (fileId) => {
-    setFiles((prevFiles) => prevFiles.filter((file) => file.fileId !== fileId));
+    deleteFileFn(fileId);
   };
 
   const filesLoop = files.map((file) => (
@@ -106,7 +108,13 @@ const FilesManager = ({
           ) : null}
         </div>
 
-        <button onClick={() => uploadFile()}>Upload</button>
+        <button
+          className={loading ? "loading" : null}
+          disabled={loading ? "disabled" : ""}
+          onClick={() => uploadFile()}
+        >
+          {loading ? <Spinner /> : "Upload"}
+        </button>
       </div>
     </FilesContainer>
   );
@@ -242,7 +250,7 @@ const FilesContainer = styled.div`
       display: flex;
       align-items: center;
       gap: 1rem;
-      
+
       .checkPassword {
         display: flex;
         align-items: center;
@@ -272,6 +280,7 @@ const FilesContainer = styled.div`
 
     button {
       width: 100%;
+      max-height: 3rem;
       background-color: #0060df;
       padding: 1rem;
       outline: none;
@@ -279,6 +288,11 @@ const FilesContainer = styled.div`
       border-radius: 0.5rem;
       color: #fff;
       margin-top: 1.5rem;
+    }
+
+    .loading {
+      padding: 0;
+      cursor: not-allowed;
     }
   }
 `;

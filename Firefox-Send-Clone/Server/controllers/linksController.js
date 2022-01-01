@@ -35,7 +35,7 @@ exports.createLink = async (req, res, next) => {
 
   try {
     await link.save();
-    res.status(200).json({ msg: "Link created successfully" });
+    res.status(200).json({ msg: "Link created successfully", url: link.url });
 
     return next();
   } catch (err) {
