@@ -12,10 +12,9 @@ const FilesManager = ({
   deleteFileFn,
 }) => {
   const [passwordInput, setPasswordInput] = useState(false);
-
-  const deleteFile = (fileId) => {
-    deleteFileFn(fileId);
-  };
+  const [downloads, setDownloads] = useState(1);
+  const [expires, setExpires] = useState(36000);
+  const [password, setPassword] = useState(null);
 
   const filesLoop = files.map((file) => (
     <li key={file.fileId}>
@@ -31,7 +30,7 @@ const FilesManager = ({
         </p>
       </div>
 
-      <button onClick={() => deleteFile(file.fileId)}>
+      <button onClick={() => deleteFileFn(file.fileId)}>
         <img src="assets/deleteIcon.svg" />
       </button>
     </li>
@@ -69,7 +68,7 @@ const FilesManager = ({
       <div className="fileConfig">
         <div className="fileExpires">
           <label>Expires after</label>
-          <select>
+          <select onChange={(e) => setDownloads(Number(e.target.value))}>
             <option value="1">1 download</option>
             <option value="2">2 downloads</option>
             <option value="3">3 downloads</option>
@@ -80,7 +79,10 @@ const FilesManager = ({
             <option value="100">100 downloads</option>
           </select>
           <label>or</label>
-          <select defaultValue={"86400"}>
+          <select
+            defaultValue={"86400"}
+            onChange={(e) => setExpires(Number(e.target.value))}
+          >
             <option value="300">5 minutes</option>
             <option value="3600">1 hour</option>
             <option value="86400">1 day</option>
@@ -104,6 +106,7 @@ const FilesManager = ({
               className="passwordInput"
               type="text"
               placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           ) : null}
         </div>
@@ -111,7 +114,7 @@ const FilesManager = ({
         <button
           className={loading ? "loading" : null}
           disabled={loading ? "disabled" : ""}
-          onClick={() => uploadFile()}
+          onClick={() => uploadFile({ downloads, expires, password })}
         >
           {loading ? <Spinner /> : "Upload"}
         </button>

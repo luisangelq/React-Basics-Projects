@@ -9,17 +9,15 @@ const FilesState = ({ children }) => {
   const initialState = {
     files: [],
     zipFiles: [],
-    downloads: 1,
-    password: null,
     url: null,
     msg: null,
     loading: false,
   };
 
+  
   const [state, dispatch] = useReducer(filesReducer, initialState);
 
   const setFileFn = async (file) => {
-    console.log(file);
     dispatch({
       type: "SET_FILE",
       payload: file,
@@ -35,7 +33,8 @@ const FilesState = ({ children }) => {
     });
   };
 
-  const uploadZipFileFn = async (zipFile) => {
+  const uploadZipFileFn = async (zipFile, fileParams) => {
+    console.log(fileParams);
     try {
       const res = await axiosClient.post("/api/files", zipFile);
       console.log(res);
@@ -43,14 +42,22 @@ const FilesState = ({ children }) => {
       dispatch({
         type: "UPLOAD_ZIP_FILE",
         payload: res.data,
-      })
-    
+      });
+
+      const filesArray = state.files.map((file) => {
+        return {
+          fileId: file.fileId,
+          name: file.name,
+          size: file.size,
+        }
+      });
       const fileInfo = {
         name: res.data.file,
-        content: state.files,
-        password: state.password,
-        downloads: state.downloads,
-      }
+        content: filesArray,
+        downloads: fileParams.downloads,
+        expires: fileParams.expires,
+        password: fileParams.password,
+      };
 
       createLinkFn(fileInfo);
     } catch (error) {
@@ -59,26 +66,31 @@ const FilesState = ({ children }) => {
   };
 
   const createLinkFn = async (fileInfo) => {
-        console.log(fileInfo);
-      
+    console.log(fileInfo);
+
     try {
+      const res = await axiosClient.post("/api/links", fileInfo);
+      console.log(res);
 
-    //   const res = await axiosClient.post("/api/files/link", { fileInfo });
-    //   console.log(res);
-
-    //   dispatch({
-    //     type: "CREATE_LINK",
-    //     payload: res.data,
-    //   });
+      dispatch({
+        type: "CREATE_LINK",
+        payload: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const loadingFn = (loading) => {
     dispatch({
       type: "LOADING",
       payload: loading,
+    });
+  };
+
+  const cleanStateFn = () => {
+    dispatch({
+      type: "CLEAN_STATE",
     });
   }
 
@@ -94,8 +106,10 @@ const FilesState = ({ children }) => {
         loading: state.loading,
         setFileFn,
         deleteFileFn,
+        fileParamsFn,
         uploadZipFileFn,
-        loadingFn
+        loadingFn,
+        cleanStateFn
       }}
     >
       {children}

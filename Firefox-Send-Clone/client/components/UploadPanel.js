@@ -9,10 +9,21 @@ import DropzoneManager from "./Dropzone/DropzoneManager";
 import FilesManager from "./Dropzone/FilesManager";
 
 import FilesContext from "../context/files/filesContext";
+import LinkPage from "./LinkPage";
 
 const UploadPanel = ({ isAuthenticated }) => {
-  const { files, loading, setFileFn, deleteFileFn, uploadZipFileFn, loadingFn } =
-    useContext(FilesContext);
+  const {
+    files,
+    zipFiles,
+    downloads,
+    password,
+    url,
+    loading,
+    setFileFn,
+    deleteFileFn,
+    uploadZipFileFn,
+    loadingFn,
+  } = useContext(FilesContext);
   const onDropRejected = useCallback((rejectedFiles) => {
     console.log(rejectedFiles);
   }, []);
@@ -35,16 +46,15 @@ const UploadPanel = ({ isAuthenticated }) => {
       };
     });
   }, []);
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({
-      onDropAccepted,
-      onDropRejected,
-      maxSize: isAuthenticated ? 100000000 : 1000000,
-    });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDropAccepted,
+    onDropRejected,
+    maxSize: isAuthenticated ? 1024 * 1024 * 10 : 1024 * 1024,
+  });
 
-  const uploadFile = async () => {
+  const uploadFile = async (fileParams) => {
     loadingFn(true);
-    
+
     const totalSize = files.reduce((total, file) => total + file.size, 0);
 
     if (!isAuthenticated && totalSize > 1024 * 1024) {
@@ -76,40 +86,48 @@ const UploadPanel = ({ isAuthenticated }) => {
     const formData = new FormData();
     formData.append("file", zipFile);
 
-    uploadZipFileFn(formData);
+    uploadZipFileFn(formData, fileParams);
   };
 
   return (
-    <Container>
-      {!files.length > 0 ? (
-        <DropzoneManager
-          getRootProps={getRootProps}
-          getInputProps={getInputProps}
-          isDragActive={isDragActive}
-          isAuthenticated={isAuthenticated}
-        />
-      ) : (
-        <FilesManager
-          getRootProps={getRootProps}
-          getInputProps={getInputProps}
-          uploadFile={uploadFile}
-          isAuthenticated={isAuthenticated}
-          files={files}
-          deleteFileFn={deleteFileFn}
-          loading={loading}
-        />
-      )}
+    <>
+      {url === null ? (
+        <Container>
+          {!files.length > 0 ? (
+            <DropzoneManager
+              getRootProps={getRootProps}
+              getInputProps={getInputProps}
+              isDragActive={isDragActive}
+              isAuthenticated={isAuthenticated}
+            />
+          ) : (
+            <FilesManager
+              getRootProps={getRootProps}
+              getInputProps={getInputProps}
+              uploadFile={uploadFile}
+              isAuthenticated={isAuthenticated}
+              files={files}
+              downloads={downloads}
+              password={password}
+              deleteFileFn={deleteFileFn}
+              loading={loading}
+            />
+          )}
 
-      <LinkList>
-        <h1>Simple, private file sharing</h1>
-        <p>
-          Firefox Send lets you share files with end-to-end encryption and a
-          link that automatically expires. So you can keep what you share
-          private and make sure your stuff doesn’t stay online forever.
-        </p>
-        <img src="assets/IntroImage.svg" alt="intro" />
-      </LinkList>
-    </Container>
+          <LinkList>
+            <h1>Simple, private file sharing</h1>
+            <p>
+              Firefox Send lets you share files with end-to-end encryption and a
+              link that automatically expires. So you can keep what you share
+              private and make sure your stuff doesn’t stay online forever.
+            </p>
+            <img src="assets/IntroImage.svg" alt="intro" />
+          </LinkList>
+        </Container>
+      ) : (
+        <LinkPage zipFiles={zipFiles} url={url} />
+      )}
+    </>
   );
 };
 

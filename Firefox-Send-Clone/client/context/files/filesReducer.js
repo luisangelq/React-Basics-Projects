@@ -10,7 +10,11 @@ const filesReducer = (state, action) => {
         ...state,
         files: state.files.filter((file) => file.fileId !== action.payload),
       };
-
+    case "FILE_PARAMS":
+      return {
+        ...state,
+        ...action.payload,
+      };
     case "UPLOAD_ZIP_FILE":
       return {
         ...state,
@@ -22,14 +26,31 @@ const filesReducer = (state, action) => {
             content: state.files,
           },
         ],
-        
+
         msg: action.payload.msg,
         loading: false,
+      };
+    case "CREATE_LINK":
+      return {
+        ...state,
+        url: action.payload.link.url,
+        msg: action.payload.msg,
       };
     case "LOADING":
       return {
         ...state,
         loading: action.payload,
+      };
+
+    case "CLEAN_STATE":
+      return {
+        ...state,
+        files: [],
+        zipFiles: [],
+        url: null,
+        expires: null,
+        msg: null,
+        loading: false,
       };
 
     default:

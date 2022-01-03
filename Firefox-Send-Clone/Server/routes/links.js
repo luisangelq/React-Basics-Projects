@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 
 router.post(
   "/",
-  [check("originalName", "Upload File").not().isEmpty()],
+  [check("name", "Upload File").not().isEmpty()],
   auth,
   linksController.createLink
 );

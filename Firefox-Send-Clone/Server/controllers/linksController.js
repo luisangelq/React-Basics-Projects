@@ -10,12 +10,16 @@ exports.createLink = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { originalName, password, downloads } = req.body;
+  const { name, content, password, downloads, expires } = req.body;
+
+  console.log(req.body);
 
   const link = new Link({
-    originalName,
     url: shortid.generate(),
-    fileName: shortid.generate(),
+    fileName: name,
+    content: content,
+    downloads: downloads,
+    expires: Date.now() + expires,
   });
 
   if (req.user) {
@@ -35,7 +39,9 @@ exports.createLink = async (req, res, next) => {
 
   try {
     await link.save();
-    res.status(200).json({ msg: "Link created successfully", url: link.url });
+    res
+      .status(200)
+      .json({ msg: "Link created successfully", link });
 
     return next();
   } catch (err) {
@@ -62,7 +68,6 @@ exports.getLink = async (req, res, next) => {
     }
 
     if (linkObj.downloads === 1) {
-
       req.file = linkObj.fileName;
 
       //Delete the link in the database
@@ -70,12 +75,11 @@ exports.getLink = async (req, res, next) => {
 
       next();
     }
-  
+
     if (linkObj.downloads > 1) {
       linkObj.downloads = linkObj.downloads - 1;
       await linkObj.save();
     }
-    
   } catch (err) {
     console.error("HOLA 2");
     res.status(500).json({ msg: "Server Error" });
