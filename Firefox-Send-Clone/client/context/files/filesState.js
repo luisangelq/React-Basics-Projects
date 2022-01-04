@@ -99,8 +99,6 @@ const FilesState = ({ children }) => {
       value={{
         files: state.files,
         zipFiles: state.zipFiles,
-        downloads: state.downloads,
-        password: state.password,
         url: state.url,
         msg: state.msg,
         loading: state.loading,
