@@ -51,6 +51,18 @@ exports.createLink = async (req, res, next) => {
   console.log(link);
 };
 
+//Get Links
+exports.getLinks = async (req, res, next) => {
+  try {
+    const links = await Link.find({}).select("url author -_id");
+    res.status(200).json({ links });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: "Server Error" });
+  }
+
+};
+
 //Get Link
 exports.getLink = async (req, res, next) => {
   try {
@@ -81,7 +93,7 @@ exports.getLink = async (req, res, next) => {
       await linkObj.save();
     }
   } catch (err) {
-    console.error("HOLA 2");
+    console.error(err);
     res.status(500).json({ msg: "Server Error" });
   }
 };

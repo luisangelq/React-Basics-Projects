@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <Link href="/">
-        <img src="assets/HeaderLogo.svg" alt="logo" />
+        <img src="/assets/HeaderLogo.svg" alt="logo" />
       </Link>
 
       {isAuthenticated ? (

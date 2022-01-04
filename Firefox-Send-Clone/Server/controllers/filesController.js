@@ -43,6 +43,7 @@ exports.createFile = (req, res, next) => {
 };
 
 exports.deleteFile = async (req, res, next) => {
+  console.log(req.file);
   try {
     fs.unlinkSync(`${__dirname}/../uploads/${req.file}`);
   } catch (error) {

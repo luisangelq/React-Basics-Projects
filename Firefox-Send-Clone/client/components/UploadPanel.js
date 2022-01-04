@@ -15,8 +15,6 @@ const UploadPanel = ({ isAuthenticated }) => {
   const {
     files,
     zipFiles,
-    downloads,
-    password,
     url,
     loading,
     setFileFn,
@@ -107,8 +105,6 @@ const UploadPanel = ({ isAuthenticated }) => {
               uploadFile={uploadFile}
               isAuthenticated={isAuthenticated}
               files={files}
-              downloads={downloads}
-              password={password}
               deleteFileFn={deleteFileFn}
               loading={loading}
             />

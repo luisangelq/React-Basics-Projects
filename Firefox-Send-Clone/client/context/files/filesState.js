@@ -106,7 +106,6 @@ const FilesState = ({ children }) => {
         loading: state.loading,
         setFileFn,
         deleteFileFn,
-        fileParamsFn,
         uploadZipFileFn,
         loadingFn,
         cleanStateFn
