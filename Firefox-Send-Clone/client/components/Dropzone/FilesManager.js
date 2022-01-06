@@ -13,7 +13,7 @@ const FilesManager = ({
 }) => {
   const [passwordInput, setPasswordInput] = useState(false);
   const [downloads, setDownloads] = useState(1);
-  const [expires, setExpires] = useState(36000);
+  const [expires, setExpires] = useState(86400);
   const [password, setPassword] = useState(null);
 
   const filesLoop = files.map((file) => (
@@ -114,7 +114,7 @@ const FilesManager = ({
         <button
           className={loading ? "loading" : null}
           disabled={loading ? "disabled" : ""}
-          onClick={() => uploadFile({ downloads, expires, password })}
+          onClick={() => uploadFile({ downloads, expires, password, totalSize })}
         >
           {loading ? <Spinner /> : "Upload"}
         </button>

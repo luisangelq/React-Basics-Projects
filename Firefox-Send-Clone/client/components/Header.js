@@ -5,7 +5,6 @@ import AuthContext from "../context/auth/authContext";
 
 const Header = () => {
   const { user, isAuthenticated, logout } = useContext(AuthContext);
-
   return (
     <HeaderContainer>
       <Link href="/">

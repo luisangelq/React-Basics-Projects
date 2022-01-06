@@ -34,6 +34,10 @@ const linkSchema = new Schema({
     type: Date,
     required: true,
   },
+  size: {
+    type: Number,
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now(),

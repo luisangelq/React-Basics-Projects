@@ -16,7 +16,8 @@ app.use(cors(corsOptions));
 //Enable body parser
 app.use(express.json({ extended: false }));
 
-
+//Enable public folder
+app.use(express.static("uploads"));
 
 //app routes
 app.use("/api/users", require("./routes/users"));

@@ -14,7 +14,6 @@ const FilesState = ({ children }) => {
     loading: false,
   };
 
-  
   const [state, dispatch] = useReducer(filesReducer, initialState);
 
   const setFileFn = async (file) => {
@@ -34,10 +33,8 @@ const FilesState = ({ children }) => {
   };
 
   const uploadZipFileFn = async (zipFile, fileParams) => {
-    console.log(fileParams);
     try {
       const res = await axiosClient.post("/api/files", zipFile);
-      console.log(res);
 
       dispatch({
         type: "UPLOAD_ZIP_FILE",
@@ -49,14 +46,18 @@ const FilesState = ({ children }) => {
           fileId: file.fileId,
           name: file.name,
           size: file.size,
-        }
+        };
       });
+      const expiredDate = new Date(Date.now() + fileParams.expires * 1000);
+      console.log(expiredDate);
+      console.log(fileParams.expires);
       const fileInfo = {
         name: res.data.file,
         content: filesArray,
         downloads: fileParams.downloads,
-        expires: fileParams.expires,
+        expires: new Date(Date.now() + fileParams.expires * 1000),
         password: fileParams.password,
+        size: fileParams.totalSize,
       };
 
       createLinkFn(fileInfo);
@@ -92,7 +93,7 @@ const FilesState = ({ children }) => {
     dispatch({
       type: "CLEAN_STATE",
     });
-  }
+  };
 
   return (
     <FilesContext.Provider
@@ -106,7 +107,7 @@ const FilesState = ({ children }) => {
         deleteFileFn,
         uploadZipFileFn,
         loadingFn,
-        cleanStateFn
+        cleanStateFn,
       }}
     >
       {children}

@@ -42,6 +42,22 @@ exports.createFile = (req, res, next) => {
   }
 };
 
+exports.download = async (req, res, next) => {
+  if (linkObj.downloads === 1) {
+    req.file = linkObj.fileName;
+
+    //Delete the link in the database
+    await Link.findOneAndDelete({ url: req.params.url });
+
+    next();
+  }
+
+  if (linkObj.downloads > 1) {
+    linkObj.downloads = linkObj.downloads - 1;
+    await linkObj.save();
+  }
+};
+
 exports.deleteFile = async (req, res, next) => {
   console.log(req.file);
   try {
