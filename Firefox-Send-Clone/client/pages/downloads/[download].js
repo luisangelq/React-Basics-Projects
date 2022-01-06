@@ -24,10 +24,10 @@ export async function getServerSidePaths() {
 }
 
 const Download = ({ download }) => {
-  const { sendAuthToken } = useContext(AuthContext);
-  useEffect(() => {
-    sendAuthToken();
-  }, []);
+  // const { sendAuthToken } = useContext(AuthContext);
+  // useEffect(() => {
+  //   sendAuthToken();
+  // }, []);
 
   console.log(download);
   return (

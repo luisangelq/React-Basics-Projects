@@ -63,7 +63,6 @@ exports.deleteFile = async (req, res, next) => {
   try {
     fs.unlinkSync(`${__dirname}/../uploads/${req.file}`);
   } catch (error) {
-    console.error("HOLA");
     res.status(500).json({ msg: "Server Error" });
   }
 };
