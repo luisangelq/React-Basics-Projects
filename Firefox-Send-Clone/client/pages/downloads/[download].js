@@ -22,7 +22,21 @@ export async function getServerSidePaths() {
 }
 
 const Download = ({ download }) => {
+  const downloadFile = async (fileName) => {
+    console.log(fileName);
+    try {
+      await axiosClient.get(`/api/files/${fileName}`);
 
+      const link = document.createElement("a");
+      link.href = `${process.env.backendURL}/${download.fileName}`;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
   console.log(download);
   return (
     <MainPanel>
@@ -42,7 +56,7 @@ const Download = ({ download }) => {
           </div>
         </div>
 
-        <a href={`${process.env.backendURL}/${download.fileName}`}>Download</a>
+        <a onClick={() => downloadFile(download.fileName)}>Download</a>
       </DownloadPanel>
       <PasswordLock></PasswordLock>
     </MainPanel>

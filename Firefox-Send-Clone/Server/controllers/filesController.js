@@ -1,3 +1,4 @@
+const Link = require("../models/Link");
 const shortid = require("shortid");
 //Upload file
 const multer = require("multer");
@@ -43,25 +44,39 @@ exports.createFile = (req, res, next) => {
 };
 
 exports.download = async (req, res, next) => {
-  if (linkObj.downloads === 1) {
-    req.file = linkObj.fileName;
+  try {
+    const linkObj = await Link.findOne({ fileName: req.params.download });
 
-    //Delete the link in the database
-    await Link.findOneAndDelete({ url: req.params.url });
+    if (linkObj) {
+      res.download(`${__dirname}/../uploads/${req.params.download}`);
+      if (linkObj.downloads > 0) {
+        linkObj.downloads = linkObj.downloads - 1;
+        await linkObj.save();
+      }
 
-    next();
-  }
+      if (linkObj.downloads === 0) {
+        req.file = linkObj.fileName;
 
-  if (linkObj.downloads > 1) {
-    linkObj.downloads = linkObj.downloads - 1;
-    await linkObj.save();
+        //Delete the link in the database
+        await Link.findOneAndDelete(linkObj._id);
+        return next();
+      }
+    } else {
+      console.log("No file found");
+      res.status(404).json({ msg: "File not found" });
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ msg: "Server Error" });
   }
 };
 
 exports.deleteFile = async (req, res, next) => {
-  console.log(req.file);
+  console.log(req.body);
   try {
     fs.unlinkSync(`${__dirname}/../uploads/${req.file}`);
+
+    res.status(200).json({ msg: "File deleted successfully" });
   } catch (error) {
     res.status(500).json({ msg: "Server Error" });
   }

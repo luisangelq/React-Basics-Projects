@@ -95,7 +95,7 @@ exports.getLink = async (req, res, next) => {
       console.log("Link not found");
       res.status(404).json({ msg: "Link not found" });
 
-      return next();
+      return;
     } else {
       console.log(linkObj);
       res.status(200).json({ linkObj });

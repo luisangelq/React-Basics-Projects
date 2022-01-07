@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
+import FilesContext from "../context/files/filesContext";
 
 const LinkPage = ({ zipFiles, url }) => {
   const [isCheck, setIsCheck] = useState(false);
+
+  const { cleanStateFn } = useContext(FilesContext);
   return (
     <LinkContainer>
       <h2>Your file is encrypted and ready to send</h2>
@@ -34,7 +37,7 @@ const LinkPage = ({ zipFiles, url }) => {
         >
         {isCheck ? "Copied! ✔" : "Copy Link"}
         </button>
-        <button className="ok">OK</button>
+        <button onClick={cleanStateFn} className="ok">OK</button>
       </div>
     </LinkContainer>
   );
