@@ -1,8 +1,6 @@
-import { useEffect, useContext } from "react";
 import styled from "styled-components";
 import MainPanel from "../../components/MainPanel";
 import axiosClient from "../../config/axios";
-import AuthContext from "../../context/auth/authContext";
 
 export async function getServerSideProps({ params }) {
   const res = await axiosClient.get(`/api/links/${params.download}`);
@@ -24,10 +22,6 @@ export async function getServerSidePaths() {
 }
 
 const Download = ({ download }) => {
-  // const { sendAuthToken } = useContext(AuthContext);
-  // useEffect(() => {
-  //   sendAuthToken();
-  // }, []);
 
   console.log(download);
   return (

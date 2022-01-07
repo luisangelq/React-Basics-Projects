@@ -7,7 +7,9 @@ const Home = () => {
   const {isAuthenticated, sendAuthToken } = useContext(AuthContext);
 
   useEffect(() => {
-    sendAuthToken();
+    if(isAuthenticated) {
+      sendAuthToken();
+    }
   }, []);
 
   return (
