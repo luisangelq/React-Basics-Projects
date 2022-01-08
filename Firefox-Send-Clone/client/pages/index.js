@@ -4,10 +4,10 @@ import UploadPanel from "../components/UploadPanel";
 import AuthContext from "../context/auth/authContext";
 
 const Home = () => {
-  const {isAuthenticated, sendAuthToken } = useContext(AuthContext);
+  const {token, isAuthenticated, sendAuthToken } = useContext(AuthContext);
 
   useEffect(() => {
-    if(isAuthenticated) {
+    if(token) {
       sendAuthToken();
     }
   }, []);

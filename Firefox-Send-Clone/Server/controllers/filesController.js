@@ -47,6 +47,9 @@ exports.download = async (req, res, next) => {
   try {
     const linkObj = await Link.findOne({ fileName: req.params.download });
 
+    if (!linkObj) {
+      res.status(404).json({ msg: "File not found" });
+    }
     if (linkObj) {
       res.download(`${__dirname}/../uploads/${req.params.download}`);
       if (linkObj.downloads > 0) {
@@ -54,7 +57,7 @@ exports.download = async (req, res, next) => {
         await linkObj.save();
       }
 
-      if (linkObj.downloads === 0) {
+      if (linkObj.downloads < 1) {
         req.file = linkObj.fileName;
 
         //Delete the link in the database
@@ -63,7 +66,7 @@ exports.download = async (req, res, next) => {
       }
     } else {
       console.log("No file found");
-      res.status(404).json({ msg: "File not found" });
+      res.status(400).json({ msg: "File not found" });
     }
   } catch (error) {
     console.error(error.message);

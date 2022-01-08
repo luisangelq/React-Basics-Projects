@@ -1,16 +1,19 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { errorAlert } from "../../components/AlertHandler";
 import MainPanel from "../../components/MainPanel";
 import axiosClient from "../../config/axios";
 
-export async function getServerSideProps({ params }) {
-  const res = await axiosClient.get(`/api/links/${params.download}`);
+// export async function getServerSideProps({ params }) {
+  
 
-  return {
-    props: {
-      download: res.data.linkObj,
-    },
-  };
-}
+//   console.log(res.data);
+//   return {
+//     props: {
+//       download: res.data.linkObj,
+//     },
+//   };
+// }
 
 export async function getServerSidePaths() {
   const links = await axiosClient.get("/api/links");
@@ -21,7 +24,25 @@ export async function getServerSidePaths() {
   };
 }
 
-const Download = ({ download }) => {
+const Download = ({ params }) => {
+  const [download, setDownload] = useState(true);
+  const [password, setPassword] = useState("");
+  const [access, setAccess] = useState(false);
+
+  useEffect(async () => {
+    //get url param
+    try {
+      const res = await axiosClient.get(`/api/links/RVhYDVDDl4`);
+      setDownload(res.data.linkObj);
+  
+      console.log(res);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+    
+
+  }, []);
+
   const downloadFile = async (fileName) => {
     console.log(fileName);
     try {
@@ -34,10 +55,30 @@ const Download = ({ download }) => {
       link.click();
       link.remove();
     } catch (error) {
-      console.log(error.response);
+      console.log(error.response.status);
+      errorAlert(error.response);
     }
   };
-  console.log(download);
+  
+
+  const checkPassword = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axiosClient.post(`/api/links/${download.url}`, {
+        password,
+        url: download.url,
+      });
+
+      setAccess(res.data.access);
+
+      console.log(res.data);
+    } catch (error) {
+      console.log(error.response.data);
+      setAccess(error.response.data.access);
+      errorAlert(error.response.data);
+    }
+  };
   return (
     <MainPanel>
       <DownloadPanel>
@@ -47,18 +88,29 @@ const Download = ({ download }) => {
           link that automatically expires.
         </p>
 
-        <div className="fileCard">
-          <img src="/assets/documentIcon.svg" />
+        {download.password && access === false ? (
+          <PasswordLock onSubmit={(e) => checkPassword(e)}>
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">Unlock</button>
+          </PasswordLock>
+        ) : (
+          <>
+            <FileCard>
+              <img src="/assets/documentIcon.svg" />
 
-          <div>
-            <h3>{download.fileName}</h3>
-            <p>{(download.size / Math.pow(1024, 2)).toFixed(2)} MB</p>
-          </div>
-        </div>
-
-        <a onClick={() => downloadFile(download.fileName)}>Download</a>
+              <div>
+                <h3>{download.fileName}</h3>
+                <p>{(download.size / Math.pow(1024, 2)).toFixed(2)} MB</p>
+              </div>
+            </FileCard>
+            <a onClick={() => downloadFile(download.fileName)}>Download</a>
+          </>
+        )}
       </DownloadPanel>
-      <PasswordLock></PasswordLock>
     </MainPanel>
   );
 };
@@ -81,24 +133,6 @@ const DownloadPanel = styled.div`
     color: gray;
   }
 
-  .fileCard {
-    width: 400px;
-    display: flex;
-    border: 2px solid #e6e6e6;
-    border-radius: 0.5rem;
-    padding: 1rem 2rem;
-    align-items: center;
-    gap: 1rem;
-
-    h3 {
-      font-size: 1rem;
-    }
-    p {
-      text-align: left;
-      margin: 0.5rem 0 0 0;
-    }
-  }
-
   a {
     width: 400px;
     background-color: #0060df;
@@ -108,6 +142,7 @@ const DownloadPanel = styled.div`
     border-radius: 0.5rem;
     color: #fff;
     margin-top: 1.5rem;
+    transition: all 0.2s ease-in-out;
     cursor: pointer;
 
     &:hover {
@@ -116,6 +151,51 @@ const DownloadPanel = styled.div`
   }
 `;
 
-const PasswordLock = styled.div``;
+const FileCard = styled.div`
+  width: 400px;
+  display: flex;
+  border: 2px solid #e6e6e6;
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  align-items: center;
+  gap: 1rem;
+
+  h3 {
+    font-size: 1rem;
+  }
+  p {
+    text-align: left;
+    margin: 0.5rem 0 0 0;
+  }
+`;
+
+const PasswordLock = styled.form`
+  width: 450px;
+  display: flex;
+
+  input {
+    width: 100%;
+    padding: 1rem;
+    outline: none;
+    border: 1px solid lightgray;
+    border-top-left-radius: 0.5rem 0.5rem;
+    border-bottom-left-radius: 0.5rem 0.5rem;
+  }
+
+  button {
+    width: 100px;
+    border: none;
+    outline: none;
+    background-color: #0060df;
+    color: #fff;
+    border-top-right-radius: 0.5rem 0.5rem;
+    border-bottom-right-radius: 0.5rem 0.5rem;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #003eaa;
+    }
+  }
+`;
 
 export default Download;

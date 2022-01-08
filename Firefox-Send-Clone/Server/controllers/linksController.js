@@ -95,7 +95,7 @@ exports.getLink = async (req, res, next) => {
       console.log("Link not found");
       res.status(404).json({ msg: "Link not found" });
 
-      return;
+      return next();
     } else {
       console.log(linkObj);
       res.status(200).json({ linkObj });
@@ -107,3 +107,30 @@ exports.getLink = async (req, res, next) => {
     res.status(500).json({ msg: "Server Error" });
   }
 };
+
+//Check if password is correct
+exports.checkPassword = async (req, res, next) => {
+  console.log(req.body);
+  try {
+    const linkObj = await Link.findOne({ url: req.params.url });
+
+    if (!linkObj) {
+      console.log("Link not found");
+      res.status(404).json({ msg: "Link not found" });
+
+      return;
+    } else {
+      console.log(linkObj);
+      if (bcrypt.compareSync(req.body.password, linkObj.password)) {
+        res.status(200).json({ msg: "Password correct", access: true });
+      } else {
+        res.status(400).json({ msg: "Password incorrect", access: false });
+      }
+    }
+
+    return next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+}
