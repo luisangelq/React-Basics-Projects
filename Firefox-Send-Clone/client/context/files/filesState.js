@@ -9,6 +9,7 @@ const FilesState = ({ children }) => {
   const initialState = {
     files: [],
     zipFiles: [],
+    links: [],
     url: null,
     msg: null,
     loading: false,
@@ -82,6 +83,29 @@ const FilesState = ({ children }) => {
     }
   };
 
+  const getUserLinksFn = async (user) => {
+    if (user) {
+      console.log(user);
+    }
+
+    try {
+      //filter links by user
+      if (user) {
+        const res = await axiosClient.post("/api/links/userLinks", {
+          userId: user.userId,
+        });
+        console.log(res);
+      }
+
+      // dispatch({
+      //   type: "GET_LINKS",
+      //   payload: res.data,
+      // });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const loadingFn = (loading) => {
     dispatch({
       type: "LOADING",
@@ -106,6 +130,7 @@ const FilesState = ({ children }) => {
         setFileFn,
         deleteFileFn,
         uploadZipFileFn,
+        getUserLinksFn,
         loadingFn,
         cleanStateFn,
       }}

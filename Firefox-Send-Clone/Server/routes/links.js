@@ -16,6 +16,8 @@ router.get(
   linksController.getLinks
 );
 
+router.post("/userLinks", auth, linksController.getUserLinks);
+
 router.get("/:url", linksController.getLink);
 
 router.post("/:url", linksController.checkPassword);

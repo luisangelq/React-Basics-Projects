@@ -22,6 +22,7 @@ const UploadPanel = ({ isAuthenticated }) => {
     uploadZipFileFn,
     loadingFn,
   } = useContext(FilesContext);
+
   const onDropRejected = useCallback((rejectedFiles) => {
     console.log(rejectedFiles);
   }, []);

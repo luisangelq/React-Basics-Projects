@@ -85,6 +85,17 @@ exports.getLinks = async (req, res, next) => {
   }
 };
 
+exports.getUserLinks = async (req, res, next) => {
+  console.log(req.body);
+  try {
+    const links = await Link.find({ author: req.body.userId });
+    res.status(200).json({ links });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: "Server Error" });
+  }
+}
+
 //Get Link
 exports.getLink = async (req, res, next) => {
   try {
@@ -93,7 +104,7 @@ exports.getLink = async (req, res, next) => {
 
     if (!linkObj) {
       console.log("Link not found");
-      res.status(404).json({ msg: "Link not found" });
+      res.status(404).json({ msg: "Link not found", expired: true });
 
       return next();
     } else {

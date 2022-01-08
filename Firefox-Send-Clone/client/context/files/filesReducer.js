@@ -36,6 +36,11 @@ const filesReducer = (state, action) => {
         url: action.payload.link.url,
         msg: action.payload.msg,
       };
+    case "GET_LINKS":
+      return {
+        ...state,
+        links: action.payload.links,
+      };
     case "LOADING":
       return {
         ...state,

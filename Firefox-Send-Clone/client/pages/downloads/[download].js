@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import { errorAlert } from "../../components/AlertHandler";
 import MainPanel from "../../components/MainPanel";
 import axiosClient from "../../config/axios";
 
 // export async function getServerSideProps({ params }) {
-  
 
 //   console.log(res.data);
 //   return {
@@ -24,27 +24,31 @@ export async function getServerSidePaths() {
   };
 }
 
-const Download = ({ params }) => {
-  const [download, setDownload] = useState(true);
+const Download = () => {
+  const [download, setDownload] = useState({});
   const [password, setPassword] = useState("");
   const [access, setAccess] = useState(false);
+  const [fileExpired, setFileExpired] = useState(false);
+
+  const router = useRouter();
 
   useEffect(async () => {
-    //get url param
+    //get current path
+    const url = window.location.pathname.split("/")[2];
+    console.log(url);
+
     try {
-      const res = await axiosClient.get(`/api/links/RVhYDVDDl4`);
+      const res = await axiosClient.get(`/api/links/${url}`);
       setDownload(res.data.linkObj);
-  
+
       console.log(res);
     } catch (error) {
       console.log(error.response.data);
+      setFileExpired(error.response.data.expired);
     }
-    
-
   }, []);
 
   const downloadFile = async (fileName) => {
-    console.log(fileName);
     try {
       await axiosClient.get(`/api/files/${fileName}`);
 
@@ -55,11 +59,10 @@ const Download = ({ params }) => {
       link.click();
       link.remove();
     } catch (error) {
-      console.log(error.response.status);
-      errorAlert(error.response);
+      console.log(error.response);
+      errorAlert(error.response.data);
     }
   };
-  
 
   const checkPassword = async (e) => {
     e.preventDefault();
@@ -102,12 +105,27 @@ const Download = ({ params }) => {
             <FileCard>
               <img src="/assets/documentIcon.svg" />
 
-              <div>
-                <h3>{download.fileName}</h3>
-                <p>{(download.size / Math.pow(1024, 2)).toFixed(2)} MB</p>
-              </div>
+              {fileExpired ? (
+                <div>
+                  <h3>File Expired</h3>
+                </div>
+              ) : (
+                <div>
+                  <h3>{download.fileName}</h3>
+                  <p>{(download.size / Math.pow(1024, 2)).toFixed(2)} MB</p>
+                </div>
+              )}
             </FileCard>
-            <a onClick={() => downloadFile(download.fileName)}>Download</a>
+
+            {fileExpired ? null : (
+              <button onClick={() => downloadFile(download.fileName)}>
+                Download
+              </button>
+            )}
+
+            <button onClick={() => router.push("/")} className="ok">
+              OK
+            </button>
           </>
         )}
       </DownloadPanel>
@@ -133,7 +151,7 @@ const DownloadPanel = styled.div`
     color: gray;
   }
 
-  a {
+  button {
     width: 400px;
     background-color: #0060df;
     padding: 1rem;
@@ -147,6 +165,17 @@ const DownloadPanel = styled.div`
 
     &:hover {
       background-color: #003eaa;
+    }
+  }
+
+  .ok {
+    background-color: #fff;
+    color: #0060df;
+    width: 5rem;
+    margin: 0 auto;
+
+    &:hover {
+      background-color: #fff;
     }
   }
 `;
