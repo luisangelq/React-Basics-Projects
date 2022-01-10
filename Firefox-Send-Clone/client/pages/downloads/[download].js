@@ -217,8 +217,8 @@ const PasswordLock = styled.form`
     outline: none;
     background-color: #0060df;
     color: #fff;
-    border-top-right-radius: 0.5rem 0.5rem;
-    border-bottom-right-radius: 0.5rem 0.5rem;
+    margin-top: 0;
+    border-radius: 0 0.5rem .5rem 0;
     transition: all 0.2s ease-in-out;
 
     &:hover {

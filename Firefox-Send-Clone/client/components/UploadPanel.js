@@ -15,6 +15,7 @@ const UploadPanel = ({ isAuthenticated }) => {
   const {
     files,
     zipFiles,
+    links,
     url,
     loading,
     setFileFn,
@@ -112,13 +113,24 @@ const UploadPanel = ({ isAuthenticated }) => {
           )}
 
           <LinkList>
-            <h1>Simple, private file sharing</h1>
-            <p>
-              Firefox Send lets you share files with end-to-end encryption and a
-              link that automatically expires. So you can keep what you share
-              private and make sure your stuff doesn’t stay online forever.
-            </p>
-            <img src="assets/IntroImage.svg" alt="intro" />
+            {!links ? (
+              <>
+                <h1>Simple, private file sharing</h1>
+                <p>
+                  Firefox Send lets you share files with end-to-end encryption
+                  and a link that automatically expires. So you can keep what
+                  you share private and make sure your stuff doesn’t stay online
+                  forever.
+                </p>
+                <img src="assets/IntroImage.svg" alt="intro" />
+              </>
+            ) : (
+              links.map((link) => (
+                <div>
+                  
+                </div>
+              ))
+            )}
           </LinkList>
         </Container>
       ) : (

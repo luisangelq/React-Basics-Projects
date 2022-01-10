@@ -25,7 +25,7 @@ const deleteExpiredLinksAndFiles = async () => {
   }
 };
 //execute the cron job every minute
-cron.schedule("*/10 * * * * *", deleteExpiredLinksAndFiles);
+cron.schedule("*/30 * * * * *", deleteExpiredLinksAndFiles);
 
 exports.createLink = async (req, res, next) => {
   //Show express validation errors

@@ -95,12 +95,12 @@ const FilesState = ({ children }) => {
           userId: user.userId,
         });
         console.log(res);
-      }
 
-      // dispatch({
-      //   type: "GET_LINKS",
-      //   payload: res.data,
-      // });
+        dispatch({
+          type: "GET_LINKS",
+          payload: res.data,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -124,6 +124,7 @@ const FilesState = ({ children }) => {
       value={{
         files: state.files,
         zipFiles: state.zipFiles,
+        links: state.links,
         url: state.url,
         msg: state.msg,
         loading: state.loading,
