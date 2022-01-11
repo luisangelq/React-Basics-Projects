@@ -24,6 +24,8 @@ const UploadPanel = ({ isAuthenticated }) => {
     loadingFn,
   } = useContext(FilesContext);
 
+  console.log(links);
+
   const onDropRejected = useCallback((rejectedFiles) => {
     console.log(rejectedFiles);
   }, []);
@@ -113,7 +115,7 @@ const UploadPanel = ({ isAuthenticated }) => {
           )}
 
           <LinkList>
-            {!links ? (
+            {links.length === 0 ? (
               <>
                 <h1>Simple, private file sharing</h1>
                 <p>
@@ -126,9 +128,26 @@ const UploadPanel = ({ isAuthenticated }) => {
               </>
             ) : (
               links.map((link) => (
-                <div>
-                  
-                </div>
+                <LinkCard>
+                  <div className="name">
+                    <img
+                      src="assets/documentIcon.svg"
+                      className="documentImg"
+                    />
+                    <div>
+                      <p>{link.fileName}</p>
+                      <p className="fileSize">
+                        {(link.size / Math.pow(1024, 2)).toFixed(2)} MB
+                      </p>
+                    </div>
+
+                    <button onClick={() => deleteFileFn(file.fileId)}>
+                      <img src="assets/deleteIcon.svg" />
+                    </button>
+                  </div>
+                  <div className="2"></div>
+                  <div className="3"></div>
+                </LinkCard>
               ))
             )}
           </LinkList>
@@ -187,6 +206,36 @@ const LinkList = styled.div`
 
     p {
       padding-right: 0;
+    }
+  }
+`;
+
+const LinkCard = styled.div`
+  display: flex;
+  box-shadow: 0 0 32px 0 rgb(12 12 13 / 10%), 0 2px 16px 0 rgb(12 12 13 / 5%);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  img {
+    margin: 0;
+  }
+
+  .name {
+    display: flex;
+    width: 100%;
+
+    p {
+      margin: 0;
+      margin-left: 1rem;
+    }
+
+    button {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      margin-left: auto;
+      background-color: transparent;
+      border: none;
     }
   }
 `;
