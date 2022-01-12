@@ -23,6 +23,7 @@ const UploadPanel = ({ isAuthenticated }) => {
     deleteFileFn,
     uploadZipFileFn,
     loadingFn,
+    deleteLinkFn,
   } = useContext(FilesContext);
 
   console.log(links);
@@ -93,18 +94,24 @@ const UploadPanel = ({ isAuthenticated }) => {
   };
 
   const formatDate = (date) => {
-    const d = new Date(date);
-    const day = d.getDay();
-    const hours = d.getHours();
-    const minutes = d.getMinutes();
-    const seconds = d.getSeconds();
+    const expireDate = new Date(date) - new Date();
 
+    //transform miliseconds to days
+    const days = Math.floor(expireDate / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (expireDate % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((expireDate % (1000 * 60 * 60)) / (1000 * 60));
 
+    console.log(days, hours, minutes);
 
-    console.log(day);
+    if (days > 0) {
+      return `${days}d ${hours}h ${minutes}m`;
+    }else {
+      return `${hours}h ${minutes}m`;
+    }
 
-    return `Hola`;
-  }
+  };
 
   return (
     <>
@@ -157,21 +164,24 @@ const UploadPanel = ({ isAuthenticated }) => {
                         </p>
                       </div>
 
-                      <button>
+                      <button
+                        onClick={() => deleteLinkFn(link.url) }
+                      >
                         <img src="assets/deleteIcon.svg" />
                       </button>
                     </div>
                     <div className="expire">
                       <p>
                         Expires after {link.downloads} downloads or{" "}
-                        {
-                          formatDate(link.expires)
-                        }
+                        {formatDate(link.expires)}
                       </p>
 
-                      <span></span>
+                      <div></div>
                     </div>
-                    <div className="3"></div>
+                    <div className="actions">
+                      <button>Download</button>
+                      <button>Copy link</button>
+                    </div>
                   </LinkCard>
                 ))
                 .reverse()
@@ -201,7 +211,14 @@ const Container = styled.div`
 `;
 
 const LinkList = styled.div`
-  margin: 2rem 1rem 0 1rem;
+  padding: 1.5rem;
+  //add scrollbar invisible
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
 
   h1 {
     font-weight: bold;
@@ -263,6 +280,32 @@ const LinkCard = styled.div`
       margin-left: auto;
       background-color: transparent;
       border: none;
+    }
+  }
+
+  .expire {
+    color: gray;
+    p {
+      margin: .5rem 0 1rem 0;  
+      font-size: .8rem;
+    }
+
+    div {
+      height: 1px;
+      width: 100%;
+      background-color: lightgray;
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      margin-top: .5rem;
+      background-color: transparent;
+      border: none;
+      color: #0060DF;
     }
   }
 `;

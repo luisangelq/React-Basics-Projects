@@ -145,3 +145,27 @@ exports.checkPassword = async (req, res, next) => {
     res.status(500).json({ msg: "Server Error" });
   }
 }
+
+exports.deleteLink = async (req, res, next) => {
+  console.log(req.params.url);
+  try {
+    const link = await Link.findOne({ url: req.params.url });
+
+    if (!link) {
+      console.log("Link not found");
+      res.status(404).json({ msg: "Link not found" });
+
+      return next();
+    } else {
+      console.log(link);
+      fs.unlinkSync(`${__dirname}/../uploads/${link.fileName}`);
+      await Link.deleteOne({ url: req.params.url });
+      res.status(200).json({ msg: "Link deleted" });
+    }
+
+    return next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+}

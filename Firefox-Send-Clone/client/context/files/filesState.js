@@ -49,9 +49,7 @@ const FilesState = ({ children }) => {
           size: file.size,
         };
       });
-      const expiredDate = new Date(Date.now() + fileParams.expires * 1000);
-      console.log(expiredDate);
-      console.log(fileParams.expires);
+      
       const fileInfo = {
         name: res.data.file,
         content: filesArray,
@@ -113,6 +111,20 @@ const FilesState = ({ children }) => {
     });
   };
 
+  const deleteLinkFn = async (linkUrl) => {
+    console.log(linkUrl);
+    try {
+      const res = await axiosClient.delete(`/api/links/${linkUrl}`);
+      console.log(res);
+
+      dispatch({
+        type: "DELETE_LINK",
+        payload: linkUrl,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const cleanStateFn = () => {
     dispatch({
       type: "CLEAN_STATE",
@@ -133,6 +145,7 @@ const FilesState = ({ children }) => {
         uploadZipFileFn,
         getUserLinksFn,
         loadingFn,
+        deleteLinkFn,
         cleanStateFn,
       }}
     >

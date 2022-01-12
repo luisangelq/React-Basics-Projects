@@ -22,4 +22,6 @@ router.get("/:url", linksController.getLink);
 
 router.post("/:url", linksController.checkPassword);
 
+router.delete("/:url", auth, linksController.deleteLink);
+
 module.exports = router;

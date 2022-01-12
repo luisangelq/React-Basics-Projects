@@ -2,9 +2,16 @@ import { useContext } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import AuthContext from "../context/auth/authContext";
+import FilesContext from "../context/files/filesContext";
 
 const Header = () => {
   const { user, isAuthenticated, logout } = useContext(AuthContext);
+  const { cleanStateFn } = useContext(FilesContext);
+
+  const onLogout = () => {
+    logout();
+    cleanStateFn();
+  }
   return (
     <HeaderContainer>
       <Link href="/">
@@ -28,7 +35,7 @@ const Header = () => {
 
           <div className="popup">
             <p>{user ? user.name : "Guest"}</p>
-            <button onClick={() => logout()}>Logout</button>
+            <button onClick={() => onLogout() }>Logout</button>
           </div>
         </AuthContainer>
       ) : (
