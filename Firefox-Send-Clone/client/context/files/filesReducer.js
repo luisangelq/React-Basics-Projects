@@ -39,7 +39,7 @@ const filesReducer = (state, action) => {
     case "GET_LINKS":
       return {
         ...state,
-        links: action.payload.links,
+        links: action.payload.links
       };
     case "LOADING":
       return {

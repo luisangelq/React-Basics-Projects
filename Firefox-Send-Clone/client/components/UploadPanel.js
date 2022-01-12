@@ -2,6 +2,7 @@ import { useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import shortId from "shortid";
 import JSZip from "jszip";
+
 import styled from "styled-components";
 import { errorAlert, goToSignUp } from "./AlertHandler";
 
@@ -91,6 +92,20 @@ const UploadPanel = ({ isAuthenticated }) => {
     uploadZipFileFn(formData, fileParams);
   };
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = d.getDay();
+    const hours = d.getHours();
+    const minutes = d.getMinutes();
+    const seconds = d.getSeconds();
+
+
+
+    console.log(day);
+
+    return `Hola`;
+  }
+
   return (
     <>
       {url === null ? (
@@ -127,28 +142,39 @@ const UploadPanel = ({ isAuthenticated }) => {
                 <img src="assets/IntroImage.svg" alt="intro" />
               </>
             ) : (
-              links.map((link) => (
-                <LinkCard>
-                  <div className="name">
-                    <img
-                      src="assets/documentIcon.svg"
-                      className="documentImg"
-                    />
-                    <div>
-                      <p>{link.fileName}</p>
-                      <p className="fileSize">
-                        {(link.size / Math.pow(1024, 2)).toFixed(2)} MB
-                      </p>
-                    </div>
+              links
+                .map((link) => (
+                  <LinkCard>
+                    <div className="name">
+                      <img
+                        src="assets/documentIcon.svg"
+                        className="documentImg"
+                      />
+                      <div>
+                        <p>{link.fileName}</p>
+                        <p className="fileSize">
+                          {(link.size / Math.pow(1024, 2)).toFixed(2)} MB
+                        </p>
+                      </div>
 
-                    <button onClick={() => deleteFileFn(file.fileId)}>
-                      <img src="assets/deleteIcon.svg" />
-                    </button>
-                  </div>
-                  <div className="2"></div>
-                  <div className="3"></div>
-                </LinkCard>
-              ))
+                      <button>
+                        <img src="assets/deleteIcon.svg" />
+                      </button>
+                    </div>
+                    <div className="expire">
+                      <p>
+                        Expires after {link.downloads} downloads or{" "}
+                        {
+                          formatDate(link.expires)
+                        }
+                      </p>
+
+                      <span></span>
+                    </div>
+                    <div className="3"></div>
+                  </LinkCard>
+                ))
+                .reverse()
             )}
           </LinkList>
         </Container>
@@ -212,6 +238,7 @@ const LinkList = styled.div`
 
 const LinkCard = styled.div`
   display: flex;
+  flex-direction: column;
   box-shadow: 0 0 32px 0 rgb(12 12 13 / 10%), 0 2px 16px 0 rgb(12 12 13 / 5%);
   padding: 1rem;
   border-radius: 0.5rem;
