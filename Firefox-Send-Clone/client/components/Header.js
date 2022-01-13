@@ -6,11 +6,11 @@ import FilesContext from "../context/files/filesContext";
 
 const Header = () => {
   const { user, isAuthenticated, logout } = useContext(AuthContext);
-  const { cleanStateFn } = useContext(FilesContext);
+  const { logoutFilesFn } = useContext(FilesContext);
 
   const onLogout = () => {
     logout();
-    cleanStateFn();
+    logoutFilesFn();
   }
   return (
     <HeaderContainer>

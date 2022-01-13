@@ -103,8 +103,6 @@ const UploadPanel = ({ isAuthenticated }) => {
     );
     const minutes = Math.floor((expireDate % (1000 * 60 * 60)) / (1000 * 60));
 
-    console.log(days, hours, minutes);
-
     if (days > 0) {
       return `${days}d ${hours}h ${minutes}m`;
     }else {

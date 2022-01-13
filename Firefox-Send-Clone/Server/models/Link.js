@@ -22,8 +22,7 @@ const linkSchema = new Schema({
     default: 1,
   },
   author: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
     default: null,
   },
   password: {

@@ -34,7 +34,7 @@ exports.createLink = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, content, password, downloads, expires, size } = req.body;
+  const { name, content, password, downloads, expires, size, author } = req.body;
 
   console.log(req.body);
 
@@ -45,6 +45,7 @@ exports.createLink = async (req, res, next) => {
     downloads: downloads,
     expires: expires,
     size: size,
+    author: author,
   });
 
   if (req.user) {

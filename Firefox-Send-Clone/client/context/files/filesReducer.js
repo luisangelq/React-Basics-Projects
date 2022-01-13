@@ -33,7 +33,6 @@ const filesReducer = (state, action) => {
     case "CREATE_LINK":
       return {
         ...state,
-        links: [...state.links, action.payload.link],
         url: action.payload.link.url,
         msg: action.payload.msg,
       };
@@ -58,13 +57,23 @@ const filesReducer = (state, action) => {
         ...state,
         files: [],
         zipFiles: [],
-        links: [...state.links],
         url: null,
         expires: null,
         msg: null,
         loading: false,
       };
 
+    case "LOGOUT":
+      return {
+        ...state,
+        files: [],
+        zipFiles: [],
+        links: [],
+        url: null,
+        expires: null,
+        msg: null,
+        loading: false,
+      };
     default:
       break;
   }

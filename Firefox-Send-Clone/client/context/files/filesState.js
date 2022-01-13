@@ -5,6 +5,8 @@ import axiosClient from "../../config/axios";
 import FilesContext from "./filesContext";
 import filesReducer from "./filesReducer";
 
+import AuthContext from "../auth/authContext";
+
 const FilesState = ({ children }) => {
   const initialState = {
     files: [],
@@ -16,6 +18,10 @@ const FilesState = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(filesReducer, initialState);
+
+  const { user } = useContext(AuthContext);
+
+  
 
   const setFileFn = async (file) => {
     dispatch({
@@ -34,6 +40,7 @@ const FilesState = ({ children }) => {
   };
 
   const uploadZipFileFn = async (zipFile, fileParams) => {
+    console.log(user);
     try {
       const res = await axiosClient.post("/api/files", zipFile);
 
@@ -57,6 +64,7 @@ const FilesState = ({ children }) => {
         expires: new Date(Date.now() + fileParams.expires * 1000),
         password: fileParams.password,
         size: fileParams.totalSize,
+        author: user === null ? null : user.userId,
       };
 
       createLinkFn(fileInfo);
@@ -70,22 +78,21 @@ const FilesState = ({ children }) => {
 
     try {
       const res = await axiosClient.post("/api/links", fileInfo);
-      console.log(res);
+      console.log(res.data);
 
+      
       dispatch({
         type: "CREATE_LINK",
         payload: res.data,
       });
+
+      await getUserLinksFn(user);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
   const getUserLinksFn = async (user) => {
-    if (user) {
-      console.log(user);
-    }
-
     try {
       //filter links by user
       if (user) {
@@ -131,6 +138,10 @@ const FilesState = ({ children }) => {
     });
   };
 
+  const logoutFilesFn = () => {
+
+  }
+
   return (
     <FilesContext.Provider
       value={{
@@ -147,6 +158,7 @@ const FilesState = ({ children }) => {
         loadingFn,
         deleteLinkFn,
         cleanStateFn,
+        logoutFilesFn,
       }}
     >
       {children}

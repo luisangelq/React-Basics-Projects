@@ -52,12 +52,12 @@ exports.download = async (req, res, next) => {
     }
     if (linkObj) {
       res.download(`${__dirname}/../uploads/${req.params.download}`);
-      if (linkObj.downloads > 1) {
+      if (linkObj.downloads > 0) {
         linkObj.downloads = linkObj.downloads - 1;
         await linkObj.save();
       }
 
-      if (linkObj.downloads === 1) {
+      if (linkObj.downloads === 0) {
         req.file = linkObj.fileName;
 
         //Delete the link in the database
