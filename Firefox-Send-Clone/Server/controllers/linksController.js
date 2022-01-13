@@ -34,31 +34,27 @@ exports.createLink = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, content, password, downloads, expires, size, author } = req.body;
+  const { name, content, password, downloads, expires, size, author } =
+    req.body;
 
   console.log(req.body);
 
-  const link = new Link({
+  
+
+  let link = new Link({
     url: shortid.generate(),
     fileName: name,
     content: content,
     downloads: downloads,
     expires: expires,
+
     size: size,
     author: author,
   });
 
-  if (req.user) {
-    if (downloads) {
-      link.downloads = downloads;
-    }
-
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      link.password = await bcrypt.hash(password, salt);
-    }
-
-    link.author = req.user.userId;
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    link.password = await bcrypt.hash(password, salt);
   }
 
   console.log(link);
@@ -87,15 +83,16 @@ exports.getLinks = async (req, res, next) => {
 };
 
 exports.getUserLinks = async (req, res, next) => {
-  console.log(req.body);
   try {
-    const links = await Link.find({ author: req.body.userId });
+    const links = await Link.find({ author: req.body.userId }).select(
+      "-password -_id"
+    );
     res.status(200).json({ links });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: "Server Error" });
   }
-}
+};
 
 //Get Link
 exports.getLink = async (req, res, next) => {
@@ -145,7 +142,7 @@ exports.checkPassword = async (req, res, next) => {
     console.error(err);
     res.status(500).json({ msg: "Server Error" });
   }
-}
+};
 
 exports.deleteLink = async (req, res, next) => {
   console.log(req.params.url);
@@ -169,4 +166,4 @@ exports.deleteLink = async (req, res, next) => {
     console.error(err);
     res.status(500).json({ msg: "Server Error" });
   }
-}
+};

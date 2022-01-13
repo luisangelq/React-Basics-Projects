@@ -46,9 +46,10 @@ exports.createFile = (req, res, next) => {
 exports.download = async (req, res, next) => {
   try {
     const linkObj = await Link.findOne({ fileName: req.params.download });
-
     if (!linkObj) {
-      res.status(400).json({ msg: "File not found or file expired", expired: true });
+      res
+        .status(400)
+        .json({ msg: "File not found or file expired", expired: true });
     }
     if (linkObj) {
       res.download(`${__dirname}/../uploads/${req.params.download}`);
@@ -61,8 +62,10 @@ exports.download = async (req, res, next) => {
         req.file = linkObj.fileName;
 
         //Delete the link in the database
-        await Link.findOneAndDelete(linkObj._id);
-  
+      await Link.findOneAndDelete({
+          fileName: req.params.download,
+        });
+
         return next();
       }
     }
@@ -73,7 +76,6 @@ exports.download = async (req, res, next) => {
 };
 
 exports.deleteFile = async (req, res, next) => {
-  console.log(req.body);
   try {
     fs.unlinkSync(`${__dirname}/../uploads/${req.file}`);
 

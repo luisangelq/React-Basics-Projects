@@ -2,6 +2,7 @@ import { useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import shortId from "shortid";
 import JSZip from "jszip";
+import axiosClient from "../config/axios";
 
 import styled from "styled-components";
 import { errorAlert, goToSignUp } from "./AlertHandler";
@@ -22,6 +23,7 @@ const UploadPanel = ({ isAuthenticated }) => {
     setFileFn,
     deleteFileFn,
     uploadZipFileFn,
+    getUserLinksFn,
     loadingFn,
     deleteLinkFn,
   } = useContext(FilesContext);
@@ -105,10 +107,29 @@ const UploadPanel = ({ isAuthenticated }) => {
 
     if (days > 0) {
       return `${days}d ${hours}h ${minutes}m`;
-    }else {
+    } else {
       return `${hours}h ${minutes}m`;
     }
+  };
 
+  const downloadFile = async (fileName) => {
+    console.log(fileName);
+    try {
+      const res = await axiosClient.get(`/api/files/${fileName}`);
+      console.log(res);
+
+      const link = document.createElement("a");
+      link.href = `${process.env.backendURL}/${fileName}`;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      await getUserLinksFn();
+    } catch (error) {
+      console.log(error.response);
+      // errorAlert(error.response.data);
+    }
   };
 
   return (
@@ -148,40 +169,42 @@ const UploadPanel = ({ isAuthenticated }) => {
               </>
             ) : (
               links
-                .map((link) => (
-                  <LinkCard>
-                    <div className="name">
-                      <img
-                        src="assets/documentIcon.svg"
-                        className="documentImg"
-                      />
-                      <div>
-                        <p>{link.fileName}</p>
-                        <p className="fileSize">
-                          {(link.size / Math.pow(1024, 2)).toFixed(2)} MB
-                        </p>
+                .map((link) =>
+                  link.downloads > 0 ? (
+                    <LinkCard>
+                      <div className="name">
+                        <img
+                          src="assets/documentIcon.svg"
+                          className="documentImg"
+                        />
+                        <div>
+                          <p>{link.fileName}</p>
+                          <p className="fileSize">
+                            {(link.size / Math.pow(1024, 2)).toFixed(2)} MB
+                          </p>
+                        </div>
+
+                        <button onClick={() => deleteLinkFn(link.url)}>
+                          <img src="assets/deleteIcon.svg" />
+                        </button>
                       </div>
+                      <div className="expire">
+                        <p>
+                          Expires after {link.downloads} downloads or{" "}
+                          {formatDate(link.expires)}
+                        </p>
 
-                      <button
-                        onClick={() => deleteLinkFn(link.url) }
-                      >
-                        <img src="assets/deleteIcon.svg" />
-                      </button>
-                    </div>
-                    <div className="expire">
-                      <p>
-                        Expires after {link.downloads} downloads or{" "}
-                        {formatDate(link.expires)}
-                      </p>
-
-                      <div></div>
-                    </div>
-                    <div className="actions">
-                      <button>Download</button>
-                      <button>Copy link</button>
-                    </div>
-                  </LinkCard>
-                ))
+                        <div></div>
+                      </div>
+                      <div className="actions">
+                        <button onClick={() => downloadFile(link.fileName)}>
+                          Download
+                        </button>
+                        <button>Copy link</button>
+                      </div>
+                    </LinkCard>
+                  ) : null
+                )
                 .reverse()
             )}
           </LinkList>
@@ -216,7 +239,6 @@ const LinkList = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  
 
   h1 {
     font-weight: bold;
@@ -284,8 +306,8 @@ const LinkCard = styled.div`
   .expire {
     color: gray;
     p {
-      margin: .5rem 0 1rem 0;  
-      font-size: .8rem;
+      margin: 0.5rem 0 1rem 0;
+      font-size: 0.8rem;
     }
 
     div {
@@ -300,10 +322,10 @@ const LinkCard = styled.div`
     justify-content: space-between;
 
     button {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
       background-color: transparent;
       border: none;
-      color: #0060DF;
+      color: #0060df;
     }
   }
 `;

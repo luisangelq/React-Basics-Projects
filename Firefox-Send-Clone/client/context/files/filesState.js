@@ -92,7 +92,7 @@ const FilesState = ({ children }) => {
     }
   };
 
-  const getUserLinksFn = async (user) => {
+  const getUserLinksFn = async () => {
     try {
       //filter links by user
       if (user) {
@@ -139,7 +139,9 @@ const FilesState = ({ children }) => {
   };
 
   const logoutFilesFn = () => {
-
+    dispatch({
+      type: "LOGOUT",
+    });
   }
 
   return (
