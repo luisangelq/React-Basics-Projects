@@ -5,15 +5,14 @@ import { errorAlert } from "../../components/AlertHandler";
 import MainPanel from "../../components/MainPanel";
 import axiosClient from "../../config/axios";
 
-// export async function getServerSideProps({ params }) {
-
-//   console.log(res.data);
-//   return {
-//     props: {
-//       download: res.data.linkObj,
-//     },
-//   };
-// }
+export async function getServerSideProps({ params }) {
+  const res = await axiosClient.get(`/api/links/${params.download}`);
+  return {
+    props: {
+      download: res.data.linkObj,
+    },
+  };
+}
 
 export async function getServerSidePaths() {
   const links = await axiosClient.get("/api/links");
@@ -32,20 +31,24 @@ const Download = () => {
 
   const router = useRouter();
 
-  useEffect(async () => {
+  useEffect(() => {
     //get current path
-    const url = window.location.pathname.split("/")[2];
-    console.log(url);
+    async function getDownload() {
+      const url = window.location.pathname.split("/")[2];
+      console.log(url);
 
-    try {
-      const res = await axiosClient.get(`/api/links/${url}`);
-      setDownload(res.data.linkObj);
+      try {
+        const res = await axiosClient.get(`/api/links/${url}`);
+        setDownload(res.data.linkObj);
 
-      console.log(res);
-    } catch (error) {
-      console.log(error.response.data);
-      setFileExpired(error.response.data.expired);
+        console.log(res);
+      } catch (error) {
+        console.log(error.response.data);
+        setFileExpired(error.response.data.expired);
+      }
     }
+
+    getDownload();
   }, []);
 
   const downloadFile = async (fileName) => {
@@ -103,7 +106,7 @@ const Download = () => {
         ) : (
           <>
             <FileCard>
-              <img src="/assets/documentIcon.svg" />
+              <img src="/assets/documentIcon.svg" alt="document" />
 
               {fileExpired ? (
                 <div>
@@ -218,7 +221,7 @@ const PasswordLock = styled.form`
     background-color: #0060df;
     color: #fff;
     margin-top: 0;
-    border-radius: 0 0.5rem .5rem 0;
+    border-radius: 0 0.5rem 0.5rem 0;
     transition: all 0.2s ease-in-out;
 
     &:hover {

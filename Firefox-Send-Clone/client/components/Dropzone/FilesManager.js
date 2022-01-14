@@ -18,7 +18,7 @@ const FilesManager = ({
 
   const filesLoop = files.map((file) => (
     <li key={file.fileId}>
-      <img src="assets/documentIcon.svg" className="documentImg" />
+      <img src="assets/documentIcon.svg" className="documentImg" alt="document" />
       <div>
         <p className="fileName">
           {file.name.length > 18
@@ -45,7 +45,7 @@ const FilesManager = ({
         <div className="addFiles">
           <div className="addButton" {...getRootProps()}>
             <input {...getInputProps()} />
-            <img src="assets/addFiles.svg" />
+            <img src="assets/addFiles.svg" alt="addFile"/>
             <p>Select files to upload</p>
           </div>
 

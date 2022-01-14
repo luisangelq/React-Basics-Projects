@@ -14,7 +14,7 @@ const Header = () => {
   }
   return (
     <HeaderContainer>
-      <Link href="/">
+      <Link href="/" passHref>
         <img src="/assets/HeaderLogo.svg" alt="logo" />
       </Link>
 
@@ -39,7 +39,7 @@ const Header = () => {
           </div>
         </AuthContainer>
       ) : (
-        <Link href="/login">
+        <Link href="/login" passHref>
           <Btn>Sign in/up</Btn>
         </Link>
       )}

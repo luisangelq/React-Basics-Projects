@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Spinner = () => {
   return (
     <SpinnerContainer>
-      <div class="lds-circle">
+      <div className="lds-circle">
         <div></div>
       </div>
     </SpinnerContainer>

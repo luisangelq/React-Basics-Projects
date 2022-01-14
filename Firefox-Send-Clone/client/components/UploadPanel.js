@@ -178,6 +178,7 @@ const UploadPanel = ({ isAuthenticated }) => {
                         <img
                           src="assets/documentIcon.svg"
                           className="documentImg"
+                          alt="document"
                         />
                         <div>
                           <p>{link.fileName}</p>
@@ -187,7 +188,7 @@ const UploadPanel = ({ isAuthenticated }) => {
                         </div>
 
                         <button onClick={() => deleteLinkFn(link.url)}>
-                          <img src="assets/deleteIcon.svg" />
+                          <img src="assets/deleteIcon.svg" alt="delete" />
                         </button>
                       </div>
                       <div className="expire">

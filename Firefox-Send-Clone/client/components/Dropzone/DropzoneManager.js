@@ -9,7 +9,7 @@ const DropzoneManager = ({
 }) => {
   return (
     <DropzoneContainer {...getRootProps()}>
-      <img src="assets/addFiles.svg" />
+      <img src="assets/addFiles.svg" alt="addFile" />
       <input {...getInputProps()} />
       {isDragActive ? (
         <h3>Drop Here</h3>

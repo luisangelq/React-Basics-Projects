@@ -12,7 +12,7 @@ const Sign_In_Up = () => {
     <Container>
       <Info>
         <div className="card">
-          <img src="assets/FirefoxLogo.svg" />
+          <img src="assets/FirefoxLogo.svg" alt="logo"/>
 
           <div className="description">
             <h1>Create a Firefox Account or sign in</h1>
