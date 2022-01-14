@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useState, useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import shortId from "shortid";
 import JSZip from "jszip";
@@ -14,6 +14,8 @@ import FilesContext from "../context/files/filesContext";
 import LinkPage from "./LinkPage";
 
 const UploadPanel = ({ isAuthenticated }) => {
+  const [isCheck, setIsCheck] = useState(false);
+  const [fileName, setFileName] = useState("");
   const {
     files,
     zipFiles,
@@ -200,7 +202,24 @@ const UploadPanel = ({ isAuthenticated }) => {
                         <button onClick={() => downloadFile(link.fileName)}>
                           Download
                         </button>
-                        <button>Copy link</button>
+                        <button
+                          onClick={() => {
+                            // copy link to clipboard
+                            navigator.clipboard.writeText(
+                              `${process.env.frontendURL}/downloads/${link.url}`
+                            );
+                            setFileName(link.fileName);
+                            setIsCheck(true);
+
+                            setTimeout(() => {
+                              setIsCheck(false);
+                            }, 2000);
+                          }}
+                        >
+                          {isCheck && fileName === link.fileName
+                            ? "Copied! ✔"
+                            : "Copy Link"}
+                        </button>
                       </div>
                     </LinkCard>
                   ) : null
