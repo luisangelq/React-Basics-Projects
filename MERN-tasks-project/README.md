@@ -11,7 +11,7 @@ Aditional features:
 
 
 
-You can't see this project on https://mern-project-2.netlify.app/
+You can see this project on https://mern-project-2.netlify.app/
 
 ## Screenshots
 
