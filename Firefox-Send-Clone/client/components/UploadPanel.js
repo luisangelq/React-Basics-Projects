@@ -67,11 +67,13 @@ const UploadPanel = ({ isAuthenticated }) => {
 
     if (!isAuthenticated && totalSize > 1024 * 1024) {
       goToSignUp({ msg: "Files Exceed 1MB" }, "Sign Up");
+      loadingFn(false);
       return;
     }
 
     if (isAuthenticated && totalSize > 1024 * 1024 * 10) {
       errorAlert({ msg: "Files Exceed 10MB" });
+      loadingFn(false);
       return;
     }
 
@@ -130,7 +132,7 @@ const UploadPanel = ({ isAuthenticated }) => {
       await getUserLinksFn();
     } catch (error) {
       console.log(error.response);
-      // errorAlert(error.response.data);
+      errorAlert(error.response.data);
     }
   };
 

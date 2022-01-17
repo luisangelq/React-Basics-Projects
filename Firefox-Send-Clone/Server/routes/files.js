@@ -4,6 +4,6 @@ const filesController = require("../controllers/filesController");
 
 router.post("/", filesController.createFile);
 
-router.get("/:download", filesController.download, filesController.deleteFile);
+router.get("/:download", filesController.download);
 
 module.exports = router;

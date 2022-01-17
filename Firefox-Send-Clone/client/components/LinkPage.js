@@ -55,7 +55,7 @@ const LinkContainer = styled.div`
 
   h2 {
     font-size: 2.5rem;
-    text-align: center;
+    /* text-align: center; */
   }
 
   p {
@@ -97,6 +97,14 @@ const LinkContainer = styled.div`
       color: #0060df;
       width: 5rem;
       margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 80%;
+    width: 100%;
+    h2 {
+      font-size: 1.5rem;
     }
   }
 `;

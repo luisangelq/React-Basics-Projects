@@ -7,16 +7,22 @@ const fs = require("fs");
 
 const deleteExpiredLinksAndFiles = async () => {
   try {
-    //Find all links that have expired
-    const expiredLinks = await Link.find({ expires: { $lte: Date.now() } });
+    //Find all links that have expired or without downloads
+    const expiredLinks = await Link.find({
+      $or: [{ expires: { $lt: Date.now() } }, { downloads: 0 }],
+    });
 
+    console.log(expiredLinks);
     if (expiredLinks.length > 0) {
       expiredLinks.forEach(async (link) => {
         //Delete file
         fs.unlinkSync(`${__dirname}/../uploads/${link.fileName}`);
       });
 
-      await Link.deleteMany({ expires: { $lte: Date.now() } });
+      //Delete links
+      await Link.deleteMany({
+        $or: [{ expires: { $lt: Date.now() } }, { downloads: 0 }],
+      });
 
       console.log("Expired links and files deleted");
     }
@@ -25,7 +31,7 @@ const deleteExpiredLinksAndFiles = async () => {
   }
 };
 //execute the cron job every minute
-cron.schedule("*/30 * * * * *", deleteExpiredLinksAndFiles);
+cron.schedule("*/10 * * * * *", deleteExpiredLinksAndFiles);
 
 exports.createLink = async (req, res, next) => {
   //Show express validation errors
@@ -38,8 +44,6 @@ exports.createLink = async (req, res, next) => {
     req.body;
 
   console.log(req.body);
-
-  
 
   let link = new Link({
     url: shortid.generate(),

@@ -181,6 +181,15 @@ const DownloadPanel = styled.div`
       background-color: #fff;
     }
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 5rem 0;
+
+    button {
+      width: 100%;
+    }
+  }
 `;
 
 const FileCard = styled.div`
@@ -199,6 +208,13 @@ const FileCard = styled.div`
     text-align: left;
     margin: 0.5rem 0 0 0;
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+
+    
+  }
+
 `;
 
 const PasswordLock = styled.form`
@@ -226,6 +242,21 @@ const PasswordLock = styled.form`
 
     &:hover {
       background-color: #003eaa;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+
+    input {
+      border-radius: .5rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      border-radius: .5rem;
     }
   }
 `;

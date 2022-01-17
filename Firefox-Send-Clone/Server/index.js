@@ -7,9 +7,12 @@ connectDB();
 // Set the port of our application
 const PORT = process.env.PORT || 8080; // default port 8080
 
-//Enable CORS
+//Enable CORS for all routes
 const corsOptions = {
-  origin: process.env.FRONTEND_URL,
+    //taking from environment variable
+    origin: process.env.FRONTEND_URL, 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
 }
 app.use(cors(corsOptions));
 
