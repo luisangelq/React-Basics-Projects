@@ -4,7 +4,7 @@ This project was made using React and the main feature is that we are sending da
 
 Warning.. This app only works in local enviroment due to API restrictions
 
-You can see this project on https://consult-news.netlify.app but it Won't work properly.
+You can see this project on https://consult-news.netlify.app but it Won't work properly (Just works locally).
 
 ## Screenshots
 
