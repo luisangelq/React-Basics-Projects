@@ -59,7 +59,11 @@ const AuthState = ({ children }) => {
       const res = await axiosClient.post("/api/users", user);
       dispatch({
         type: "CREATE_USER",
-        payload: user,
+        payload: {
+          user: user,
+          token: res.data.token,
+          msg: res.data.msg,
+        }
       });
 
       successAlert(res.data);

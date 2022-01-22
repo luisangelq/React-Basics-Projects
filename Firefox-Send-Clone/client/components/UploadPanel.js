@@ -175,7 +175,7 @@ const UploadPanel = ({ isAuthenticated }) => {
               links
                 .map((link) =>
                   link.downloads > 0 ? (
-                    <LinkCard>
+                    <LinkCard key={link.fileName}>
                       <div className="name">
                         <img
                           src="assets/documentIcon.svg"

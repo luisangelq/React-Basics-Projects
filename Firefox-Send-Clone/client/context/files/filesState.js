@@ -21,8 +21,6 @@ const FilesState = ({ children }) => {
 
   const { user } = useContext(AuthContext);
 
-  
-
   const setFileFn = async (file) => {
     dispatch({
       type: "SET_FILE",
@@ -56,7 +54,7 @@ const FilesState = ({ children }) => {
           size: file.size,
         };
       });
-      
+
       const fileInfo = {
         name: res.data.file,
         content: filesArray,
@@ -80,7 +78,6 @@ const FilesState = ({ children }) => {
       const res = await axiosClient.post("/api/links", fileInfo);
       console.log(res.data);
 
-      
       dispatch({
         type: "CREATE_LINK",
         payload: res.data,
@@ -99,7 +96,7 @@ const FilesState = ({ children }) => {
         const res = await axiosClient.post("/api/links/userLinks", {
           userId: user.userId,
         });
-        console.log(res);
+        console.log(res.data);
 
         dispatch({
           type: "GET_LINKS",
@@ -121,17 +118,15 @@ const FilesState = ({ children }) => {
   const deleteLinkFn = async (linkUrl) => {
     console.log(linkUrl);
     try {
-      const res = await axiosClient.delete(`/api/links/${linkUrl}`);
-      console.log(res);
-
       dispatch({
         type: "DELETE_LINK",
         payload: linkUrl,
       });
+      await axiosClient.delete(`/api/links/${linkUrl}`);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   const cleanStateFn = () => {
     dispatch({
       type: "CLEAN_STATE",
@@ -142,7 +137,7 @@ const FilesState = ({ children }) => {
     dispatch({
       type: "LOGOUT",
     });
-  }
+  };
 
   return (
     <FilesContext.Provider

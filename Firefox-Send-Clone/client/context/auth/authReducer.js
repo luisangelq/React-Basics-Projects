@@ -8,10 +8,13 @@ const authReducer = (state, action) => {
         msg: action.payload.msg,
       };
     case "CREATE_USER":
+      localStorage.setItem("login", JSON.stringify(action.payload));
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.user,
+        token: action.payload.token,
         isAuthenticated: true,
+        msg: action.payload.msg,
       };
 
     case "AUTH_USER":

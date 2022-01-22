@@ -39,7 +39,8 @@ const filesReducer = (state, action) => {
     case "GET_LINKS":
       return {
         ...state,
-        links: action.payload.links
+        //get just links with downloads
+        links: action.payload.links.filter((link) => link.downloads > 0),
       };
     case "LOADING":
       return {

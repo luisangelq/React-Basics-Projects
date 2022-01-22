@@ -56,6 +56,6 @@ exports.signIn = async (req, res, next) => {
 };
 
 exports.userData = (req, res) => {
-    console.log(req.user);
+    console.log("authController - userData", req.user);
   res.status(200).json({user: req.user});
 };
