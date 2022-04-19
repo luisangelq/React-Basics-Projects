@@ -5,6 +5,7 @@ import Category from "./Category";
 
 const Sidebar = () => {
   const { categories } = useRestaurant();
+
   return (
     <>
       <Image width={300} height={100} src="/assets/img/logo.svg" alt="logo" />
