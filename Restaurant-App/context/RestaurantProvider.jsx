@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -11,6 +12,9 @@ const RestaurantProvider = ({ children }) => {
   const [modal, setModal] = useState(false);
   const [cart, setCart] = useState([]);
   const [step, setStep] = useState(1);
+  const [order, setOrder] = useState({});
+
+  const router = useRouter();
 
   const getCategories = async () => {
     const response = await axios.get("/api/category");
@@ -69,6 +73,22 @@ const RestaurantProvider = ({ children }) => {
     setStep(step);
   };
 
+  const handleOrder = async (order) => {
+    setOrder(order);
+
+    try {
+      await axios.post("/api/orders", order);
+      toast.success(`Order placed`);
+      setCart([]);
+      
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <RestaurantContext.Provider
       value={{
@@ -83,7 +103,8 @@ const RestaurantProvider = ({ children }) => {
         cart,
         step,
         handleStep,
-        removeFromCart
+        removeFromCart,
+        handleOrder,
       }}
     >
       {children}

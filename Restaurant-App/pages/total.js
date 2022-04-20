@@ -5,7 +5,7 @@ import useRestaurant from "../hooks/useRestaurant";
 const Total = () => {
   const [total, setTotal] = useState(0);
   const [name, setName] = useState("");
-  const { cart } = useRestaurant();
+  const { cart, handleOrder } = useRestaurant();
 
   useEffect(() => {
     const totalPrice = cart.reduce((acc, item) => {
@@ -20,8 +20,10 @@ const Total = () => {
       products: cart,
       name: name,
       total: total,
+      createdAt: Date.now().toString(),
     };
-    console.log(order);
+
+    handleOrder(order);
   };
   return (
     <Layout page="Total">

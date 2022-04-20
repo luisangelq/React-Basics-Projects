@@ -29,7 +29,7 @@ model Category {
 model Order {
   id          Int    @id @default(autoincrement())
   name       String
-  createdAt  DateTime
-  total      Int
-  request    String
+  createdAt  String
+  total      Float
+  products   Json
 }
