@@ -10,6 +10,7 @@ const RestaurantProvider = ({ children }) => {
   const [product, setProduct] = useState({});
   const [modal, setModal] = useState(false);
   const [cart, setCart] = useState([]);
+  const [step, setStep] = useState(1);
 
   const getCategories = async () => {
     const response = await axios.get("/api/category");
@@ -58,6 +59,16 @@ const RestaurantProvider = ({ children }) => {
     }
   };
 
+  const removeFromCart = (id) => {
+    const newCart = cart.filter((item) => item.id !== id);
+    setCart(newCart);
+    toast.success(`${product.name} removed from cart`);
+  };
+
+  const handleStep = (step) => {
+    setStep(step);
+  };
+
   return (
     <RestaurantContext.Provider
       value={{
@@ -70,6 +81,9 @@ const RestaurantProvider = ({ children }) => {
         handleModal,
         addToCart,
         cart,
+        step,
+        handleStep,
+        removeFromCart
       }}
     >
       {children}

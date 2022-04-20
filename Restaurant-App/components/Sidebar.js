@@ -7,7 +7,7 @@ const Sidebar = () => {
   const { categories } = useRestaurant();
 
   return (
-    <>
+    <div className="grid items-center pt-5">
       <Image width={300} height={100} src="/assets/img/logo.svg" alt="logo" />
 
       <nav className="mt-10 flex flex-col">
@@ -18,7 +18,7 @@ const Sidebar = () => {
           />
         ))}
       </nav>
-    </>
+    </div>
   );
 };
 
